@@ -1,4 +1,9 @@
-package app;
+package main.java.app;
+
+import view.*;
+
+import javax.swing.*;
+import java.awt.*;
 
 import view.*;
 

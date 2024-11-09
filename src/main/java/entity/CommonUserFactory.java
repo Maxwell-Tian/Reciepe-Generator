@@ -1,4 +1,4 @@
-package entity;
+package main.java.entity;
 
 /**
  * Factory for creating CommonUser objects.
