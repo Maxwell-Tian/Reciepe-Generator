@@ -5,6 +5,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The view panel for adding ingredient in app. You can add ingredient on this page and 
+ * choose your preference such as "Are you Halal?". After finish your choice, you can save
+ * and return your choice.
+ */
 public class AddIngredientView extends JFrame {
     public AddIngredientView() {
         setTitle("Recipe App");
