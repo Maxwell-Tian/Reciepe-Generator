@@ -1,4 +1,4 @@
-package use_case.AddIngredient;
+package use_case.addingredient;
 
 public class AddIngredientOutputData {
 }
