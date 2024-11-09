@@ -1,4 +1,4 @@
-package main.java.entity;
+package java.entity;
 
 /**
  * Factory for creating users.

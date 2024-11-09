@@ -1,4 +1,4 @@
-package interface_adapter.inital;
+package java.interface_adapter.inital;
 
 public class InitialState {
 }
