@@ -1,4 +1,4 @@
-package java.use_case.addingredient;
+package use_case.addingredient;
 
 public class AddIngredientInteractor {
 }

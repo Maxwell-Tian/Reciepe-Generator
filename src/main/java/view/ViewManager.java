@@ -1,4 +1,4 @@
-package java.view;
+package view;
 
 import interface_adapter.ViewManagerModel;
 

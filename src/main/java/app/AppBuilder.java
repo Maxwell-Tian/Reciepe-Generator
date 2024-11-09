@@ -1,4 +1,4 @@
-package java.app;
+package app;
 
 import view.*;
 

@@ -1,4 +1,4 @@
-package java.interface_adapter.inital;
+package interface_adapter.inital;
 
 import interface_adapter.ViewModel;
 
