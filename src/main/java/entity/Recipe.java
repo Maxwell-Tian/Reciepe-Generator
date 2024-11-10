@@ -19,8 +19,14 @@ public interface Recipe {
     String getDescription();
 
     /**
+     * Return the Category.
+     * @return the Category.
+     */
+    String getCategory();
+
+    /**
      * Return the recipe map mapping ingredients to weights(integer).
      * @return the map.
      */
-    Map<String, Integer> getRecipeMap();
+    Map<List<String>, Integer> getRecipeMap();
 }
