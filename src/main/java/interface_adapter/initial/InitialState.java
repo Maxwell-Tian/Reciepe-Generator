@@ -1,4 +1,4 @@
-package interface_adapter.inital;
+package interface_adapter.initial;
 
 import entity.Ingredient;
 
