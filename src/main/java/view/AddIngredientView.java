@@ -1,5 +1,6 @@
 package view;
 
+
 import interface_adapter.addorcancelingredient.AddorCancelIngredientController;
 import interface_adapter.addorcancelingredient.AddorCancelIngredientState;
 import interface_adapter.addorcancelingredient.AddorCancelIngredientViewModel;
@@ -146,5 +147,4 @@ public class AddIngredientView extends JPanel implements PropertyChangeListener 
     public void setAddorCancelIngredientController(AddorCancelIngredientController controller) {
         this.controller = controller;
     }
-
 }

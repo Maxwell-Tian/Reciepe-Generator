@@ -6,7 +6,7 @@ package entity;
 public class CommonRecipeFactory implements RecipeFactory {
 
     @Override
-    public Recipe create(String name, String description) {
+    public Recipe create(String name, List<String> description) {
         return new CommonRecipe(name, description);
     };
 }
