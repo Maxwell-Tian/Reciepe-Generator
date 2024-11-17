@@ -19,9 +19,9 @@ public class DeleteIngredientOutputData {
         this.useCaseFailed = useCaseFailed;
     }
 
-    List<Ingredient> getIngredients() {return ingredients;}
+    public List<Ingredient> getIngredients() {return ingredients;}
 
-    Ingredient getIngredient() {
+    public Ingredient getIngredient() {
         return ingredient;
     }
 
