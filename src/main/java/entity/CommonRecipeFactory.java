@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.List;
+
 /**
  * Factory for creating CommonRecipe objects.
  */
