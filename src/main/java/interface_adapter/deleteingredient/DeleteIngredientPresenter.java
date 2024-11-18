@@ -1,8 +1,8 @@
 package interface_adapter.deleteingredient;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.inital.InitialState;
-import interface_adapter.inital.InitialViewModel;
+import interface_adapter.initial.InitialState;
+import interface_adapter.initial.InitialViewModel;
 import use_case.delete_ingredient.DeleteIngredientOutputBoundary;
 import use_case.delete_ingredient.DeleteIngredientOutputData;
 
@@ -32,5 +32,13 @@ public class DeleteIngredientPresenter implements DeleteIngredientOutputBoundary
     @Override
     public void prepareFailView(String errorMessage){
         // No such a case
+    }
+
+    public void switchToAddIngredientView() {
+        //
+    }
+
+    public void switchToRecipeView() {
+        //
     }
 }

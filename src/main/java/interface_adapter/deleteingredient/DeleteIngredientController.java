@@ -26,4 +26,16 @@ public class DeleteIngredientController {
                 ingredient);
        deleteIngredientUseCaseInteractor.execute(deleteIngredientInputData);
     }
+
+    /**
+     * Executes the "switch to AddIngredient" Use Case.
+     */
+    public void switchToAddIngredientView() {
+        deleteIngredientUseCaseInteractor.switchToAddIngredientView();
+    }
+
+    /**
+     * Executes the "switch to RecipeGenerator" Use Case.
+     */
+    public void switchToRecipeView() {deleteIngredientUseCaseInteractor.switchToRecipeView();}
 }
