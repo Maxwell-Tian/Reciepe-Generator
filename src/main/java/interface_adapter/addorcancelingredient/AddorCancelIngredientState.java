@@ -9,13 +9,13 @@ public class AddorCancelIngredientState {
     private String expirydate = "";
     private String expirydateError;
 
-    private String getIngredientname() {return ingredientname;}
+    public String getIngredientname() {return ingredientname;}
 
-    private String getIngredientnameError() {return ingredientnameError;}
+    public String getIngredientnameError() {return ingredientnameError;}
 
-    private String getExpirydate() {return expirydate;}
+    public String getExpirydate() {return expirydate;}
 
-    private String getExpirydateError() {return expirydateError;}
+    public String getExpirydateError() {return expirydateError;}
 
     public void setIngredientname(String ingredientname) {this.ingredientname = ingredientname;}
 
