@@ -15,4 +15,14 @@ public interface DeleteIngredientOutputBoundary {
      * @param errorMessage the explanation of the failure
      */
     void prepareFailView(String errorMessage);
+
+    /**
+     * Switches to the Add Ingredient View.
+     */
+    void switchToAddIngredientView();
+
+    /**
+     * Switches to the Generate Recipe View.
+     */
+    void switchToRecipeView();
 }

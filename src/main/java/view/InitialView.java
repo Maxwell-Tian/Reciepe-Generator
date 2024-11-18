@@ -23,7 +23,6 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
 
     private final JButton addIngredient;
     private final JButton generateRecipe;
-    private JLabel ingredient;
 
     public InitialView(InitialViewModel viewModel) {
 

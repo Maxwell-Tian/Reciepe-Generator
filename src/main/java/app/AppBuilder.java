@@ -1,5 +1,6 @@
 package app;
 
+import interface_adapter.initial.InitialViewModel;
 import view.*;
 
 import javax.swing.*;
@@ -17,6 +18,7 @@ public class AppBuilder {
     private AddIngredientView addIngredientView;
     private DeleteIngredientReminderView deleteIngredientReminderView;
     private InitialView initialView;
+    private InitialViewModel initialViewModel;
     private RecipeListView recipeListView;
     private RecipeInfoView recipeInfoView;
 
@@ -51,8 +53,8 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addInitialView() {
-        initialView = new InitialView();
-        initialView = new InitialView(InitialViewModel);
+        initialViewModel = new InitialViewModel();
+        initialView = new InitialView(initialViewModel);
         cardPanel.add(initialView, initialView.getViewName());
         return this;
     }
