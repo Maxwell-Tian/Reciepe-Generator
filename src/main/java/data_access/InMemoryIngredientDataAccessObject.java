@@ -1,9 +1,12 @@
 package data_access;
 
 import entity.Ingredient;
+import entity.Recipe;
 import use_case.addorcancelingredient.AddorCancelIngredientIngredientDataAccessInterface;
+import use_case.recipe_management.RecipeManagementUserDataAccessInterface;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,4 +26,5 @@ public class InMemoryIngredientDataAccessObject implements AddorCancelIngredient
     public void save(Ingredient ingredient) {
         ingredients.put(ingredient.getName(), ingredient);
     }
+
 }

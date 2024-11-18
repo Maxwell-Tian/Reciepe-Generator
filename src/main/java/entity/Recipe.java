@@ -29,5 +29,5 @@ public interface Recipe {
      * Return the recipe map mapping ingredients to weights(integer).
      * @return the map.
      */
-    Map<List<String>, Integer> getRecipeMap();
+    Map<String, Integer> getRecipeMap();
 }
