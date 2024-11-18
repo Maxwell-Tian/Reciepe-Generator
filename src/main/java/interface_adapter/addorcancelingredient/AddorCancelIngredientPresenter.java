@@ -1,8 +1,8 @@
 package interface_adapter.addorcancelingredient;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.inital.InitialState;
-import interface_adapter.inital.InitialViewModel;
+import interface_adapter.initial.InitialState;
+import interface_adapter.initial.InitialViewModel;
 import use_case.addorcancelingredient.AddorCancelIngredientOutputBoundary;
 import use_case.addorcancelingredient.AddorCancelIngredientOutputData;
 

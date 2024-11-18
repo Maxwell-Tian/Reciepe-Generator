@@ -1,5 +1,7 @@
 package app;
 
+import interface_adapter.addorcancelingredient.AddorCancelIngredientViewModel;
+import interface_adapter.initial.InitialViewModel;
 import view.*;
 
 import javax.swing.*;
@@ -15,8 +17,10 @@ public class AppBuilder {
     private final CardLayout cardLayout = new CardLayout();
 
     private AddIngredientView addIngredientView;
+    private AddorCancelIngredientViewModel addIngredientViewModel;
     private DeleteIngredientReminderView deleteIngredientReminderView;
     private InitialView initialView;
+    private InitialViewModel initialViewModel;
     private RecipeListView recipeListView;
     private RecipeInfoView recipeInfoView;
 
@@ -29,8 +33,8 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addAddIngredientView() {
-        addIngredientView = new AddIngredientView();
-        addIngredientView = new AddIngredientView(AddIngredientViewModel);
+        addIngredientViewModel = new AddorCancelIngredientViewModel();
+        addIngredientView = new AddIngredientView(addIngredientViewModel);
         cardPanel.add(addIngredientView, addIngredientView.getViewName());
         return this;
     }
@@ -40,7 +44,7 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addDeleteIngredientReminderView() {
-        deleteIngredientReminderView = new DeleteIngredientReminderView();
+        deleteIngredientReminderView = new DeleteIngredientReminderViewModel();
         deleteIngredientReminderView = new DeleteIngredientReminderView(DeleteIngredientReminderViewModel);
         cardPanel.add(deleteIngredientReminderView, deleteIngredientReminderView, deleteIngredientReminderView.getViewName());
         return this;
@@ -51,8 +55,8 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addInitialView() {
-        initialView = new InitialView();
-        initialView = new InitialView(InitialViewModel);
+        initialViewModel = new InitialViewModel();
+        initialView = new InitialView(initialViewModel);
         cardPanel.add(initialView, initialView.getViewName());
         return this;
     }
@@ -62,7 +66,7 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addRecipeListView() {
-        recipeListView = new RecipeListView();
+        recipeListView = new RecipeListViewModel();
         recipeListView = new RecipeListView(RecipeListViewModel);
         cardPanel.add(recipeListView, recipeListView.getViewName());
         return this;
@@ -73,7 +77,7 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addRecipeInfoView() {
-        recipeInfoView = new RecipeInfoView();
+        recipeInfoView = new RecipeInfoViewModel();
         recipeInfoView = new RecipeInfoView(RecipeInfoViewModel);
         cardPanel.add(recipeInfoView, recipeInfoView.getViewName());
         return this;
