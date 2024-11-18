@@ -29,4 +29,14 @@ public class DeleteIngredientInteractor implements DeleteIngredientInputBoundary
         // * tell the presenter to prepare a success view.
         deleteIngredientPresenter.prepareSuccessView(deleteIngredientOutputData);
     }
+
+    @Override
+    public void switchToAddIngredientView() {
+       //
+    }
+
+    @Override
+    public void switchToRecipeView() {
+        //
+    }
 }

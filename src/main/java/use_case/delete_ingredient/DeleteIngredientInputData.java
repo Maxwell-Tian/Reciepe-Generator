@@ -1,7 +1,6 @@
 package use_case.delete_ingredient;
 
 import entity.Ingredient;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +20,7 @@ public class DeleteIngredientInputData {
         return ingredients;
     }
 
-    Ingredient getIngredient() {
+    public Ingredient getIngredient() {
         return ingredient;
     }
 

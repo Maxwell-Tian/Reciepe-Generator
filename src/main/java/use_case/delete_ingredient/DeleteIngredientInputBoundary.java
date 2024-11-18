@@ -11,4 +11,13 @@ public interface DeleteIngredientInputBoundary {
      */
     void execute(DeleteIngredientInputData deleteIngredientInputData);
 
+    /**
+     * Executes the switch to Add Ingredient view use case.
+     */
+    void switchToAddIngredientView();
+
+    /**
+     * Executes the switch to Recipe view use case.
+     */
+    void switchToRecipeView();
 }
