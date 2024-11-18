@@ -29,6 +29,9 @@ public class AddIngredientInteractor implements AddIngredientInputBoundary {
                     addIngredientInputData.getExpireDate());
             userIngredientAccessObject.addIngredientToUser(addIngredientInputData.getUser(), ingredient);
         }
+
+        AddIngredientOutputData outputData = new AddIngredientOutputData(Ingredient.getName(), false);
+        ingredientPresenter.prepareSuccessView(outputData);
     }
 }
 
