@@ -1,8 +1,8 @@
 package interface_adapter.addorcancelingredient;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.inital.InitialState;
-import interface_adapter.inital.InitialViewModel;
+import interface_adapter.initial.InitialState;
+import interface_adapter.initial.InitialViewModel;
 import use_case.addorcancelingredient.AddorCancelIngredientOutputBoundary;
 import use_case.addorcancelingredient.AddorCancelIngredientOutputData;
 
@@ -23,11 +23,11 @@ public class AddorCancelIngredientPresenter implements AddorCancelIngredientOutp
 
     @Override
     public void prepareSuccessView(AddorCancelIngredientOutputData response) {
-        // On success, switch to the login view.
-        final InitialState initialState = initialViewModel.getState();
-        initialState.setUsername(response.getUsername());
-        this.initialViewModel.setState(initialState);
-        initialViewModel.firePropertyChanged();
+        // On success, switch to the Initial view.
+//        final InitialState initialState = initialViewModel.getState();
+//        initialState.setIngredientname(response.getIngredientname());
+//        this.initialViewModel.setState(initialState);
+//        initialViewModel.firePropertyChanged();
 
         viewManagerModel.setState(initialViewModel.getViewName());
         viewManagerModel.firePropertyChanged();

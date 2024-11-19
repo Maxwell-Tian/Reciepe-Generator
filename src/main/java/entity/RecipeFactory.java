@@ -1,5 +1,8 @@
 package entity;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Factory for creating recipes.
  */
@@ -9,5 +12,5 @@ public interface RecipeFactory {
      * @param name the name of the Recipe.
      * @return the new Recipe.
      */
-    Recipe create(String name, List<String> description);
+    Recipe create(String name, List<String> description, Map<String, Integer> recipe);
 }
