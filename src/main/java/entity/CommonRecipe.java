@@ -25,7 +25,7 @@ public class CommonRecipe implements Recipe{
     public String getName() {return name;}
 
     @Override
-    public String getDescription() {return description.getFirst();}
+    public String getDescription() {return description.get(0);}
 
     @Override
     public String getCategory() {return description.get(1);}

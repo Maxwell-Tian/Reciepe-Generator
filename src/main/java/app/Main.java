@@ -17,8 +17,9 @@ public class Main {
                                             .addAddIngredientView()
 //                                            .addDeleteIngredientReminderView()
                                             .addInitialView()
+                                            .addSAoCIUseCase()
 //                                            .addRecipeInfoView()
-                                            .addRecipeListView()
+//                                            .addRecipeListView()
 //                                            .addExpirationWarningView() // this could be a JDialog!!!!!!!!!!
                                             // TODO: add use cases!!!!!!!!!!!
                                             .build();
