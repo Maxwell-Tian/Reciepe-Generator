@@ -7,7 +7,7 @@ import javax.swing.JFrame;
  */
 public class Main {
     /**
-     * Builds and runs the CA architecture of the application.
+     * Builds and runs the CA architecture of the application.®
      * @param args unused arguments
      */
     public static void main(String[] args) {
@@ -17,7 +17,7 @@ public class Main {
                                             .addAddIngredientView()
 //                                            .addDeleteIngredientReminderView()
                                             .addInitialView()
-                                            .addSAoCIUseCase()
+//                                            .addSAoCIUseCase()
 //                                            .addRecipeInfoView()
 //                                            .addRecipeListView()
 //                                            .addExpirationWarningView() // this could be a JDialog!!!!!!!!!!
