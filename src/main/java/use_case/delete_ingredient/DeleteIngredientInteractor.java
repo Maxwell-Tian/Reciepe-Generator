@@ -9,34 +9,36 @@ import java.util.List;
  * The Delete Ingredient Interactor.
  */
 public class DeleteIngredientInteractor implements DeleteIngredientInputBoundary {
-    private final DeleteIngredientUserDataAccessInterface userDataAccessObject;
+    private final DeleteIngredientIngredientDataAccessInterface ingredientDataAccessObject;
     private final DeleteIngredientOutputBoundary deleteIngredientPresenter;
 
-    public DeleteIngredientInteractor(DeleteIngredientUserDataAccessInterface userDataAccessInterface,
+    public DeleteIngredientInteractor(DeleteIngredientIngredientDataAccessInterface ingredientDataAccessObject,
                                       DeleteIngredientOutputBoundary deleteIngredientOutputBoundary) {
-        this.userDataAccessObject = userDataAccessInterface;
+        this.ingredientDataAccessObject = ingredientDataAccessObject;
         this.deleteIngredientPresenter = deleteIngredientOutputBoundary;
     }
 
     @Override
     public void execute(DeleteIngredientInputData deleteIngredientInputData) {
+        if (deleteIngredientInputData.getIngredient() == null) {
+            deleteIngredientPresenter.prepareFailView("No ingredient selected");
+        }
         final List<Ingredient> ingredients = deleteIngredientInputData.getIngredients();
         final Ingredient ingredient = deleteIngredientInputData.getIngredient();
         ingredients.remove(ingredient);
-        userDataAccessObject.setCurrentIngredients(ingredients);
+        ingredientDataAccessObject.setCurrentIngredients(ingredients);
         final DeleteIngredientOutputData deleteIngredientOutputData = new DeleteIngredientOutputData(ingredients,
                 ingredient, false);
-        // * tell the presenter to prepare a success view.
         deleteIngredientPresenter.prepareSuccessView(deleteIngredientOutputData);
     }
 
     @Override
     public void switchToAddIngredientView() {
-       //
+       deleteIngredientPresenter.switchToAddIngredientView();
     }
 
     @Override
     public void switchToRecipeView() {
-        //
+        deleteIngredientPresenter.switchToRecipeView();
     }
 }

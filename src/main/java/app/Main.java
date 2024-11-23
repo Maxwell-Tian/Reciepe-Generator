@@ -14,10 +14,12 @@ public class Main {
         final AppBuilder appBuilder = new AppBuilder();
 
         final JFrame application = appBuilder
+                                            .addInitialView()
                                             .addAddIngredientView()
 //                                            .addDeleteIngredientReminderView()
                                             .addInitialView()
-//                                            .addSAoCIUseCase()
+                                            .addSAoCIUseCase()
+                                            .addDeleteIngredientUseCase()
 //                                            .addRecipeInfoView()
 //                                            .addRecipeListView()
 //                                            .addExpirationWarningView() // this could be a JDialog!!!!!!!!!!
