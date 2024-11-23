@@ -3,18 +3,17 @@ package app;
 import java.awt.*;
 import javax.swing.*;
 
-import data_access.*;
-import entity.CommonUserFactory;
 import entity.UserFactory;
 import entity.CommonIngredientFactory;
 import entity.IngredientFactory;
+
+import interface_adapter.ViewManagerModel;
 import interface_adapter.addorcancelingredient.AddorCancelIngredientController;
 import interface_adapter.addorcancelingredient.AddorCancelIngredientPresenter;
 import interface_adapter.addorcancelingredient.AddorCancelIngredientViewModel;
 import interface_adapter.deleteingredient.DeleteIngredientController;
 import interface_adapter.deleteingredient.DeleteIngredientPresenter;
 import interface_adapter.initial.InitialViewModel;
-import interface_adapter.*;
 
 import use_case.delete_ingredient.DeleteIngredientInputBoundary;
 import use_case.delete_ingredient.DeleteIngredientInteractor;
@@ -23,6 +22,7 @@ import use_case.addorcancelingredient.AddorCancelIngredientInputBoundary;
 import use_case.addorcancelingredient.AddorCancelIngredientInteractor;
 import use_case.addorcancelingredient.AddorCancelIngredientOutputBoundary;
 
+import data_access.InMemoryIngredientDataAccessObject;
 import view.*;
 
 
@@ -37,6 +37,8 @@ public class AppBuilder {
 
     private final InMemoryIngredientDataAccessObject ingredientDataAccessObject =
             new InMemoryIngredientDataAccessObject();
+  
+    private final IngredientFactory ingredientFactory = new CommonIngredientFactory();
 
     private AddIngredientView addIngredientView;
     private AddorCancelIngredientViewModel addIngredientViewModel;
@@ -44,7 +46,10 @@ public class AppBuilder {
     private InitialView initialView;
     private InitialViewModel initialViewModel;
     private RecipeListView recipeListView;
+    private RecipeManagementViewModel recipeListViewModel;
     private RecipeInfoView recipeInfoView;
+
+    private final InMemoryIngredientDataAccessObject ingredientDataAccessObject = new InMemoryIngredientDataAccessObject();
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -61,10 +66,10 @@ public class AppBuilder {
         return this;
     }
 
-    /**
-     * Adds the DeleteIngredientReminderView to the application.
-     * @return this builder
-     */
+//    /**
+//     * Adds the DeleteIngredientReminderView to the application.
+//     * @return this builder
+//     */
 //    public AppBuilder addDeleteIngredientReminderView() {
 //        deleteIngredientReminderView = new DeleteIngredientReminderViewModel();
 //        deleteIngredientReminderView = new DeleteIngredientReminderView(DeleteIngredientReminderViewModel);
@@ -83,21 +88,21 @@ public class AppBuilder {
         return this;
     }
 
-    /**
-     * Adds the RecipeListView to the application.
-     * @return this builder
-     */
+//    /**
+//     * Adds the RecipeListView to the application.
+//     * @return this builder
+//     */
 //    public AppBuilder addRecipeListView() {
-//        recipeListView = new RecipeListViewModel();
-//        recipeListView = new RecipeListView(RecipeListViewModel);
+//        recipeListViewModel = new RecipeManagementViewModel();
+//        recipeListView = new RecipeListView();
 //        cardPanel.add(recipeListView, recipeListView.getViewName());
 //        return this;
 //    }
 
-    /**
-     * Adds the RecipeInfoView to the application.
-     * @return this builder
-     */
+//    /**
+//     * Adds the RecipeInfoView to the application.
+//     * @return this builder
+//     */
 //    public AppBuilder addRecipeInfoView() {
 //        recipeInfoView = new RecipeInfoViewModel();
 //        recipeInfoView = new RecipeInfoView(RecipeInfoViewModel);
@@ -106,19 +111,17 @@ public class AppBuilder {
 //    }
 
     /**
-     * Adds the Add Ingredient Use Case to the application.
+     * Adds the AddorCancelIngredient Use Case to the application.
      * @return this builder
      */
-    public AppBuilder addAddIngredientUseCase() {
-        final AddorCancelIngredientOutputBoundary addIngredientOutputBoundary
-                = new AddorCancelIngredientPresenter(addIngredientViewModel, initialViewModel, viewManagerModel);
-        final AddorCancelIngredientInputBoundary addIngredientInteractor =
-                new AddorCancelIngredientInteractor(ingredientDataAccessObject, addIngredientOutputBoundary,
-                        ingredientFactory);
+    public AppBuilder addSAoCIUseCase() {
+        final AddorCancelIngredientOutputBoundary aociOutputBoundary = new AddorCancelIngredientPresenter(
+                addIngredientViewModel, initialViewModel, viewManagerModel);
+        final AddorCancelIngredientInputBoundary aociInteractor = new AddorCancelIngredientInteractor(
+                ingredientDataAccessObject, aociOutputBoundary, ingredientFactory);
 
-        final AddorCancelIngredientController addIngredientController =
-                new AddorCancelIngredientController(addIngredientInteractor);
-        addIngredientView.setAddorCancelIngredientController(addIngredientController);
+        final AddorCancelIngredientController controller = new AddorCancelIngredientController(aociInteractor);
+        addIngredientView.setAddorCancelIngredientController(controller);
         return this;
     }
 
@@ -136,14 +139,13 @@ public class AppBuilder {
                 new DeleteIngredientController(deleteIngredientInteractor);
         initialView.setDeleteIngredientController(deleteIngredientController);
         return this;
-    }
-
+      
     /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
      * @return the application
      */
     public JFrame build() {
-        final JFrame application = new JFrame("Example");
+        final JFrame application = new JFrame("Recipe Example");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         application.add(cardPanel);

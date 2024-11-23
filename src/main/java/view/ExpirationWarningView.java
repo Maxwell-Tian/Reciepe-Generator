@@ -1,36 +1,69 @@
 package view;
+
+import entity.Ingredient;
+import use_case.expired_food.CheckExpiredIngredientInteractor;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.ArrayList;
 
 public class ExpirationWarningView extends JFrame {
-    public ExpirationWarningView() {
+    public ExpirationWarningView(CheckExpiredIngredientInteractor interactor) {
         setTitle("Expiration Warning");
-        setSize(300, 150);
+        setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new FlowLayout());
+        setLayout(new BorderLayout());
 
-        JLabel warningLabel = new JLabel("Your ingredient is about to expire.");
-        JButton throwAwayButton = new JButton("Throw Away");
-        throwAwayButton.addActionListener(new ActionListener() {
+        // Get expired ingredients
+        List<Ingredient> expiredList = interactor.execute();
+
+        // Create a panel for displaying expired ingredients with checkboxes
+        JPanel expiredPanel = new JPanel();
+        expiredPanel.setLayout(new BoxLayout(expiredPanel, BoxLayout.Y_AXIS));
+
+        List<JCheckBox> checkBoxes = new ArrayList<>();
+
+        if (expiredList.isEmpty()) {
+            JLabel noExpiredLabel = new JLabel("No ingredients are expired.");
+            expiredPanel.add(noExpiredLabel);
+        } else {
+            for (Ingredient ingredient : expiredList) {
+                JCheckBox expiredCheckBox = new JCheckBox(ingredient.getName() + " (Expiry Date: " + ingredient.getExpiryDate() + ")");
+                checkBoxes.add(expiredCheckBox);
+                expiredPanel.add(expiredCheckBox);
+            }
+        }
+
+        add(new JScrollPane(expiredPanel), BorderLayout.CENTER);
+
+        // Create a button to delete expired ingredients
+        JButton deleteButton = new JButton("Delete Selected");
+        deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Ingredient deleted.");
+                List<Ingredient> ingredientsToDelete = new ArrayList<>();
+                for (int i = 0; i < checkBoxes.size(); i++) {
+                    if (checkBoxes.get(i).isSelected()) {
+                        ingredientsToDelete.add(expiredList.get(i));
+                    }
+                }
+                interactor.deleteIngredients(ingredientsToDelete);
                 dispose();
             }
         });
+        add(deleteButton, BorderLayout.SOUTH);
 
-        JButton ignoreButton = new JButton("Ignore");
-        ignoreButton.addActionListener(e -> {
-            // Logic to ignore the warning and go back to InitialView without deleting
-            System.out.println("Ingredient ignored.");
-            dispose();
+        // Create a button to go back to the initial view
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
         });
-
-        add(warningLabel);
-        add(throwAwayButton);
-        add(ignoreButton);
+        add(backButton, BorderLayout.NORTH);
 
         setVisible(true);
     }

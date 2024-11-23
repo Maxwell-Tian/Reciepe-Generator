@@ -5,25 +5,21 @@ package interface_adapter.addorcancelingredient;
  */
 public class AddorCancelIngredientState {
     private String ingredientname = "";
-    private String ingredientnameError;
+    private String errorMessage;
     private String expirydate = "";
-    private String expirydateError;
 
     public String getIngredientname() {return ingredientname;}
 
-    public String getIngredientnameError() {return ingredientnameError;}
+    public String getErrorMessage() {return errorMessage;}
 
     public String getExpirydate() {return expirydate;}
 
-    public String getExpirydateError() {return expirydateError;}
-
     public void setIngredientname(String ingredientname) {this.ingredientname = ingredientname;}
 
-    public void setIngredientnameError(String ingredientnameError) {this.ingredientnameError = ingredientnameError;}
+    public void setError(String errorMessage) {this.errorMessage = errorMessage;}
 
     public void setExpirydate(String expirydate) {this.expirydate = expirydate;}
 
-    public void setExpirydateError(String expirydateError) {this.expirydateError = expirydateError;}
 
     @Override
     public String toString() {

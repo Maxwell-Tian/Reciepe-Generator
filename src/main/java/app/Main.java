@@ -7,18 +7,24 @@ import javax.swing.JFrame;
  */
 public class Main {
     /**
-     * Builds and runs the CA architecture of the application.
+     * Builds and runs the CA architecture of the application.®
      * @param args unused arguments
      */
     public static void main(String[] args) {
         final AppBuilder appBuilder = new AppBuilder();
 
         final JFrame application = appBuilder
-                .addInitialView()
-                .addAddIngredientView()
-                .addDeleteIngredientUseCase()
-                .addAddIngredientUseCase()
-                .build();
+                                            .addInitialView()
+                                            .addAddIngredientView()
+//                                            .addDeleteIngredientReminderView()
+                                            .addInitialView()
+                                            .addSAoCIUseCase()
+                                            .addDeleteIngredientUseCase()
+//                                            .addRecipeInfoView()
+//                                            .addRecipeListView()
+//                                            .addExpirationWarningView() // this could be a JDialog!!!!!!!!!!
+                                            // TODO: add use cases!!!!!!!!!!!
+                                            .build();
 
         application.pack();
         application.setVisible(true);
