@@ -2,6 +2,8 @@ package use_case.addorcancelingredient;
 
 import entity.Ingredient;
 
+import java.util.List;
+
 /**
  * DAO for the add ingredient Use Case.
  */
@@ -18,4 +20,6 @@ public interface AddorCancelIngredientIngredientDataAccessInterface {
      * @param ingredient the ingredient to save
      */
     void save(Ingredient ingredient);
+
+    List<Ingredient> getAllIngredients();
 }
