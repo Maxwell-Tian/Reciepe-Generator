@@ -10,7 +10,7 @@ import java.time.LocalDate;
  */
 public class AddorCancelIngredientInteractor implements AddorCancelIngredientInputBoundary{
 
-    private final AddorCancelIngredientIngredientDataAccessInterface ingredientDataAccessObject;
+    public final AddorCancelIngredientIngredientDataAccessInterface ingredientDataAccessObject;
     private final AddorCancelIngredientOutputBoundary ingredientPresenter;
     private final IngredientFactory ingredientFactory;
 
