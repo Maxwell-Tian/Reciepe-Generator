@@ -2,6 +2,7 @@ package view;
 
 import entity.Ingredient;
 import use_case.expired_food.CheckExpiredIngredientInteractor;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,7 +11,10 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class ExpirationWarningView extends JFrame {
+    private final CheckExpiredIngredientInteractor interactor;
+
     public ExpirationWarningView(CheckExpiredIngredientInteractor interactor) {
+        this.interactor = interactor;
         setTitle("Expiration Warning");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
