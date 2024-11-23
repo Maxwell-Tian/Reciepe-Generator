@@ -24,14 +24,15 @@ public class AddIngredientInteractor implements AddIngredientInputBoundary {
             ingredientPresenter.prepareFailView("Ingredient name cannot be empty.");
         } else if (addIngredientInputData.getExpireDate() == null) {
             ingredientPresenter.prepareFailView("Expiry date is not provided.");
-        } else {
-            final Ingredient ingredient = ingredientFactory.create(addIngredientInputData.getIngredientName(),
-                    addIngredientInputData.getExpireDate());
-            userIngredientAccessObject.addIngredientToUser(addIngredientInputData.getUser(), ingredient);
         }
-
-        AddIngredientOutputData outputData = new AddIngredientOutputData(Ingredient.getName(), false);
-        ingredientPresenter.prepareSuccessView(outputData);
+//        else {
+//            final Ingredient ingredient = ingredientFactory.create(addIngredientInputData.getIngredientName(),
+//                    addIngredientInputData.getExpireDate());
+//            userIngredientAccessObject.addIngredientToUser(addIngredientInputData.getUser(), ingredient);
+//        }
+//
+//        AddIngredientOutputData outputData = new AddIngredientOutputData(Ingredient.getName(), false);
+//        ingredientPresenter.prepareSuccessView(outputData);
     }
 }
 

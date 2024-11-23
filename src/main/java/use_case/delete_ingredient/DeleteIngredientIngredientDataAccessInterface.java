@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * DAO for the Delete Ingredient Use Case.
  */
-public interface DeleteIngredientUserDataAccessInterface {
+public interface DeleteIngredientIngredientDataAccessInterface {
 
     /**
      * Returns the ingredients of the current user of the application.

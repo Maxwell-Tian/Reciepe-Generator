@@ -42,6 +42,7 @@ public class DeleteIngredientPresenter implements DeleteIngredientOutputBoundary
     @Override
     public void switchToAddIngredientView() {
         viewManagerModel.setState(addorCancelIngredientViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 
     @Override
