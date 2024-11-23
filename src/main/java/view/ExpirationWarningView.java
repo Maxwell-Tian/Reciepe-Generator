@@ -38,6 +38,23 @@ public class ExpirationWarningView extends JFrame {
 
         add(new JScrollPane(expiredPanel), BorderLayout.CENTER);
 
+        // Create a button to delete expired ingredients
+        JButton deleteButton = new JButton("Delete Selected");
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<Ingredient> ingredientsToDelete = new ArrayList<>();
+                for (int i = 0; i < checkBoxes.size(); i++) {
+                    if (checkBoxes.get(i).isSelected()) {
+                        ingredientsToDelete.add(expiredList.get(i));
+                    }
+                }
+                interactor.deleteIngredients(ingredientsToDelete);
+                dispose();
+            }
+        });
+        add(deleteButton, BorderLayout.SOUTH);
+
         // Create a button to go back to the initial view
         JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
@@ -46,7 +63,7 @@ public class ExpirationWarningView extends JFrame {
                 dispose();
             }
         });
-        add(backButton, BorderLayout.SOUTH);
+        add(backButton, BorderLayout.NORTH);
 
         setVisible(true);
     }
