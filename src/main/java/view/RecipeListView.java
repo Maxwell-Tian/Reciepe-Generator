@@ -5,7 +5,6 @@ import java.awt.*;
 
 
 public class RecipeListView extends JFrame {
-    private final String viewName = "RecipeListView";
     private final CardLayout cardLayout;
     private final JPanel mainPanel;
 
@@ -64,9 +63,5 @@ public class RecipeListView extends JFrame {
         infoPanel.add(returnButton, BorderLayout.SOUTH);
 
         return infoPanel;
-    }
-
-    public String getViewName() {
-        return viewName;
     }
 }
