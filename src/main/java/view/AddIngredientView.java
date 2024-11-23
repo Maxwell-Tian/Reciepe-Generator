@@ -135,8 +135,8 @@ public class AddIngredientView extends JPanel implements PropertyChangeListener 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final AddorCancelIngredientState state = (AddorCancelIngredientState) evt.getNewValue();
-        if (state.getIngredientnameError() != null) {
-            JOptionPane.showMessageDialog(this, state.getIngredientnameError());
+        if (state.getErrorMessage() != null) {
+            JOptionPane.showMessageDialog(this, state.getErrorMessage());
         }
     }
 

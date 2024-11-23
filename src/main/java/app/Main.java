@@ -15,11 +15,12 @@ public class Main {
 
         final JFrame application = appBuilder
                                             .addAddIngredientView()
-                                            .addDeleteIngredientReminderView()
+//                                            .addDeleteIngredientReminderView()
                                             .addInitialView()
-                                            .addRecipeInfoView()
-                                            .addRecipeListView()
-                                            .addExpirationWarningView() // this could be a JDialog!!!!!!!!!!
+                                            .addSAoCIUseCase()
+//                                            .addRecipeInfoView()
+//                                            .addRecipeListView()
+//                                            .addExpirationWarningView() // this could be a JDialog!!!!!!!!!!
                                             // TODO: add use cases!!!!!!!!!!!
                                             .build();
 

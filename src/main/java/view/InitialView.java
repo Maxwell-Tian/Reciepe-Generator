@@ -118,9 +118,7 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
         }
     }
 
-    public String getViewName() {
-        return viewName;
-    }
+    public String getViewName(){ return viewName;}
 
     public void setDeleteIngredientController(DeleteIngredientController controller) {
         this.deleteIngredientController = controller;

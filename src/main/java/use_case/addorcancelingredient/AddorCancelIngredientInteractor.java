@@ -27,6 +27,9 @@ public class AddorCancelIngredientInteractor implements AddorCancelIngredientInp
         if (ingredientDataAccessObject.existsByIngredientName(addorCancelIngredientInputData.getIngredientname())) {
             ingredientPresenter.prepareFailView("Ingredient already exists.");
         }
+        else if (!addorCancelIngredientInputData.getValid()) {
+            ingredientPresenter.prepareFailView("Invalid date.");
+        }
         else if (!addorCancelIngredientInputData.getExpirydate().isAfter(LocalDate.now())) {
             ingredientPresenter.prepareFailView("Expiry date has already passed.");
         }
