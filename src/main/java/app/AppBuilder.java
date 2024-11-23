@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import entity.UserFactory;
+import entity.CommonUserFactory;
 import entity.CommonIngredientFactory;
 import entity.IngredientFactory;
 
@@ -37,8 +38,6 @@ public class AppBuilder {
 
     private final InMemoryIngredientDataAccessObject ingredientDataAccessObject =
             new InMemoryIngredientDataAccessObject();
-  
-    private final IngredientFactory ingredientFactory = new CommonIngredientFactory();
 
     private AddIngredientView addIngredientView;
     private AddorCancelIngredientViewModel addIngredientViewModel;
@@ -46,10 +45,7 @@ public class AppBuilder {
     private InitialView initialView;
     private InitialViewModel initialViewModel;
     private RecipeListView recipeListView;
-    private RecipeManagementViewModel recipeListViewModel;
     private RecipeInfoView recipeInfoView;
-
-    private final InMemoryIngredientDataAccessObject ingredientDataAccessObject = new InMemoryIngredientDataAccessObject();
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -139,7 +135,8 @@ public class AppBuilder {
                 new DeleteIngredientController(deleteIngredientInteractor);
         initialView.setDeleteIngredientController(deleteIngredientController);
         return this;
-      
+    }
+
     /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
      * @return the application

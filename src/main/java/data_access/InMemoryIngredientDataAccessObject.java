@@ -31,6 +31,11 @@ public class InMemoryIngredientDataAccessObject implements AddorCancelIngredient
     }
 
     @Override
+    public List<Ingredient> getAllIngredients() {
+        return ingredientsList;
+    }
+
+    @Override
     public List<Ingredient> getCurrentIngredients() {
         return ingredientsList; }
 
