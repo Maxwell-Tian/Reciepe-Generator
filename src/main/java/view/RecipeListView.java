@@ -5,11 +5,15 @@ import entity.Recipe;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class RecipeListView extends JFrame {
+public class RecipeListView extends JFrame implements ActionListener, PropertyChangeListener {
     private final CardLayout cardLayout;
     private final JPanel mainPanel;
     private final RecipeInfoView recipeInfoView;
@@ -18,7 +22,7 @@ public class RecipeListView extends JFrame {
 
     public RecipeListView() {
         setTitle("Recipe List View");
-        setSize(400, 600);
+        setSize(500, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Initialize recipes
@@ -92,5 +96,15 @@ public class RecipeListView extends JFrame {
             RecipeListView recipeListView = new RecipeListView();
             recipeListView.setVisible(true);
         });
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
     }
 }
