@@ -25,6 +25,16 @@ public class InMemoryRecipeDataAccessObject implements RecipeManagementUserDataA
         allRecipes.add(recipe);
     }
 
+    @Override
+    public void saveUserIngredients(Map<String, Integer> userIngredients) {
+
+    }
+
+    @Override
+    public Map<String, Integer> getUserIngredients() {
+        return Map.of();
+    }
+
     public void populateAllRecipes() {
         allRecipes.add(new CommonRecipe("KungPowChicken", List.of("this is a traditional Chinese dish", "Chinese"), Map.of("chicken", 2, "tomato", 3)));
     }
