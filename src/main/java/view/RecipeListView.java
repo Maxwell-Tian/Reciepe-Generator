@@ -1,67 +1,96 @@
 package view;
 
+import entity.CommonRecipe;
+import entity.Recipe;
+
 import javax.swing.*;
 import java.awt.*;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class RecipeListView extends JFrame {
     private final CardLayout cardLayout;
     private final JPanel mainPanel;
+    private final RecipeInfoView recipeInfoView;
+
+    private final List<Recipe> recipes;
 
     public RecipeListView() {
         setTitle("Recipe List View");
         setSize(400, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        // Initialize recipes
+        recipes = initializeRecipes();
+
+        // Set up card layout
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
+        // Create the RecipeInfoView panel
+        recipeInfoView = new RecipeInfoView(cardLayout, mainPanel);
+
+        // Add RecipeListPanel and RecipeInfoView to the main panel
         JPanel recipeListPanel = createRecipeListPanel();
-        JPanel recipe1InfoPanel = createRecipeInfoPanel("Recipe 1 Information");
-        JPanel recipe2InfoPanel = createRecipeInfoPanel("Recipe 2 Information");
-        JPanel recipe3InfoPanel = createRecipeInfoPanel("Recipe 3 Information");
-
         mainPanel.add(recipeListPanel, "RecipeListPanel");
-        mainPanel.add(recipe1InfoPanel, "Recipe1InfoPanel");
-        mainPanel.add(recipe2InfoPanel, "Recipe2InfoPanel");
-        mainPanel.add(recipe3InfoPanel, "Recipe3InfoPanel");
+        mainPanel.add(recipeInfoView, "RecipeInfoView");
 
+        // Show the recipe list panel by default
         add(mainPanel);
-
         cardLayout.show(mainPanel, "RecipeListPanel");
     }
 
+    /**
+     * Creates the panel showing the list of all recipes.
+     */
     private JPanel createRecipeListPanel() {
         JPanel recipeListPanel = new JPanel();
         recipeListPanel.setLayout(new BoxLayout(recipeListPanel, BoxLayout.Y_AXIS));
 
-        JButton recipeButton1 = new JButton("Recipe 1");
-        JButton recipeButton2 = new JButton("Recipe 2");
-        JButton recipeButton3 = new JButton("Recipe 3");
-        JButton returnButton = new JButton("Return");
+        JLabel titleLabel = new JLabel("Recipe List");
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        recipeListPanel.add(titleLabel);
 
-        recipeButton1.addActionListener(e -> cardLayout.show(mainPanel, "Recipe1InfoPanel"));
-        recipeButton2.addActionListener(e -> cardLayout.show(mainPanel, "Recipe2InfoPanel"));
-        recipeButton3.addActionListener(e -> cardLayout.show(mainPanel, "Recipe3InfoPanel"));
+        // Create a button for each recipe
+        for (Recipe recipe : recipes) {
+            JButton recipeButton = new JButton(recipe.getName());
+            recipeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            recipeButton.addActionListener(e -> {
+                recipeInfoView.showRecipeDetails(recipe); // Pass recipe to RecipeInfoView
+                cardLayout.show(mainPanel, "RecipeInfoView"); // Switch to RecipeInfoView
+            });
+            recipeListPanel.add(recipeButton);
+        }
 
-        recipeListPanel.add(recipeButton1);
-        recipeListPanel.add(recipeButton2);
-        recipeListPanel.add(recipeButton3);
-        recipeListPanel.add(returnButton);
+        // Add a back button (if needed for returning elsewhere)
+        JButton backButton = new JButton("Back");
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.addActionListener(e -> System.out.println("Returning to main menu..."));
+        recipeListPanel.add(backButton);
 
         return recipeListPanel;
     }
 
-    private JPanel createRecipeInfoPanel(String infoText) {
-        JPanel infoPanel = new JPanel(new BorderLayout());
-        JLabel infoLabel = new JLabel(infoText, SwingConstants.CENTER);
-        JButton returnButton = new JButton("Return");
+    /**
+     * Initializes sample recipes for testing.
+     */
+    private List<Recipe> initializeRecipes() {
+        List<Recipe> recipeList = new ArrayList<>();
+        recipeList.add(new CommonRecipe("Chocolate Cake", List.of("Delicious chocolate dessert", "Dessert"),
+                Map.of("Flour", 200, "Sugar", 100, "Cocoa", 50)));
+        recipeList.add(new CommonRecipe("Caesar Salad", List.of("Classic Caesar salad", "Appetizer"),
+                Map.of("Lettuce", 100, "Croutons", 50, "Parmesan", 30)));
+        recipeList.add(new CommonRecipe("Pancakes", List.of("Fluffy breakfast pancakes", "Breakfast"),
+                Map.of("Flour", 150, "Milk", 200, "Eggs", 2)));
+        return recipeList;
+    }
 
-        returnButton.addActionListener(e -> cardLayout.show(mainPanel, "RecipeListPanel"));
-
-        infoPanel.add(infoLabel, BorderLayout.CENTER);
-        infoPanel.add(returnButton, BorderLayout.SOUTH);
-
-        return infoPanel;
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            RecipeListView recipeListView = new RecipeListView();
+            recipeListView.setVisible(true);
+        });
     }
 }
