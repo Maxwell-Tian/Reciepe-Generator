@@ -1,12 +1,15 @@
 package view;
 
+import entity.CommonIngredient;
 import entity.Ingredient;
 import use_case.expired_food.CheckExpiredIngredientInteractor;
+import use_case.expired_food.CheckExpiredIngredientUserDataAccessInterface;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -70,5 +73,29 @@ public class ExpirationWarningView extends JFrame {
         add(backButton, BorderLayout.NORTH);
 
         setVisible(true);
+    }
+    public static void main(String[] args) {
+        // Example data access implementation
+        CheckExpiredIngredientUserDataAccessInterface dataAccess = new CheckExpiredIngredientUserDataAccessInterface() {
+            private List<Ingredient> ingredients = new ArrayList<>();
+
+            {
+                ingredients.add(new CommonIngredient("Tomato", LocalDate.of(2024, 11, 20)));
+                ingredients.add(new CommonIngredient("Onion", LocalDate.of(2024, 11, 25)));
+            }
+
+            @Override
+            public List<Ingredient> getAllIngredients() {
+                return new ArrayList<>(ingredients);
+            }
+
+            @Override
+            public void setIngredients(List<Ingredient> ingredients) {
+                this.ingredients = new ArrayList<>(ingredients);
+            }
+        };
+
+        CheckExpiredIngredientInteractor interactor = new CheckExpiredIngredientInteractor(dataAccess);
+        SwingUtilities.invokeLater(() -> new ExpirationWarningView(interactor));
     }
 }
