@@ -4,59 +4,76 @@ import entity.Recipe;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Map;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class RecipeInfoView extends JPanel {
+/**
+ * The View for displaying recipe details.
+ */
+public class RecipeInfoView extends JPanel implements ActionListener {
+
+    private final String viewName = "recipe info";
     private final CardLayout cardLayout;
     private final JPanel parentPanel;
+
+    private final JLabel titleLabel = new JLabel();
+    private final JTextArea detailsArea = new JTextArea();
+    private final JButton backButton = new JButton("Back");
 
     public RecipeInfoView(CardLayout cardLayout, JPanel parentPanel) {
         this.cardLayout = cardLayout;
         this.parentPanel = parentPanel;
-        setLayout(new BorderLayout());
+
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        // Add title
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        this.add(titleLabel);
+        this.add(Box.createRigidArea(new Dimension(0, 20))); // Add spacing
+
+        // Add details area
+        detailsArea.setEditable(false);
+        detailsArea.setLineWrap(true);
+        detailsArea.setWrapStyleWord(true);
+        JScrollPane scrollPane = new JScrollPane(detailsArea);
+        scrollPane.setPreferredSize(new Dimension(300, 200));
+        scrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.add(scrollPane);
+        this.add(Box.createRigidArea(new Dimension(0, 20))); // Add spacing
+
+        // Add back button
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.setMaximumSize(new Dimension(200, 30));
+        backButton.addActionListener(this);
+        this.add(backButton);
     }
 
-    /**
-     * Displays the details of the selected recipe.
-     * @param recipe the recipe to display
-     */
     public void showRecipeDetails(Recipe recipe) {
-        removeAll(); // Clear previous content
-
-        // Title
-        JLabel titleLabel = new JLabel("Recipe: " + recipe.getName(), SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
-
-        // Recipe details
-        JTextArea detailsArea = new JTextArea();
-        detailsArea.setEditable(false);
+        titleLabel.setText("Recipe: " + recipe.getName());
         detailsArea.setText(
-                "Description: " + recipe.getDescription() + "\n" +
-                        "Category: " + recipe.getCategory() + "\n" +
+                "Description: " + recipe.getDescription() + "\n\n" +
+                        "Category: " + recipe.getCategory() + "\n\n" +
                         "Ingredients:\n" + formatIngredients(recipe.getRecipeMap())
         );
-
-        // Back button
-        JButton backButton = new JButton("Back");
-        backButton.addActionListener(e -> cardLayout.show(parentPanel, "RecipeListPanel"));
-
-        // Add components to the layout
-        add(titleLabel, BorderLayout.NORTH);
-        add(new JScrollPane(detailsArea), BorderLayout.CENTER);
-        add(backButton, BorderLayout.SOUTH);
-
-        revalidate();
-        repaint();
+        this.revalidate();
+        this.repaint();
     }
 
-    /**
-     * Formats the ingredients map into a readable string.
-     */
-    private String formatIngredients(Map<String, Integer> ingredients) {
+    private String formatIngredients(java.util.Map<String, Integer> ingredients) {
         StringBuilder sb = new StringBuilder();
         for (var entry : ingredients.entrySet()) {
             sb.append("- ").append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
         }
         return sb.toString();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        cardLayout.show(parentPanel, "recipe list");
+    }
+
+    public String getViewName() {
+        return viewName;
     }
 }
