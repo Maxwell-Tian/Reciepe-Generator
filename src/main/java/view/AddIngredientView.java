@@ -17,7 +17,7 @@ import java.beans.PropertyChangeListener;
 /**
  * The View for the add ingredient Use Case.
  */
-public class AddIngredientView extends JPanel implements PropertyChangeListener {
+public class AddIngredientView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "add ingredient";
     private final AddorCancelIngredientViewModel viewModel;
     private final JTextField ingredientnameInputField = new JTextField(15);
@@ -146,5 +146,10 @@ public class AddIngredientView extends JPanel implements PropertyChangeListener 
 
     public void setAddorCancelIngredientController(AddorCancelIngredientController controller) {
         this.controller = controller;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        JOptionPane.showMessageDialog(this, "oops, im out.");
     }
 }

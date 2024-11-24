@@ -15,7 +15,7 @@ import interface_adapter.initial.InitialViewModel;
 
 
 public class InitialView extends JPanel implements ActionListener, PropertyChangeListener {
-    private final String viewName = "Initial View";
+    private final String viewName = "initial";
 
     private final InitialViewModel viewModel;
     private DeleteIngredientController deleteIngredientController;

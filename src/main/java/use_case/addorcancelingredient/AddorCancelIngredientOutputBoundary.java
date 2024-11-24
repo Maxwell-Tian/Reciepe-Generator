@@ -2,11 +2,11 @@ package use_case.addorcancelingredient;
 
 public interface AddorCancelIngredientOutputBoundary {
 
-    /**
-     * Prepares the success view for the add ingredient Use Case.
-     * @param outputData the output data
-     */
-    void prepareSuccessView(AddorCancelIngredientOutputData outputData);
+//    /**
+//     * Prepares the success view for the add ingredient Use Case.
+//     * @param outputData the output data
+//     */
+//    void prepareSuccessView(AddorCancelIngredientOutputData outputData);
 
     /**
      * Prepares the failure view for the add ingredient Use Case.

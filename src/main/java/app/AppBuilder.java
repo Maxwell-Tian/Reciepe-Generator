@@ -16,11 +16,11 @@ import interface_adapter.deleteingredient.DeleteIngredientController;
 import interface_adapter.deleteingredient.DeleteIngredientPresenter;
 import interface_adapter.initial.InitialViewModel;
 
+import use_case.addorcancelingredient.AddorCancelIngredientInteractor;
 import use_case.delete_ingredient.DeleteIngredientInputBoundary;
 import use_case.delete_ingredient.DeleteIngredientInteractor;
 import use_case.delete_ingredient.DeleteIngredientOutputBoundary;
 import use_case.addorcancelingredient.AddorCancelIngredientInputBoundary;
-import use_case.addorcancelingredient.AddorCancelIngredientInteractor;
 import use_case.addorcancelingredient.AddorCancelIngredientOutputBoundary;
 
 import data_access.InMemoryIngredientDataAccessObject;
