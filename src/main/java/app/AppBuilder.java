@@ -49,6 +49,8 @@ public class AppBuilder {
     private final InMemoryIngredientDataAccessObject ingredientDataAccessObject =
             new InMemoryIngredientDataAccessObject();
 
+    final List<Recipe> recipeRepository = new InMemoryRecipeManagementRepository().getCurrentRecipes();
+
     private AddIngredientView addIngredientView;
     private AddorCancelIngredientViewModel addIngredientViewModel;
     private DeleteIngredientReminderView deleteIngredientReminderView;
@@ -56,7 +58,7 @@ public class AppBuilder {
     private InitialViewModel initialViewModel;
     private RecipeListView recipeListView;
     private RecipeManagementViewModel recipeListViewModel;
-    private RecipeInfoViewModel recipeInfoView;
+    private RecipeInfoView recipeInfoView;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -95,30 +97,40 @@ public class AppBuilder {
         return this;
     }
 
-    /**
-     * Adds the RecipeListView to the application.
-     * @return this builder
-     */
-    public AppBuilder addRecipeListView() {
-        final RecipeInfoView recipeListView = new RecipeInfoView(cardLayout, cardPanel);
+//    /**
+//     * Adds the RecipeListView to the application.
+//     * @return this builder
+//     */
+//    public AppBuilder addRecipeListView() {
+//        // 初始化 RecipeInfoView
+//        recipeInfoView = new RecipeInfoView(cardLayout, cardPanel);
+//
+//        // 初始化 RecipeManagementViewModel 和 Controller
+//        final RecipeManagementViewModel recipeListViewModel = new RecipeManagementViewModel();
+//        final RecipeManagementPresenter presenter = new RecipeManagementPresenter();
+//        final RecipeManagementInputBoundary interactor = new RecipeManagementInteractor(recipeRepository, presenter);
+//        final List<Recipe> controller = new RecipeManagementController(interactor);
+//
+//        // 创建 RecipeListView
+//        recipeListView = new RecipeListView(controller, recipeListViewModel, cardLayout, cardPanel);
+//
+//        // 添加到 CardPanel
+//        cardPanel.add(recipeListView, recipeListView.getViewName());
+//        return this;
+//    }
+//
+//    /**
+//     * Adds the RecipeInfoView to the application.
+//     * @return this builder
+//     */
+//    public AppBuilder addRecipeInfoView() {
+//        recipeInfoView = new RecipeInfoView(cardLayout, cardPanel);
+//
+//        // 添加到 CardPanel
+//        cardPanel.add(recipeInfoView, recipeInfoView.getViewName());
+//        return this;
+//    }
 
-        final List<Recipe> recipeRepository = new InMemoryRecipeManagementRepository().getCurrentRecipes();
-
-        cardPanel.add(recipeListView, recipeListView.getViewName());
-        return this;
-    }
-
-    /**
-     * Adds the RecipeInfoView to the application.
-     * @return this builder
-     */
-    public AppBuilder addRecipeInfoView() {
-
-        final RecipeInfoView recipeInfoView = new RecipeInfoView(cardLayout, cardPanel);
-
-        cardPanel.add(recipeInfoView, recipeInfoView.getViewName());
-        return this;
-    }
 
 
     /**

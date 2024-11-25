@@ -10,10 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 public class RecipeManagementInteractor implements RecipeManagementInputBoundary {
-    private final InMemoryRecipeManagementRepository recipeRepository;
+    private InMemoryRecipeManagementRepository repository;
+    private List<Recipe> recipeRepository = repository.getCurrentRecipes();
     private final RecipeManagementOutputBoundary outputBoundary;
 
-    public RecipeManagementInteractor(InMemoryRecipeManagementRepository recipeRepository, RecipeManagementOutputBoundary outputBoundary) {
+    public RecipeManagementInteractor(List<Recipe> recipeRepository, RecipeManagementOutputBoundary outputBoundary) {
         this.recipeRepository = recipeRepository;
         this.outputBoundary = outputBoundary;
     }
@@ -26,7 +27,7 @@ public class RecipeManagementInteractor implements RecipeManagementInputBoundary
      */
     public List<Recipe> execute(RecipeManagementInputData recipeManagementInputData) {
         Map<String, LocalDate> userIngredients = recipeManagementInputData.getUserIngredients();
-        List<Recipe> allRecipes = recipeRepository.getCurrentRecipes();
+        List<Recipe> allRecipes = recipeRepository;
         String category = recipeManagementInputData.getFilterCategory();
 
         List<Recipe> filteredRecipes = filterRecipesByCategory(allRecipes, category);
