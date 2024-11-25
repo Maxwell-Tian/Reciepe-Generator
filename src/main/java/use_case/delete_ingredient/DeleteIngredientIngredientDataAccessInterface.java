@@ -16,9 +16,8 @@ public interface DeleteIngredientIngredientDataAccessInterface {
     List<Ingredient> getCurrentIngredients();
 
     /**
-     * Sets the ingredients of the current user after removing ingredient.
-     * @param ingredients the new current ingredients; empty list indicates that current user has not added any
-     *                    ingredient.
+     * Delete the ingredient current user asked for.
+     * @param ingredient the ingredient needs to be deleted.
      */
-    void setCurrentIngredients(List<Ingredient> ingredients);
+    void deleteIngredient(Ingredient ingredient);
 }

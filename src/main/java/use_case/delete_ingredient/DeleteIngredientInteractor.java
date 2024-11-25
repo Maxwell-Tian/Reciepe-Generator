@@ -23,10 +23,9 @@ public class DeleteIngredientInteractor implements DeleteIngredientInputBoundary
         if (deleteIngredientInputData.getIngredient() == null) {
             deleteIngredientPresenter.prepareFailView("No ingredient selected");
         }
-        final List<Ingredient> ingredients = deleteIngredientInputData.getIngredients();
         final Ingredient ingredient = deleteIngredientInputData.getIngredient();
-        ingredients.remove(ingredient);
-        ingredientDataAccessObject.setCurrentIngredients(ingredients);
+        ingredientDataAccessObject.deleteIngredient(ingredient);
+        final List<Ingredient> ingredients = ingredientDataAccessObject.getCurrentIngredients();
         final DeleteIngredientOutputData deleteIngredientOutputData = new DeleteIngredientOutputData(ingredients,
                 ingredient, false);
         deleteIngredientPresenter.prepareSuccessView(deleteIngredientOutputData);
