@@ -37,7 +37,7 @@ public class AddorCancelIngredientInteractor implements AddorCancelIngredientInp
             final Ingredient ingredient = ingredientFactory.create(addorCancelIngredientInputData.getIngredientname(), addorCancelIngredientInputData.getExpirydate());
             ingredientDataAccessObject.save(ingredient);
 
-            final AddorCancelIngredientOutputData addorCancelIngredientOutputData = new AddorCancelIngredientOutputData(ingredient.getName(), false);
+            final AddorCancelIngredientOutputData addorCancelIngredientOutputData = new AddorCancelIngredientOutputData(ingredient, false);
             ingredientPresenter.prepareSuccessView(addorCancelIngredientOutputData);
         }
     }

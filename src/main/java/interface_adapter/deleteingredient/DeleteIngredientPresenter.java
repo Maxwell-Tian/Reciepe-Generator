@@ -26,7 +26,7 @@ public class DeleteIngredientPresenter implements DeleteIngredientOutputBoundary
     @Override
     public void prepareSuccessView(DeleteIngredientOutputData response){
         final InitialState initialState = viewModel.getState();
-        initialState.setIngredients(response.getIngredients());
+        initialState.deleteIngredient(response.getIngredient());
         this.viewModel.setState(initialState);
         this.viewModel.firePropertyChanged();
 

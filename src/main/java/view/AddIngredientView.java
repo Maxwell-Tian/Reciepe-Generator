@@ -29,7 +29,7 @@ public class AddIngredientView extends JPanel implements PropertyChangeListener 
 
     public AddIngredientView(AddorCancelIngredientViewModel addorCancelIngredientViewModel) {
         this.viewModel = addorCancelIngredientViewModel;
-        addorCancelIngredientViewModel.addPropertyChangeListener(this);
+        viewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel("Add Ingredient");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -50,7 +50,7 @@ public class AddIngredientView extends JPanel implements PropertyChangeListener 
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(add)) {
-                            final AddorCancelIngredientState currentState = addorCancelIngredientViewModel.getState();
+                            final AddorCancelIngredientState currentState = viewModel.getState();
 
                             controller.execute(
                                     currentState.getIngredientname(),

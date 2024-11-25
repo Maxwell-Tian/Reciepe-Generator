@@ -1,9 +1,16 @@
 package interface_adapter.addorcancelingredient;
 
+import entity.CommonIngredient;
+import entity.CommonIngredientFactory;
+import entity.Ingredient;
+import entity.IngredientFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.initial.InitialState;
 import interface_adapter.initial.InitialViewModel;
 import use_case.addorcancelingredient.AddorCancelIngredientOutputBoundary;
 import use_case.addorcancelingredient.AddorCancelIngredientOutputData;
+
+import java.util.List;
 
 /**
  * Presenter for the add or cancel ingredient use case.
@@ -23,10 +30,10 @@ public class AddorCancelIngredientPresenter implements AddorCancelIngredientOutp
     @Override
     public void prepareSuccessView(AddorCancelIngredientOutputData response) {
         // On success, switch to the Initial view.
-//        final InitialState initialState = initialViewModel.getState();
-//        initialState.setIngredientname(response.getIngredientname());
-//        this.initialViewModel.setState(initialState);
-//        initialViewModel.firePropertyChanged();
+        final InitialState initialState = initialViewModel.getState();
+        initialState.addIngredient(response.getIngredient());
+        this.initialViewModel.setState(initialState);
+        initialViewModel.firePropertyChanged();
 
         viewManagerModel.setState(initialViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
