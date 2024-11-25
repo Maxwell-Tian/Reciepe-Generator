@@ -1,5 +1,9 @@
 package use_case.recipe_management;
 
+import entity.Recipe;
+
+import java.util.List;
+
 /**
  * The Recipe Management Use Case.
  */
@@ -11,4 +15,5 @@ public interface RecipeManagementInputBoundary {
      */
     void execute(RecipeManagementInputData recipeManagementInputData);
 
+    List<Recipe> getCurrentRecipes();
 }

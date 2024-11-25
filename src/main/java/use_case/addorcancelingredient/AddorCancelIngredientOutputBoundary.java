@@ -8,6 +8,8 @@ public interface AddorCancelIngredientOutputBoundary {
 //     */
 //    void prepareSuccessView(AddorCancelIngredientOutputData outputData);
 
+    void prepareSuccessView(AddorCancelIngredientOutputData response);
+
     /**
      * Prepares the failure view for the add ingredient Use Case.
      * @param errorMessage the explanation of the failure

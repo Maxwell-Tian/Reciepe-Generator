@@ -2,6 +2,7 @@ package use_case.recipe_management;
 
 import entity.Recipe;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +23,7 @@ public class RecipeManagementInteractor implements RecipeManagementInputBoundary
      * @param recipeManagementInputData the input data for this use case
      */
     public void execute(RecipeManagementInputData recipeManagementInputData) {
-        Map<String, Integer> userIngredients = recipeManagementInputData.getUserIngredients();
+        Map<String, LocalDate> userIngredients = recipeManagementInputData.getUserIngredients();
         List<Recipe> allRecipes = recipeRepository.getCurrentRecipes();
         String category = recipeManagementInputData.getFilterCategory();
 
@@ -31,6 +32,11 @@ public class RecipeManagementInteractor implements RecipeManagementInputBoundary
 
         outputBoundary.presentRecipes(filteredRecipes);
         outputBoundary.presentSuccessMessage("Recommendations generated.");
+    }
+
+    @Override
+    public List<Recipe> getCurrentRecipes() {
+        return List.of();
     }
 
     private List<Recipe> filterRecipesByCategory(List<Recipe> recipes, String category) {
@@ -43,7 +49,7 @@ public class RecipeManagementInteractor implements RecipeManagementInputBoundary
         return filteredRecipes;
     }
 
-    private Map<String, List<String>> recommendRecipes(Map<String, Integer> userIngredients, List<Recipe> recipes) {
+    private Map<String, List<String>> recommendRecipes(Map<String, LocalDate> userIngredients, List<Recipe> recipes) {
         List<String> fullyMatchedRecipes = new ArrayList<>();
         List<String> partiallyMatchedRecipes = new ArrayList<>();
 
@@ -54,19 +60,19 @@ public class RecipeManagementInteractor implements RecipeManagementInputBoundary
 
             for (Map.Entry<String, Integer> entry : requiredIngredients.entrySet()) {
                 String ingredientName = entry.getKey();
-                int requiredQuantity = entry.getValue();
-                int availableQuantity = userIngredients.getOrDefault(ingredientName, 0);
+                LocalDate currenttime = LocalDate.ofEpochDay(entry.getValue());
+                LocalDate expiredate = userIngredients.getOrDefault(ingredientName, LocalDate.ofEpochDay(0));
 
-                if (availableQuantity < requiredQuantity) {
+                if (expiredate.isBefore(currenttime)) {
                     fullyMatched = false;
-                    missingIngredients.append(String.format("%s (%d needed), ", ingredientName, requiredQuantity - availableQuantity));
+                    missingIngredients.append(String.format("%s (%d food has expired), "));
                 }
             }
 
             if (fullyMatched) {
                 fullyMatchedRecipes.add(recipe.getName());
             } else {
-                partiallyMatchedRecipes.add(recipe.getName() + " - Missing: " + missingIngredients.toString());
+                partiallyMatchedRecipes.add(recipe.getName() + " - food has expired ");
             }
         }
 

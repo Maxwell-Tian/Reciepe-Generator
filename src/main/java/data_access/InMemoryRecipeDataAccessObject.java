@@ -4,6 +4,7 @@ import entity.CommonRecipe;
 import entity.Recipe;
 import use_case.recipe_management.RecipeManagementUserDataAccessInterface;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,12 +27,12 @@ public class InMemoryRecipeDataAccessObject implements RecipeManagementUserDataA
     }
 
     @Override
-    public void saveUserIngredients(Map<String, Integer> userIngredients) {
+    public void saveUserIngredients(Map<String, LocalDate> userIngredients) {
 
     }
 
     @Override
-    public Map<String, Integer> getUserIngredients() {
+    public Map<String, LocalDate> getUserIngredients() {
         return Map.of();
     }
 

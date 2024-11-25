@@ -18,8 +18,10 @@ import interface_adapter.initial.InitialViewModel;
 
 
 import interface_adapter.recipemanagement.RecipeInfoViewModel;
+import interface_adapter.recipemanagement.RecipeManagementController;
 import interface_adapter.recipemanagement.RecipeManagementViewModel;
 
+import use_case.addorcancelingredient.AddorCancelIngredientInteractor;
 import use_case.delete_ingredient.DeleteIngredientInputBoundary;
 import use_case.delete_ingredient.DeleteIngredientInteractor;
 import use_case.delete_ingredient.DeleteIngredientOutputBoundary;
@@ -27,6 +29,7 @@ import use_case.addorcancelingredient.AddorCancelIngredientInputBoundary;
 import use_case.addorcancelingredient.AddorCancelIngredientOutputBoundary;
 
 import data_access.InMemoryIngredientDataAccessObject;
+import use_case.recipe_management.RecipeManagementInteractor;
 import view.*;
 
 
@@ -90,15 +93,22 @@ public class AppBuilder {
 
 //    /**
 //     * Adds the RecipeListView to the application.
-//    * @return this builder
+//     * @return this builder
 //     */
 //    public AppBuilder addRecipeListView() {
-//        recipeListViewModel = new RecipeManagementViewModel();
-//        recipeListView = new RecipeListView(recipeListViewModel);
+//        RecipeManagementViewModel recipeListViewModel = new RecipeManagementViewModel();
+//
+//        RecipeManagementController recipeManagementController = new RecipeManagementController(
+//                new RecipeManagementInteractor(recipeRepository, outputBoundary)
+//        );
+//
+//        RecipeListView recipeListView = new RecipeListView(recipeListViewModel, recipeManagementController, cardLayout, cardPanel);
+//
 //        cardPanel.add(recipeListView, recipeListView.getViewName());
 //        return this;
 //    }
-
+//
+//
 //    /**
 //     * Adds the RecipeInfoView to the application.
 //     * @return this builder

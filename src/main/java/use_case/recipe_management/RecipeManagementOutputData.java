@@ -1,6 +1,8 @@
 package use_case.recipe_management;
 
 import entity.Recipe;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -11,9 +13,9 @@ public class RecipeManagementOutputData {
 
     private final List<Recipe> recipes;
     private final String message;
-    private final Map<String, List<String>> recommendations;
+    private final Map<String, List<LocalDate>> recommendations;
 
-    public RecipeManagementOutputData(List<Recipe> recipes, String message, Map<String, List<String>> recommendations) {
+    public RecipeManagementOutputData(List<Recipe> recipes, String message, Map<String, List<LocalDate>> recommendations) {
         this.recipes = recipes;
         this.message = message;
         this.recommendations = recommendations;
@@ -27,7 +29,7 @@ public class RecipeManagementOutputData {
         return message;
     }
 
-    public Map<String, List<String>> getRecommendations() {
+    public Map<String, List<LocalDate>> getRecommendations() {
         return recommendations;
     }
 

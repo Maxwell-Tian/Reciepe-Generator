@@ -26,13 +26,11 @@ public class RecipeInfoView extends JPanel implements ActionListener {
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        // Add title
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         this.add(titleLabel);
-        this.add(Box.createRigidArea(new Dimension(0, 20))); // Add spacing
+        this.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // Add details area
         detailsArea.setEditable(false);
         detailsArea.setLineWrap(true);
         detailsArea.setWrapStyleWord(true);
@@ -40,9 +38,8 @@ public class RecipeInfoView extends JPanel implements ActionListener {
         scrollPane.setPreferredSize(new Dimension(300, 200));
         scrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(scrollPane);
-        this.add(Box.createRigidArea(new Dimension(0, 20))); // Add spacing
+        this.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // Add back button
         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         backButton.setMaximumSize(new Dimension(200, 30));
         backButton.addActionListener(this);

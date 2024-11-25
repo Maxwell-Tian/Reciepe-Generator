@@ -1,16 +1,10 @@
 package interface_adapter.addorcancelingredient;
 
-import entity.CommonIngredient;
-import entity.CommonIngredientFactory;
-import entity.Ingredient;
-import entity.IngredientFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.initial.InitialState;
 import interface_adapter.initial.InitialViewModel;
 import use_case.addorcancelingredient.AddorCancelIngredientOutputBoundary;
 import use_case.addorcancelingredient.AddorCancelIngredientOutputData;
-
-import java.util.List;
 
 /**
  * Presenter for the add or cancel ingredient use case.

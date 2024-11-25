@@ -3,6 +3,7 @@ package use_case.recipe_management;
 import entity.Ingredient;
 import entity.Recipe;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -24,11 +25,11 @@ public interface RecipeManagementUserDataAccessInterface {
      * Save the user's ingredient data.
      * @param userIngredients a map of ingredient names and their quantities
      */
-    void saveUserIngredients(Map<String, Integer> userIngredients);
+    void saveUserIngredients(Map<String, LocalDate> userIngredients);
 
     /**
      * Get the user's ingredient data.
      * @return a map of ingredient names and their quantities
      */
-    Map<String, Integer> getUserIngredients();
+    Map<String, LocalDate> getUserIngredients();
 }

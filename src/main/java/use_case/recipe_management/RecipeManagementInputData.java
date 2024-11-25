@@ -1,6 +1,8 @@
 package use_case.recipe_management;
 
 import entity.Recipe;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -11,10 +13,9 @@ public class RecipeManagementInputData {
 
     private List<Recipe> recipes;
     private String filterCategory;
-    private Map<String, Integer> userIngredients; // 用户输入的原料及数量
+    private Map<String, LocalDate> userIngredients;
 
-    public RecipeManagementInputData(List<Recipe> recipes, String filterCategory, Map<String, Integer> userIngredients) {
-        this.recipes = recipes;
+    public RecipeManagementInputData(String filterCategory, Map<String, LocalDate> userIngredients) {
         this.filterCategory = filterCategory;
         this.userIngredients = userIngredients;
     }
@@ -35,11 +36,11 @@ public class RecipeManagementInputData {
         this.filterCategory = filterCategory;
     }
 
-    public Map<String, Integer> getUserIngredients() {
+    public Map<String, LocalDate> getUserIngredients() {
         return userIngredients;
     }
 
-    public void setUserIngredients(Map<String, Integer> userIngredients) {
+    public void setUserIngredients(Map<String, LocalDate> userIngredients) {
         this.userIngredients = userIngredients;
     }
 }
