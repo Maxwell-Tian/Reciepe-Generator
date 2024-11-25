@@ -1,12 +1,12 @@
 package app;
 
 import java.awt.*;
+import java.util.List;
 import javax.swing.*;
 
-import entity.UserFactory;
-import entity.CommonUserFactory;
-import entity.CommonIngredientFactory;
-import entity.IngredientFactory;
+import data_access.InMemoryRecipeDataAccessObject;
+import data_access.InMemoryRecipeManagementRepository;
+import entity.*;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.addorcancelingredient.AddorCancelIngredientController;
@@ -19,6 +19,7 @@ import interface_adapter.initial.InitialViewModel;
 
 import interface_adapter.recipemanagement.RecipeInfoViewModel;
 import interface_adapter.recipemanagement.RecipeManagementController;
+import interface_adapter.recipemanagement.RecipeManagementPresenter;
 import interface_adapter.recipemanagement.RecipeManagementViewModel;
 
 import use_case.addorcancelingredient.AddorCancelIngredientInteractor;
@@ -29,7 +30,10 @@ import use_case.addorcancelingredient.AddorCancelIngredientInputBoundary;
 import use_case.addorcancelingredient.AddorCancelIngredientOutputBoundary;
 
 import data_access.InMemoryIngredientDataAccessObject;
+import use_case.recipe_management.RecipeManagementInputBoundary;
 import use_case.recipe_management.RecipeManagementInteractor;
+import use_case.recipe_management.RecipeManagementOutputBoundary;
+import use_case.recipe_management.RecipeManagementUserDataAccessInterface;
 import view.*;
 
 
@@ -91,34 +95,31 @@ public class AppBuilder {
         return this;
     }
 
-//    /**
-//     * Adds the RecipeListView to the application.
-//     * @return this builder
-//     */
-//    public AppBuilder addRecipeListView() {
-//        RecipeManagementViewModel recipeListViewModel = new RecipeManagementViewModel();
-//
-//        RecipeManagementController recipeManagementController = new RecipeManagementController(
-//                new RecipeManagementInteractor(recipeRepository, outputBoundary)
-//        );
-//
-//        RecipeListView recipeListView = new RecipeListView(recipeListViewModel, recipeManagementController, cardLayout, cardPanel);
-//
-//        cardPanel.add(recipeListView, recipeListView.getViewName());
-//        return this;
-//    }
-//
-//
-//    /**
-//     * Adds the RecipeInfoView to the application.
-//     * @return this builder
-//     */
-//    public AppBuilder addRecipeInfoView() {
-//        RecipeInfoViewModel recipeInfoViewModel = new RecipeInfoViewModel();
-//        recipeInfoView = new RecipeInfoView(recipeInfoViewModel);
-//        cardPanel.add(recipeInfoView, recipeInfoView.getViewName());
-//        return this;
-//    }
+    /**
+     * Adds the RecipeListView to the application.
+     * @return this builder
+     */
+    public AppBuilder addRecipeListView() {
+        final RecipeInfoView recipeListView = new RecipeInfoView(cardLayout, cardPanel);
+
+        final List<Recipe> recipeRepository = new InMemoryRecipeManagementRepository().getCurrentRecipes();
+
+        cardPanel.add(recipeListView, recipeListView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the RecipeInfoView to the application.
+     * @return this builder
+     */
+    public AppBuilder addRecipeInfoView() {
+
+        final RecipeInfoView recipeInfoView = new RecipeInfoView(cardLayout, cardPanel);
+
+        cardPanel.add(recipeInfoView, recipeInfoView.getViewName());
+        return this;
+    }
+
 
     /**
      * Adds the AddorCancelIngredient Use Case to the application.

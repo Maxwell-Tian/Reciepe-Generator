@@ -11,28 +11,29 @@ import java.beans.PropertyChangeSupport;
  */
 public class RecipeInfoViewModel {
     private final PropertyChangeSupport support;
-    private Recipe currentRecipe;
+    private final RecipeInfoState state;
 
     public RecipeInfoViewModel() {
         this.support = new PropertyChangeSupport(this);
+        this.state = new RecipeInfoState(); // 初始化状态
     }
 
     /**
-     * Sets the current recipe and notifies listeners of the change.
+     * Sets the current recipe in the state and notifies listeners of the change.
      * @param recipe the new recipe to display
      */
     public void setCurrentRecipe(Recipe recipe) {
-        Recipe oldRecipe = this.currentRecipe;
-        this.currentRecipe = recipe;
+        Recipe oldRecipe = state.getCurrentRecipe();
+        state.setCurrentRecipe(recipe);
         support.firePropertyChange("currentRecipe", oldRecipe, recipe);
     }
 
     /**
-     * Gets the current recipe.
+     * Gets the current recipe from the state.
      * @return the current recipe
      */
     public Recipe getCurrentRecipe() {
-        return currentRecipe;
+        return state.getCurrentRecipe();
     }
 
     /**
@@ -51,7 +52,14 @@ public class RecipeInfoViewModel {
         support.removePropertyChangeListener(listener);
     }
 
+    /**
+     * Gets the view name for navigation purposes.
+     * @return the view name
+     */
     public String getViewName() {
-        return "RecipeInfoViewModel";
+        return "RecipeInfoView";
+    }
+
+    public void showRecipeDetails(Recipe recipe) {
     }
 }

@@ -2,6 +2,7 @@ package view;
 
 import entity.CommonRecipe;
 import entity.Recipe;
+import interface_adapter.recipemanagement.RecipeInfoViewModel;
 
 import javax.swing.*;
 import java.awt.*;

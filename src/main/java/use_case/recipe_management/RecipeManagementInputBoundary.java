@@ -13,7 +13,7 @@ public interface RecipeManagementInputBoundary {
      * Execute the Recipe Management Use Case.
      * @param recipeManagementInputData the input data for this use case
      */
-    void execute(RecipeManagementInputData recipeManagementInputData);
+    List<Recipe> execute(RecipeManagementInputData recipeManagementInputData);
 
     List<Recipe> getCurrentRecipes();
 }

@@ -1,5 +1,6 @@
 package use_case.recipe_management;
 
+import data_access.InMemoryRecipeManagementRepository;
 import entity.Recipe;
 
 import java.time.LocalDate;
@@ -9,10 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 public class RecipeManagementInteractor implements RecipeManagementInputBoundary {
-    private final RecipeManagementUserDataAccessInterface recipeRepository;
+    private final InMemoryRecipeManagementRepository recipeRepository;
     private final RecipeManagementOutputBoundary outputBoundary;
 
-    public RecipeManagementInteractor(RecipeManagementUserDataAccessInterface recipeRepository, RecipeManagementOutputBoundary outputBoundary) {
+    public RecipeManagementInteractor(InMemoryRecipeManagementRepository recipeRepository, RecipeManagementOutputBoundary outputBoundary) {
         this.recipeRepository = recipeRepository;
         this.outputBoundary = outputBoundary;
     }
@@ -21,8 +22,9 @@ public class RecipeManagementInteractor implements RecipeManagementInputBoundary
      * Execute the Recipe Management Use Case.
      *
      * @param recipeManagementInputData the input data for this use case
+     * @return
      */
-    public void execute(RecipeManagementInputData recipeManagementInputData) {
+    public List<Recipe> execute(RecipeManagementInputData recipeManagementInputData) {
         Map<String, LocalDate> userIngredients = recipeManagementInputData.getUserIngredients();
         List<Recipe> allRecipes = recipeRepository.getCurrentRecipes();
         String category = recipeManagementInputData.getFilterCategory();
@@ -32,6 +34,7 @@ public class RecipeManagementInteractor implements RecipeManagementInputBoundary
 
         outputBoundary.presentRecipes(filteredRecipes);
         outputBoundary.presentSuccessMessage("Recommendations generated.");
+        return allRecipes;
     }
 
     @Override

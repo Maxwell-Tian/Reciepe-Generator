@@ -16,6 +16,9 @@ public class RecipeManagementController {
     }
 
     public void execute(Map<String, LocalDate> userIngredients, String filterCategory) {
+        if (userIngredients == null || userIngredients.isEmpty()) {
+            throw new IllegalArgumentException("User ingredients cannot be null or empty");
+        }
         RecipeManagementInputData inputData = new RecipeManagementInputData(filterCategory, userIngredients);
         interactor.execute(inputData);
     }
