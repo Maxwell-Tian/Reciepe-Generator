@@ -16,7 +16,10 @@ import interface_adapter.deleteingredient.DeleteIngredientController;
 import interface_adapter.deleteingredient.DeleteIngredientPresenter;
 import interface_adapter.initial.InitialViewModel;
 
-import use_case.addorcancelingredient.AddorCancelIngredientInteractor;
+
+import interface_adapter.recipemanagement.RecipeInfoViewModel;
+import interface_adapter.recipemanagement.RecipeManagementViewModel;
+
 import use_case.delete_ingredient.DeleteIngredientInputBoundary;
 import use_case.delete_ingredient.DeleteIngredientInteractor;
 import use_case.delete_ingredient.DeleteIngredientOutputBoundary;
@@ -45,7 +48,8 @@ public class AppBuilder {
     private InitialView initialView;
     private InitialViewModel initialViewModel;
     private RecipeListView recipeListView;
-    private RecipeInfoView recipeInfoView;
+    private RecipeManagementViewModel recipeListViewModel;
+    private RecipeInfoViewModel recipeInfoView;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -86,11 +90,11 @@ public class AppBuilder {
 
 //    /**
 //     * Adds the RecipeListView to the application.
-//     * @return this builder
+//    * @return this builder
 //     */
 //    public AppBuilder addRecipeListView() {
 //        recipeListViewModel = new RecipeManagementViewModel();
-//        recipeListView = new RecipeListView();
+//        recipeListView = new RecipeListView(recipeListViewModel);
 //        cardPanel.add(recipeListView, recipeListView.getViewName());
 //        return this;
 //    }
@@ -100,8 +104,8 @@ public class AppBuilder {
 //     * @return this builder
 //     */
 //    public AppBuilder addRecipeInfoView() {
-//        recipeInfoView = new RecipeInfoViewModel();
-//        recipeInfoView = new RecipeInfoView(RecipeInfoViewModel);
+//        RecipeInfoViewModel recipeInfoViewModel = new RecipeInfoViewModel();
+//        recipeInfoView = new RecipeInfoView(recipeInfoViewModel);
 //        cardPanel.add(recipeInfoView, recipeInfoView.getViewName());
 //        return this;
 //    }

@@ -18,4 +18,7 @@ public interface Ingredient {
      * @return the expiration date of the ingredient.
      */
     LocalDate getExpiryDate();
+
+    void setName(String name);
+    void setExpiryDate(LocalDate expiryDate);
 }

@@ -21,4 +21,13 @@ public class CommonIngredient implements Ingredient{
     @Override
     public LocalDate getExpiryDate() {return expiryDate;}
 
+    @Override
+    public void setName(String name) {
+            //  Name is final
+    }
+
+    @Override
+    public void setExpiryDate(LocalDate expiryDate) {
+    }
+
 }

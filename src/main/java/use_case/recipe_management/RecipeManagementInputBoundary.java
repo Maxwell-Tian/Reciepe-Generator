@@ -1,14 +1,14 @@
 package use_case.recipe_management;
 
 /**
- * The Recipe Management User Case.
+ * The Recipe Management Use Case.
  */
 public interface RecipeManagementInputBoundary {
 
     /**
      * Execute the Recipe Management Use Case.
-     * @param RecipeManagementInputData the input data for this use case
+     * @param recipeManagementInputData the input data for this use case
      */
-    void execute(RecipeManagementInputData RecipeManagementInputData);
+    void execute(RecipeManagementInputData recipeManagementInputData);
 
 }

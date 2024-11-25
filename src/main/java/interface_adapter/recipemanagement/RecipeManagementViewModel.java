@@ -1,7 +1,6 @@
-package interface_adapter.generaterecipe;
+package interface_adapter.recipemanagement;
 
 import interface_adapter.ViewModel;
-import interface_adapter.addorcancelingredient.AddorCancelIngredientState;
 
 public class RecipeManagementViewModel extends ViewModel<RecipeManagementState> {
     public RecipeManagementViewModel() {

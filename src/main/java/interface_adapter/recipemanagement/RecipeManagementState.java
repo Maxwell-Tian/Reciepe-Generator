@@ -1,4 +1,4 @@
-package interface_adapter.generaterecipe;
+package interface_adapter.recipemanagement;
 
 public class RecipeManagementState {
     @Override
