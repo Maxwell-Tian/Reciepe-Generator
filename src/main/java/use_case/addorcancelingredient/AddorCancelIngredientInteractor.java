@@ -3,6 +3,7 @@ package use_case.addorcancelingredient;
 import entity.Ingredient;
 import entity.IngredientFactory;
 
+import javax.swing.*;
 import java.time.LocalDate;
 
 /**
@@ -39,6 +40,8 @@ public class AddorCancelIngredientInteractor implements AddorCancelIngredientInp
 
             final AddorCancelIngredientOutputData addorCancelIngredientOutputData = new AddorCancelIngredientOutputData(ingredient, false);
             ingredientPresenter.prepareSuccessView(addorCancelIngredientOutputData);
+          
+            ingredientPresenter.switchToInitialView();
         }
     }
 
@@ -47,3 +50,4 @@ public class AddorCancelIngredientInteractor implements AddorCancelIngredientInp
         ingredientPresenter.switchToInitialView();
     }
 }
+

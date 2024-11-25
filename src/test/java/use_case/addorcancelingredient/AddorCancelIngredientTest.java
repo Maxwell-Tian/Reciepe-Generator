@@ -2,16 +2,18 @@ package use_case.addorcancelingredient;
 
 import data_access.InMemoryIngredientDataAccessObject;
 import entity.*;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.time.LocalDate;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AddorCancelIngredientTest {
 
     @Test
-    void successTest() {
+    public void successTest() {
         AddorCancelIngredientInputData inputData = new AddorCancelIngredientInputData("tomato", "2025-02-22");
         AddorCancelIngredientIngredientDataAccessInterface ingredientRepository = new InMemoryIngredientDataAccessObject();
 
@@ -40,7 +42,7 @@ public class AddorCancelIngredientTest {
     }
 
     @Test
-    void failureExpiredTest() {
+    public void failureExpiredTest() {
         AddorCancelIngredientInputData inputData = new AddorCancelIngredientInputData("tomato", "2005-02-22");
         AddorCancelIngredientIngredientDataAccessInterface ingredientRepository = new InMemoryIngredientDataAccessObject();
 
@@ -68,7 +70,7 @@ public class AddorCancelIngredientTest {
     }
 
     @Test
-    void failureUserExistsTest() {
+    public void failureUserExistsTest() {
         AddorCancelIngredientInputData inputData = new AddorCancelIngredientInputData("tomato", "2024-12-5");
         AddorCancelIngredientIngredientDataAccessInterface ingredientRepository = new InMemoryIngredientDataAccessObject();
 
