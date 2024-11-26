@@ -103,8 +103,8 @@ public class AppBuilder {
      */
     public AppBuilder addRecipeListView() {
         recipeInfoView = new RecipeInfoView(cardLayout, cardPanel);
-        final RecipeManagementPresenter presenter = new RecipeManagementPresenter();
-        final RecipeManagementInteractor interactor = new RecipeManagementInteractor(recipeRepository, presenter);
+        final RecipeManagementOutputBoundary recipeManagementOutputBoundary = new RecipeManagementPresenter();
+        final RecipeManagementInputBoundary interactor = new RecipeManagementInteractor(recipeRepository, recipeManagementOutputBoundary);
         final List<Recipe> controller = new RecipeManagementController(interactor).getCurrentRecipes();
 
         recipeListView = new RecipeListView(controller, recipeInfoView, cardLayout, cardPanel);
