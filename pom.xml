@@ -8,7 +8,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <java.version>17</java.version> <!-- version of JDK file -->
+        <java.version>22</java.version> <!-- version of JDK file -->
     </properties>
 
     <dependencies>
@@ -29,6 +29,13 @@
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
             <version>4.12.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.0</version> <!-- Replace with the latest version -->
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
