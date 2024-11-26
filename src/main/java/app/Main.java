@@ -11,7 +11,8 @@ public class Main {
      * @param args unused arguments
      */
     public static void main(String[] args) {
-        final AppBuilder appBuilder = new AppBuilder();
+        String csvPath = System.getProperty("user.dir") + "/data/ingredients.csv";
+        final AppBuilder appBuilder = new AppBuilder(csvPath);
 
         final JFrame application = appBuilder
                                             .addInitialView()
@@ -20,7 +21,7 @@ public class Main {
                                             .addSAoCIUseCase()
                                             .addDeleteIngredientUseCase()
                                             .addRecipeInfoView()
-                                            .addRecipeListView()
+//                                            .addRecipeListView()
 //                                            .addExpirationWarningView() // this could be a JDialog!!!!!!!!!!
                                             .build();
 

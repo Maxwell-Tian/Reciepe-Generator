@@ -46,7 +46,7 @@ public class FileIngredientDataAccessObject implements AddorCancelIngredientIngr
                     LocalDate expiryDate = LocalDate.parse(expiryDateString, DateTimeFormatter.ISO_LOCAL_DATE);
                     final Ingredient ingredient = ingredientFactory.create(ingredientName, expiryDate);
                     ingredients.put(ingredientName, ingredient);
-                    currentIngredients.add(ingredient);  // Add to currentIngredients list
+                    currentIngredients.add(ingredient);
                 }
             }
         }

@@ -1,9 +1,12 @@
 package app;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import javax.swing.*;
 
+import data_access.FileIngredientDataAccessObject;
 import data_access.InMemoryRecipeDataAccessObject;
 import data_access.InMemoryRecipeManagementRepository;
 import entity.*;
@@ -46,8 +49,9 @@ public class AppBuilder {
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
-    private final InMemoryIngredientDataAccessObject ingredientDataAccessObject =
+    private final InMemoryIngredientDataAccessObject memoryIngredientDataAccessObject =
             new InMemoryIngredientDataAccessObject();
+    private final FileIngredientDataAccessObject ingredientDataAccessObject;
 
     final List<Recipe> recipeRepository = new InMemoryRecipeManagementRepository().getCurrentRecipes();
 
@@ -57,11 +61,30 @@ public class AppBuilder {
     private InitialView initialView;
     private InitialViewModel initialViewModel;
     private RecipeListView recipeListView;
+    private RecipeManagementViewModel recipeManagementViewModel;
     private RecipeManagementViewModel recipeListViewModel;
     private RecipeInfoView recipeInfoView;
 
-    public AppBuilder() {
+    public AppBuilder(String csvPath) {
         cardPanel.setLayout(cardLayout);
+        try {
+            File csvFile = new File(csvPath);
+
+            if (!csvFile.exists()) {
+                // Create the file if it doesn't exist
+                File parentDir = csvFile.getParentFile();
+                if (parentDir != null && !parentDir.exists()) {
+                    parentDir.mkdirs(); // Create parent directories if necessary
+                }
+                if (csvFile.createNewFile()) {
+                    System.out.println("File created at: " + csvFile.getAbsolutePath());
+                }
+            }
+
+            ingredientDataAccessObject = new FileIngredientDataAccessObject(csvPath, ingredientFactory);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to initialize FileIngredientDataAccessObject", e);
+        }
     }
 
     /**
@@ -92,26 +115,28 @@ public class AppBuilder {
      */
     public AppBuilder addInitialView() {
         initialViewModel = new InitialViewModel();
-        initialView = new InitialView(initialViewModel);
+        initialView = new InitialView(initialViewModel, ingredientDataAccessObject);
         cardPanel.add(initialView, initialView.getViewName());
         return this;
     }
 
-    /**
-     * Adds the RecipeListView to the application.
-     * @return this builder
-     */
-    public AppBuilder addRecipeListView() {
-        recipeInfoView = new RecipeInfoView(cardLayout, cardPanel);
-        final RecipeManagementPresenter presenter = new RecipeManagementPresenter();
-        final RecipeManagementInteractor interactor = new RecipeManagementInteractor(recipeRepository, presenter);
-        final List<Recipe> controller = new RecipeManagementController(interactor).getCurrentRecipes();
-
-        recipeListView = new RecipeListView(controller, recipeInfoView, cardLayout, cardPanel);
-
-        cardPanel.add(recipeListView, recipeListView.getViewName());
-        return this;
-    }
+//    /**
+//     * Adds the RecipeListView to the application.
+//     * @return this builder
+//     */
+//    public AppBuilder addRecipeListView() {
+//        recipeInfoView = new RecipeInfoView(cardLayout, cardPanel);
+//        recipeManagementViewModel = new RecipeManagementViewModel();
+//        final RecipeManagementOutputBoundary recipeManagementOutputBoundary = new RecipeManagementPresenter();
+//        final RecipeManagementInputBoundary interactor = new RecipeManagementInteractor(recipeRepository,
+//                recipeManagementOutputBoundary);
+//        final List<Recipe> controller = new RecipeManagementController(interactor).getCurrentRecipes();
+//
+//        recipeListView = new RecipeListView(controller, recipeInfoView, cardLayout, cardPanel);
+//
+//        cardPanel.add(recipeListView, recipeListView.getViewName());
+//        return this;
+//    }
 
     /**
      * Adds the RecipeInfoView to the application.
@@ -146,7 +171,8 @@ public class AppBuilder {
      */
     public AppBuilder addDeleteIngredientUseCase() {
         final DeleteIngredientOutputBoundary deleteIngredientOutputBoundary =
-                new DeleteIngredientPresenter(initialViewModel, addIngredientViewModel, viewManagerModel);
+                new DeleteIngredientPresenter(initialViewModel, addIngredientViewModel, recipeListViewModel,
+                        viewManagerModel);
         final DeleteIngredientInputBoundary deleteIngredientInteractor =
                 new DeleteIngredientInteractor(ingredientDataAccessObject, deleteIngredientOutputBoundary);
 
