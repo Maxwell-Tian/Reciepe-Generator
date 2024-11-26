@@ -97,39 +97,31 @@ public class AppBuilder {
         return this;
     }
 
-//    /**
-//     * Adds the RecipeListView to the application.
-//     * @return this builder
-//     */
-//    public AppBuilder addRecipeListView() {
-//        // 初始化 RecipeInfoView
-//        recipeInfoView = new RecipeInfoView(cardLayout, cardPanel);
-//
-//        // 初始化 RecipeManagementViewModel 和 Controller
-//        final RecipeManagementViewModel recipeListViewModel = new RecipeManagementViewModel();
-//        final RecipeManagementPresenter presenter = new RecipeManagementPresenter();
-//        final RecipeManagementInputBoundary interactor = new RecipeManagementInteractor(recipeRepository, presenter);
-//        final List<Recipe> controller = new RecipeManagementController(interactor);
-//
-//        // 创建 RecipeListView
-//        recipeListView = new RecipeListView(controller, recipeListViewModel, cardLayout, cardPanel);
-//
-//        // 添加到 CardPanel
-//        cardPanel.add(recipeListView, recipeListView.getViewName());
-//        return this;
-//    }
-//
-//    /**
-//     * Adds the RecipeInfoView to the application.
-//     * @return this builder
-//     */
-//    public AppBuilder addRecipeInfoView() {
-//        recipeInfoView = new RecipeInfoView(cardLayout, cardPanel);
-//
-//        // 添加到 CardPanel
-//        cardPanel.add(recipeInfoView, recipeInfoView.getViewName());
-//        return this;
-//    }
+    /**
+     * Adds the RecipeListView to the application.
+     * @return this builder
+     */
+    public AppBuilder addRecipeListView() {
+        recipeInfoView = new RecipeInfoView(cardLayout, cardPanel);
+        final RecipeManagementPresenter presenter = new RecipeManagementPresenter();
+        final RecipeManagementInteractor interactor = new RecipeManagementInteractor(recipeRepository, presenter);
+        final List<Recipe> controller = new RecipeManagementController(interactor).getCurrentRecipes();
+
+        recipeListView = new RecipeListView(controller, recipeInfoView, cardLayout, cardPanel);
+
+        cardPanel.add(recipeListView, recipeListView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the RecipeInfoView to the application.
+     * @return this builder
+     */
+    public AppBuilder addRecipeInfoView() {
+        recipeInfoView = new RecipeInfoView(cardLayout, cardPanel);
+        cardPanel.add(recipeInfoView, recipeInfoView.getViewName());
+        return this;
+    }
 
 
 
