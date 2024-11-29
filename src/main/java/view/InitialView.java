@@ -23,6 +23,9 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
     private FileIngredientDataAccessObject ingredientsDataAccessObject;
     private String deletedIngredient;
 
+    JPanel ingredientsPanel;
+    JPanel topPanel;
+    final JLabel title;
     private final JButton addIngredient;
     private final JButton generateRecipe;
 
@@ -33,10 +36,10 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
         this.ingredientsDataAccessObject = ingredientDataAccessObject;
         initialViewModel.getState().setIngredients(ingredientsDataAccessObject.getAllIngredients());
 
-        final JLabel title = new JLabel(initialViewModel.TITLE_LABEL);
+        title = new JLabel(initialViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JPanel topPanel = new JPanel();
+        topPanel = new JPanel();
         addIngredient = new JButton(initialViewModel.ADD_INGREDIENT_BUTTON_LABEL);
         topPanel.add(addIngredient);
         generateRecipe = new JButton(initialViewModel.GENERATE_RECIPE_BUTTON_LABEL);
@@ -57,7 +60,9 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
                 }
         );
 
-        JPanel ingredientsPanel = new JPanel();
+        ingredientsPanel = new JPanel();
+        ingredientsPanel.setLayout(new BoxLayout(ingredientsPanel, BoxLayout.Y_AXIS));
+
         if (initialViewModel.getState().getIngredients() != null &&
                 !initialViewModel.getState().getIngredients().isEmpty()) {
             for (Ingredient ingredient : initialViewModel.getState().getIngredients()) {
@@ -83,8 +88,6 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
         }
 
         JScrollPane ingredientsScroll = new JScrollPane(ingredientsPanel);
-        ingredientsPanel.setLayout(new BoxLayout(ingredientsPanel, BoxLayout.Y_AXIS));
-
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(topPanel);
@@ -100,14 +103,15 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
+        InitialState state = (InitialState) evt.getNewValue();
         if ("ingredients".equals(evt.getPropertyName())) {
             System.out.println(deletedIngredient + " has been deleted!");
         }
 
-        JPanel ingredientsPanel = new JPanel();
-        if (initialViewModel.getState().getIngredients() != null &&
-                !initialViewModel.getState().getIngredients().isEmpty()) {
-            for (Ingredient ingredient : initialViewModel.getState().getIngredients()) {
+        ingredientsPanel.removeAll();
+        if (state.getIngredients() != null &&
+                !state.getIngredients().isEmpty()) {
+            for (Ingredient ingredient : state.getIngredients()) {
                 JPanel ingredientPanel = new JPanel();
                 JLabel ingredientName = new JLabel(ingredient.getName());
                 JButton deleteButton = new JButton("delete");
@@ -125,15 +129,8 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
         } else {JLabel noIngredient = new JLabel("No ingredients ");
             ingredientsPanel.add(noIngredient);
             noIngredient.setAlignmentX(Component.CENTER_ALIGNMENT);}
-
-        JScrollPane ingredientsScroll = new JScrollPane(ingredientsPanel);
-        ingredientsPanel.setLayout(new BoxLayout(ingredientsPanel, BoxLayout.Y_AXIS));
-
-        this.remove(2);
-        this.add(ingredientsScroll);
-
-        this.revalidate();
-        this.repaint();
+        ingredientsPanel.repaint();
+        ingredientsPanel.revalidate();
     }
 
     public String getViewName(){ return viewName;}

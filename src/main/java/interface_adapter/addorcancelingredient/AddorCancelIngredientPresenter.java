@@ -23,9 +23,6 @@ public class AddorCancelIngredientPresenter implements AddorCancelIngredientOutp
 
     @Override
     public void prepareSuccessView(AddorCancelIngredientOutputData response) {
-        final InitialState initialState = initialViewModel.getState();
-        initialState.addIngredient(response.getIngredient());
-        initialViewModel.setState(initialState);
         initialViewModel.firePropertyChanged();
 
         viewManagerModel.setState(initialViewModel.getViewName());

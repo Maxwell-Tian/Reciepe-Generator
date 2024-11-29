@@ -54,11 +54,9 @@ public class FileIngredientDataAccessObject implements AddorCancelIngredientIngr
 
     private void save() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile))) {
-            // Write the header
             writer.write(String.join(",", headers.keySet()));
             writer.newLine();
 
-            // Write the remaining ingredients after deletion
             for (Ingredient ingredient : ingredients.values()) {
                 String line = String.format("%s,%s", ingredient.getName(), ingredient.getExpiryDate().toString());
                 writer.write(line);
@@ -78,7 +76,7 @@ public class FileIngredientDataAccessObject implements AddorCancelIngredientIngr
                 }
                 if (csvFile.createNewFile()) {
                     System.out.println("File created at: " + csvFile.getAbsolutePath());
-                    initializeFileContent(csvFile); // Add headers or default content if necessary
+                    initializeFileContent(csvFile);
                 }
             }
         } catch (IOException e) {
@@ -90,7 +88,7 @@ public class FileIngredientDataAccessObject implements AddorCancelIngredientIngr
         try (FileWriter writer = new FileWriter(file)) {
             writer.write("IngredientName,ExpiryDate\n");
         } catch (IOException e) {
-            throw new RuntimeException("Failed to initialize file content for " + file.getPath(), e);
+            throw new RuntimeException();
         }
     }
 
