@@ -3,6 +3,7 @@ package data;
 //import entity.CommonIngredient;
 
 import entity.CommonIngredient;
+import entity.Ingredient;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -14,9 +15,9 @@ import java.util.Scanner;
 
 public class txtConnector implements Connector {
     private final String fileName = "Data.txt";
-    private CommonIngredient ingredient;
+    private Ingredient ingredient;
 
-    public txtConnector(CommonIngredient ingredient) {
+    public txtConnector(Ingredient ingredient) {
         this.ingredient = ingredient;
     }
 
@@ -25,10 +26,10 @@ public class txtConnector implements Connector {
         try {
             FileWriter fw = new FileWriter(fileName, true);
             if (ingredient.getName().contains("|")){
-                throw new IOException("name format error");
+                throw new IOException("name format error: " + this.ingredient.getName());
             }
             if (finder()) {
-                throw new IOException("repeated name error");
+                throw new IOException("repeated name error: " + this.ingredient.getName());
             }
             fw.write(ingredient.getName()+"|"+ingredient.getExpiryDate());
             fw.write(System.lineSeparator());
@@ -42,7 +43,7 @@ public class txtConnector implements Connector {
     public void delete() {
         try {
             if (!finder()) {
-                throw new IOException("ingredient not found");
+                throw new IOException("ingredient not found: " + this.ingredient.getName());
             }
             List<String> lines = Files.readAllLines(Paths.get(fileName));
             List<String> updatedLines = new ArrayList<>();
@@ -67,7 +68,7 @@ public class txtConnector implements Connector {
                     return LocalDate.parse(line.split("\\|")[1]);
                 }
             }
-            throw new IOException("Ingredient not found");
+            throw new IOException("Ingredient not found: " + this.ingredient.getName());
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -81,7 +82,6 @@ public class txtConnector implements Connector {
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             String ingredientName = line.split("\\|")[0];
-            System.out.println("ingredient name = " + ingredientName);
             if (ingredientName.equals(ingredient.getName())){
                 return true;
             }
