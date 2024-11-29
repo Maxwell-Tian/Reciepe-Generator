@@ -3,7 +3,7 @@ import entity.Ingredient;
 import use_case.expired_food.CheckExpiredIngredientInteractor;
 import java.util.List;
 
-class ExpirationWarningController {
+public class ExpirationWarningController {
     private final CheckExpiredIngredientInteractor interactor;
 
     public ExpirationWarningController(CheckExpiredIngredientInteractor interactor) {
