@@ -9,18 +9,11 @@ import java.util.List;
 
 public class InitialState {
     private List<Ingredient> ingredients = new ArrayList<>();
-//    private List<String> ingredientNames;
     private final txtConnector ingredientDataAccessObject = new txtConnector();
+    private String errorMessage;
 
     public List<Ingredient> getIngredients() {
         return ingredients;
-    }
-
-    public void addIngredient(Ingredient ingredient) {
-        if (ingredients == null) {
-            ingredients = new ArrayList<>();
-        }
-        this.ingredients.add(ingredient);
     }
 
     public void populateIngredients() throws FileNotFoundException {
@@ -30,9 +23,15 @@ public class InitialState {
         }
     }
 
+    public String getErrorMessage() {return errorMessage;}
+
+    public void setError(String errorMessage) {this.errorMessage = errorMessage;}
+
     public void deleteIngredient(Ingredient ingredient) {
-        this.ingredients.remove(ingredient);
+        ingredients.remove(ingredient);
     }
 
     public void setIngredients(List<Ingredient> ingredients) {this.ingredients = ingredients;}
+
+    public void addIngredient(Ingredient ingredient) {ingredients.add(ingredient);}
 }

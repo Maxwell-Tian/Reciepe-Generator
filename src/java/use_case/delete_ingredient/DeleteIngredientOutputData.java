@@ -11,6 +11,7 @@ public class DeleteIngredientOutputData {
 
     private final List<Ingredient> ingredients;
     private final Ingredient ingredient;
+    private String errorMessage;
     private final boolean useCaseFailed;
 
     public DeleteIngredientOutputData(List<Ingredient> ingredients, Ingredient ingredient, boolean useCaseFailed) {
@@ -25,7 +26,11 @@ public class DeleteIngredientOutputData {
         return ingredient;
     }
 
-    boolean getUseCaseFailed() {
+    public String getErrorMessage() {return errorMessage;}
+
+    public void setError(String errorMessage) {this.errorMessage = errorMessage;}
+
+    boolean isUseCaseFailed() {
         return useCaseFailed;
     }
 }

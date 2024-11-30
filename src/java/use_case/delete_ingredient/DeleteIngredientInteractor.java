@@ -21,9 +21,6 @@ public class DeleteIngredientInteractor implements DeleteIngredientInputBoundary
 
     @Override
     public void execute(DeleteIngredientInputData deleteIngredientInputData) throws FileNotFoundException {
-        if (deleteIngredientInputData.getIngredient() == null) {
-            deleteIngredientPresenter.prepareFailView("No ingredient selected");
-        }
         final Ingredient ingredient = deleteIngredientInputData.getIngredient();
         ingredientDataAccessObject.deleteIngredient(ingredient);
         final List<Ingredient> ingredients = ingredientDataAccessObject.getCurrentIngredients();
