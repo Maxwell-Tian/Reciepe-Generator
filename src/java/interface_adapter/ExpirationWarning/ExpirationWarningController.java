@@ -1,4 +1,4 @@
-package interface_adapter.ExpirationWarning;
+package java.interface_adapter.ExpirationWarning;
 import entity.Ingredient;
 import use_case.expired_food.CheckExpiredIngredientInteractor;
 import java.util.List;

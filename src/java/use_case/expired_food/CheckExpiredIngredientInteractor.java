@@ -3,6 +3,7 @@ package use_case.expired_food;
 import entity.Ingredient;
 
 import java.time.LocalDate;
+import java.use_case.expired_food.CheckExpiredIngredientUserDataAccessInterface;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -29,7 +30,9 @@ public class CheckExpiredIngredientInteractor {
 
     public void deleteIngredients(List<Ingredient> ingredientsToDelete) {
         List<Ingredient> currentIngredients = dataAccess.getAllIngredients();
-        currentIngredients.removeAll(ingredientsToDelete);
+        for (Ingredient ingredient : ingredientsToDelete) {
+            currentIngredients.remove(ingredient);
+        }
         dataAccess.setIngredients(currentIngredients);
     }
 }

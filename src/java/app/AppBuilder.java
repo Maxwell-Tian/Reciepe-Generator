@@ -2,6 +2,7 @@ package app;
 
 import java.awt.*;
 import java.util.List;
+import java.view.ExpirationWarningView;
 import javax.swing.*;
 
 import data_access.InMemoryRecipeDataAccessObject;
@@ -191,5 +192,11 @@ public class AppBuilder {
         viewManagerModel.firePropertyChanged();
 
         return application;
+    }
+
+    public AppBuilder addExpirationWarningView(use_case.expired_food.CheckExpiredIngredientInteractor interactor) {
+        ExpirationWarningView expirationWarningView = new ExpirationWarningView(cardLayout, cardPanel, interactor);
+        cardPanel.add(expirationWarningView, "ExpirationWarningView");
+        return this;
     }
 }
