@@ -1,4 +1,4 @@
-package use_case.expired_food;
+package java.use_case.expired_food;
 
 public class ExpiredIngredientOutputData {
     private final String ingredientName;

@@ -1,9 +1,10 @@
-package view;
+package java.view;
 
 import entity.CommonIngredient;
 import entity.Ingredient;
+import java.interface_adapter.ExpirationWarning.ExpirationWarningController;
 import use_case.expired_food.CheckExpiredIngredientInteractor;
-import use_case.expired_food.CheckExpiredIngredientUserDataAccessInterface;
+import java.use_case.expired_food.CheckExpiredIngredientUserDataAccessInterface;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,15 +14,20 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 
-public class ExpirationWarningView extends JFrame {
+public class ExpirationWarningView extends JPanel {
     private final CheckExpiredIngredientInteractor interactor;
+    private final CardLayout cardLayout;
+    private final JPanel parentPanel;
+    private final ExpirationWarningController controller;
 
-    public ExpirationWarningView(CheckExpiredIngredientInteractor interactor) {
+    public ExpirationWarningView(CardLayout cardLayout, JPanel parentPanel, CheckExpiredIngredientInteractor interactor) {
         this.interactor = interactor;
-        setTitle("Expiration Warning");
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.cardLayout = cardLayout;
+        this.parentPanel = parentPanel;
+        this.controller = new ExpirationWarningController(interactor);
+
         setLayout(new BorderLayout());
+        setSize(400, 300);
 
         // Get expired ingredients
         List<Ingredient> expiredList = interactor.execute();
@@ -29,7 +35,6 @@ public class ExpirationWarningView extends JFrame {
         // Create a panel for displaying expired ingredients with checkboxes
         JPanel expiredPanel = new JPanel();
         expiredPanel.setLayout(new BoxLayout(expiredPanel, BoxLayout.Y_AXIS));
-
         List<JCheckBox> checkBoxes = new ArrayList<>();
 
         if (expiredList.isEmpty()) {
@@ -40,62 +45,39 @@ public class ExpirationWarningView extends JFrame {
                 JCheckBox expiredCheckBox = new JCheckBox(ingredient.getName() + " (Expiry Date: " + ingredient.getExpiryDate() + ")");
                 checkBoxes.add(expiredCheckBox);
                 expiredPanel.add(expiredCheckBox);
+
+                expiredCheckBox.addItemListener(e -> {
+                    if (expiredCheckBox.isSelected()) {
+                        int confirm = JOptionPane.showConfirmDialog(
+                                this,
+                                "Are you sure you want to delete " + ingredient.getName() + "?",
+                                "Confirm Deletion",
+                                JOptionPane.YES_NO_OPTION
+                        );
+
+                        if (confirm == JOptionPane.YES_OPTION) {
+                            controller.deleteSelectedIngredients(List.of(ingredient)); // 使用控制器删除
+                            expiredPanel.remove(expiredCheckBox);
+                            expiredPanel.revalidate();
+                            expiredPanel.repaint();
+                        } else {
+                            expiredCheckBox.setSelected(false);  // Deselect if user cancels
+                        }
+                    }
+                });
             }
         }
 
         add(new JScrollPane(expiredPanel), BorderLayout.CENTER);
 
-        // Create a button to delete expired ingredients
-        JButton deleteButton = new JButton("Delete Selected");
-        deleteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                List<Ingredient> ingredientsToDelete = new ArrayList<>();
-                for (int i = 0; i < checkBoxes.size(); i++) {
-                    if (checkBoxes.get(i).isSelected()) {
-                        ingredientsToDelete.add(expiredList.get(i));
-                    }
-                }
-                interactor.deleteIngredients(ingredientsToDelete);
-                dispose();
-            }
-        });
-        add(deleteButton, BorderLayout.SOUTH);
-
-        // Create a button to go back to the initial view
         JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                cardLayout.show(parentPanel, "initial view");  // Navigate back to InitialView using CardLayout
             }
         });
-        add(backButton, BorderLayout.NORTH);
 
-        setVisible(true);
-    }
-    public static void main(String[] args) {
-        // Example data access implementation
-        CheckExpiredIngredientUserDataAccessInterface dataAccess = new CheckExpiredIngredientUserDataAccessInterface() {
-            private List<Ingredient> ingredients = new ArrayList<>();
-
-            {
-                ingredients.add(new CommonIngredient("Tomato", LocalDate.of(2024, 11, 20)));
-                ingredients.add(new CommonIngredient("Onion", LocalDate.of(2024, 11, 25)));
-            }
-
-            @Override
-            public List<Ingredient> getAllIngredients() {
-                return new ArrayList<>(ingredients);
-            }
-
-            @Override
-            public void setIngredients(List<Ingredient> ingredients) {
-                this.ingredients = new ArrayList<>(ingredients);
-            }
-        };
-
-        CheckExpiredIngredientInteractor interactor = new CheckExpiredIngredientInteractor(dataAccess);
-        SwingUtilities.invokeLater(() -> new ExpirationWarningView(interactor));
+        add(backButton, BorderLayout.SOUTH);
     }
 }
