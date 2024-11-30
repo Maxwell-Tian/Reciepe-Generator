@@ -16,10 +16,6 @@ public class DeleteIngredientInputData {
         this.ingredient = ingredient;
     }
 
-    List<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
     public Ingredient getIngredient() {
         return ingredient;
     }
