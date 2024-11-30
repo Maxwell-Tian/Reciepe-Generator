@@ -17,10 +17,10 @@ public class Main {
                                             .addInitialView()
                                             .addAddIngredientView()
 //                                            .addDeleteIngredientReminderView()
+                                            .addRecipeListView()
                                             .addSAoCIUseCase()
                                             .addDeleteIngredientUseCase()
-                                            .addRecipeInfoView()
-                                            .addRecipeListView()
+                                            .generateRecipeUseCase()
 //                                            .addExpirationWarningView() // this could be a JDialog!!!!!!!!!!
                                             .build();
 
