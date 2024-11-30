@@ -29,7 +29,6 @@ public class RecipeManagementInteractor implements RecipeManagementInputBoundary
      */
     public List<Recipe> execute(RecipeManagementInputData recipeManagementInputData) {
         Map<String, LocalDate> userIngredients = recipeManagementInputData.getUserIngredients();
-        recipeDataAccessObject.populateAllRecipes();
         List<Recipe> allRecipes = recipeDataAccessObject.getCurrentRecipes();
         String category = recipeManagementInputData.getFilterCategory();
 
