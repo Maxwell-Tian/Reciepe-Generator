@@ -5,9 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.FileNotFoundException;
 
 import javax.swing.*;
 
+import data.txtConnector;
 import entity.Ingredient;
 import interface_adapter.deleteingredient.DeleteIngredientController;
 import interface_adapter.initial.InitialState;
@@ -54,6 +56,11 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
         );
 
         JPanel ingredientsPanel = new JPanel();
+        try {
+            initialViewModel.getState().populateIngredients();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         if (initialViewModel.getState().getIngredients() != null) {
             for (Ingredient ingredient : initialViewModel.getState().getIngredients()) {
                 JPanel ingredientPanel = new JPanel();
@@ -62,7 +69,11 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
                 deleteButton.addActionListener(
                         evt -> {
                             InitialState currentState = initialViewModel.getState();
-                            this.deleteIngredientController.execute(currentState.getIngredients(), ingredient);
+                            try {
+                                this.deleteIngredientController.execute(currentState.getIngredients(), ingredient);
+                            } catch (FileNotFoundException e) {
+                                throw new RuntimeException(e);
+                            }
                             deletedIngredient = ingredient.getName();
                         }
                 );
@@ -98,6 +109,7 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
         }
 
         JPanel ingredientsPanel = new JPanel();
+
         if (initialViewModel.getState().getIngredients() != null) {
             for (Ingredient ingredient : initialViewModel.getState().getIngredients()) {
                 JPanel ingredientPanel = new JPanel();
@@ -106,7 +118,11 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
                 deleteButton.addActionListener(
                         evt1 -> {
                             InitialState currentState = initialViewModel.getState();
-                            this.deleteIngredientController.execute(currentState.getIngredients(), ingredient);
+                            try {
+                                this.deleteIngredientController.execute(currentState.getIngredients(), ingredient);
+                            } catch (FileNotFoundException e) {
+                                throw new RuntimeException(e);
+                            }
                             deletedIngredient = ingredient.getName();
                             }
                     );
