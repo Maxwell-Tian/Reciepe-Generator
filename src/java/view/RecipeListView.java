@@ -2,12 +2,20 @@ package view;
 
 import entity.CommonRecipe;
 import entity.Recipe;
+import interface_adapter.addorcancelingredient.AddorCancelIngredientController;
+import interface_adapter.addorcancelingredient.AddorCancelIngredientState;
+import interface_adapter.addorcancelingredient.AddorCancelIngredientViewModel;
 import interface_adapter.recipemanagement.RecipeInfoViewModel;
+import interface_adapter.recipemanagement.RecipeManagementController;
+import interface_adapter.recipemanagement.RecipeManagementState;
+import interface_adapter.recipemanagement.RecipeManagementViewModel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,19 +23,17 @@ import java.util.Map;
 /**
  * The View for displaying a list of recipes.
  */
-public class RecipeListView extends JPanel implements ActionListener {
+public class RecipeListView extends JPanel implements ActionListener, PropertyChangeListener {
 
     private final String viewName = "recipe list";
-    private final List<Recipe> recipes;
+    private final RecipeManagementViewModel recipeManagementViewModel;
     private final RecipeInfoView recipeInfoView;
-    private final CardLayout cardLayout;
-    private final JPanel parentPanel;
+    private RecipeManagementController controller;
 
-    public RecipeListView(List<Recipe> recipes, RecipeInfoView recipeInfoView, CardLayout cardLayout, JPanel parentPanel) {
-        this.recipes = recipes;
+    public RecipeListView(List<Recipe> recipes, RecipeInfoView recipeInfoView, RecipeManagementViewModel recipeManagementViewModel) {
         this.recipeInfoView = recipeInfoView;
-        this.cardLayout = cardLayout;
-        this.parentPanel = parentPanel;
+        this.recipeManagementViewModel = recipeManagementViewModel;
+        this.recipeManagementViewModel.addPropertyChangeListener(this);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -42,8 +48,17 @@ public class RecipeListView extends JPanel implements ActionListener {
             recipeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
             recipeButton.setMaximumSize(new Dimension(200, 30));
             recipeButton.addActionListener(e -> {
-                recipeInfoView.showRecipeDetails(recipe);
-                cardLayout.show(parentPanel, recipeInfoView.getViewName());
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(recipeButton)) {
+//                            final RecipeManagementState currentState = recipeManagementViewModel.getState();
+                            recipeInfoView.showRecipeDetails(recipe);
+//                            controller.switchInfoView(currentState.getInfo());
+                        }
+                    }
+                };
+//                recipeInfoView.showRecipeDetails(recipe);
+//                cardLayout.show(parentPanel, recipeInfoView.getViewName());
             });
             this.add(recipeButton);
             this.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -58,7 +73,7 @@ public class RecipeListView extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        cardLayout.show(parentPanel, "initial view");
+        controller.switchToInitialView();
     }
 
     public String getViewName() {
@@ -76,26 +91,46 @@ public class RecipeListView extends JPanel implements ActionListener {
         return recipeList;
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Recipe Management");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(400, 300);
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(() -> {
+//            JFrame frame = new JFrame("Recipe Management");
+//            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//            frame.setSize(400, 300);
+//
+//            CardLayout cardLayout = new CardLayout();
+//            JPanel parentPanel = new JPanel(cardLayout);
+//
+//            RecipeInfoView recipeInfoView = new RecipeInfoView(cardLayout, parentPanel);
+//
+//            RecipeListView recipeListView = new RecipeListView(initializeRecipes(), recipeInfoView, cardLayout, parentPanel);
+//
+//            parentPanel.add(recipeListView, recipeListView.getViewName());
+//            parentPanel.add(recipeInfoView, recipeInfoView.getViewName());
+//
+//            frame.add(parentPanel);
+//            cardLayout.show(parentPanel, recipeListView.getViewName());
+//
+//            frame.setVisible(true);
+//        });
+//}
 
-            CardLayout cardLayout = new CardLayout();
-            JPanel parentPanel = new JPanel(cardLayout);
+//    @Override
+//    public void propertyChange(PropertyChangeEvent evt) {
+//        final RecipeManagementState state = (RecipeManagementState) evt.getNewValue();
+//        if (state.getErrorMessage() != null) {
+//            JOptionPane.showMessageDialog(this, state.getErrorMessage());
+//        }
+//    }
 
-            RecipeInfoView recipeInfoView = new RecipeInfoView(cardLayout, parentPanel);
+    public void setRecipeManagementController(RecipeManagementController controller) {
+        this.controller = controller;
+    }
 
-            RecipeListView recipeListView = new RecipeListView(initializeRecipes(), recipeInfoView, cardLayout, parentPanel);
-
-            parentPanel.add(recipeListView, recipeListView.getViewName());
-            parentPanel.add(recipeInfoView, recipeInfoView.getViewName());
-
-            frame.add(parentPanel);
-            cardLayout.show(parentPanel, recipeListView.getViewName());
-
-            frame.setVisible(true);
-        });
-}
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        final RecipeManagementState state = (RecipeManagementState) evt.getNewValue();
+        if (state.getErrorMessage() != null) {
+            JOptionPane.showMessageDialog(this, state.getErrorMessage());
+        }
+    }
 }

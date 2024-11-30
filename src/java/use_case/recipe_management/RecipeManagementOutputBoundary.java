@@ -32,4 +32,14 @@ public interface RecipeManagementOutputBoundary {
      * @param recommendations the recommended recipes
      */
     void presentRecommendations(Map<String, List<String>> recommendations);
+
+    /**
+     * Switch to initial view
+     */
+    void switchToInitialView();
+
+    /**
+     * switch to recipe list view
+     */
+    void switchToRecipeListView();
 }

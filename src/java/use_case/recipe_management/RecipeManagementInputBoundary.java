@@ -16,4 +16,8 @@ public interface RecipeManagementInputBoundary {
     List<Recipe> execute(RecipeManagementInputData recipeManagementInputData);
 
     List<Recipe> getCurrentRecipes();
+
+    void switchToInitialView();
+
+    void switchToRecipeListView();
 }

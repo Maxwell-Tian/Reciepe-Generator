@@ -49,11 +49,12 @@ public class AppBuilder {
     private final InMemoryIngredientDataAccessObject ingredientDataAccessObject =
             new InMemoryIngredientDataAccessObject();
 
+    private final InMemoryRecipeDataAccessObject recipeDataAccessObject = new InMemoryRecipeDataAccessObject();
+
     final List<Recipe> recipeRepository = new InMemoryRecipeManagementRepository().getCurrentRecipes();
 
     private AddIngredientView addIngredientView;
     private AddorCancelIngredientViewModel addIngredientViewModel;
-    private DeleteIngredientReminderView deleteIngredientReminderView;
     private InitialView initialView;
     private InitialViewModel initialViewModel;
     private RecipeListView recipeListView;
@@ -102,26 +103,31 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addRecipeListView() {
-        recipeInfoView = new RecipeInfoView(cardLayout, cardPanel);
-        final RecipeManagementOutputBoundary recipeManagementOutputBoundary = new RecipeManagementPresenter();
-        final RecipeManagementInputBoundary interactor = new RecipeManagementInteractor(recipeRepository, recipeManagementOutputBoundary);
-        final List<Recipe> controller = new RecipeManagementController(interactor).getCurrentRecipes();
-
-        recipeListView = new RecipeListView(controller, recipeInfoView, cardLayout, cardPanel);
+        recipeListViewModel = new RecipeManagementViewModel();
+        RecipeManagementOutputBoundary recipeManagementOutputBoundary = new RecipeManagementPresenter(initialViewModel, recipeListViewModel, viewManagerModel);
+        RecipeManagementInputBoundary interactor = new RecipeManagementInteractor(recipeDataAccessObject, recipeManagementOutputBoundary);
+        List<Recipe> controller = new RecipeManagementController(interactor).getCurrentRecipes();
+        recipeListView = new RecipeListView(controller, recipeInfoView, recipeListViewModel);
+//        recipeInfoView = new RecipeInfoView(cardLayout, cardPanel);
+//        final RecipeManagementOutputBoundary recipeManagementOutputBoundary = new RecipeManagementPresenter();
+//        final RecipeManagementInputBoundary interactor = new RecipeManagementInteractor(recipeRepository, recipeManagementOutputBoundary);
+//        final List<Recipe> controller = new RecipeManagementController(interactor).getCurrentRecipes();
+//
+//        recipeListView = new RecipeListView(controller, recipeInfoView, cardLayout, cardPanel);
 
         cardPanel.add(recipeListView, recipeListView.getViewName());
         return this;
     }
 
-    /**
-     * Adds the RecipeInfoView to the application.
-     * @return this builder
-     */
-    public AppBuilder addRecipeInfoView() {
-        recipeInfoView = new RecipeInfoView(cardLayout, cardPanel);
-        cardPanel.add(recipeInfoView, recipeInfoView.getViewName());
-        return this;
-    }
+//    /**
+//     * Adds the RecipeInfoView to the application.
+//     * @return this builder
+//     */
+//    public AppBuilder addRecipeInfoView() {
+//        recipeInfoView = new RecipeInfoView(cardLayout, cardPanel);
+//        cardPanel.add(recipeInfoView, recipeInfoView.getViewName());
+//        return this;
+//    }
 
 
 
@@ -146,13 +152,28 @@ public class AppBuilder {
      */
     public AppBuilder addDeleteIngredientUseCase() {
         final DeleteIngredientOutputBoundary deleteIngredientOutputBoundary =
-                new DeleteIngredientPresenter(initialViewModel, addIngredientViewModel, viewManagerModel);
+                new DeleteIngredientPresenter(initialViewModel, addIngredientViewModel, recipeListViewModel, viewManagerModel);
         final DeleteIngredientInputBoundary deleteIngredientInteractor =
                 new DeleteIngredientInteractor(ingredientDataAccessObject, deleteIngredientOutputBoundary);
 
         final DeleteIngredientController deleteIngredientController =
                 new DeleteIngredientController(deleteIngredientInteractor);
         initialView.setDeleteIngredientController(deleteIngredientController);
+        return this;
+    }
+
+    /**
+     * Adds the generate recipe Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder generateRecipeUseCase() {
+        final RecipeManagementOutputBoundary recipeManagementOutputBoundary = new RecipeManagementPresenter(
+                initialViewModel, recipeListViewModel, viewManagerModel);
+        final RecipeManagementInputBoundary Interactor = new RecipeManagementInteractor(
+                recipeDataAccessObject, recipeManagementOutputBoundary);
+
+        final RecipeManagementController controller = new RecipeManagementController(Interactor);
+        recipeListView.setRecipeManagementController(controller);
         return this;
     }
 
