@@ -38,5 +38,11 @@ public class InMemoryRecipeDataAccessObject implements RecipeManagementUserDataA
 
     public void populateAllRecipes() {
         allRecipes.add(new CommonRecipe("KungPowChicken", List.of("this is a traditional Chinese dish", "Chinese"), Map.of("chicken", 2, "tomato", 3)));
+        allRecipes.add(new CommonRecipe("Chocolate Cake", List.of("Delicious chocolate dessert", "Dessert"),
+                Map.of("Flour", 200, "Sugar", 100, "Cocoa", 50)));
+        allRecipes.add(new CommonRecipe("Caesar Salad", List.of("Classic Caesar salad", "Appetizer"),
+                Map.of("Lettuce", 100, "Croutons", 50, "Parmesan", 30)));
+        allRecipes.add(new CommonRecipe("Pancakes", List.of("Fluffy breakfast pancakes", "Breakfast"),
+                Map.of("Flour", 150, "Milk", 200, "Eggs", 2)));
     }
 }

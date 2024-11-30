@@ -1,5 +1,6 @@
 package use_case.recipe_management;
 
+import data_access.InMemoryRecipeDataAccessObject;
 import data_access.InMemoryRecipeManagementRepository;
 import entity.Recipe;
 
@@ -10,12 +11,13 @@ import java.util.List;
 import java.util.Map;
 
 public class RecipeManagementInteractor implements RecipeManagementInputBoundary {
-    private InMemoryRecipeManagementRepository repository;
-    private List<Recipe> recipeRepository = repository.getCurrentRecipes();
+    //    private InMemoryRecipeManagementRepository repository;
+    private final InMemoryRecipeDataAccessObject recipeDataAccessObject;
+    //    private List<Recipe> recipeRepository = repository.getCurrentRecipes();
     private final RecipeManagementOutputBoundary outputBoundary;
 
-    public RecipeManagementInteractor(List<Recipe> recipeRepository, RecipeManagementOutputBoundary outputBoundary) {
-        this.recipeRepository = recipeRepository;
+    public RecipeManagementInteractor(InMemoryRecipeDataAccessObject recipeDataAccessObject, RecipeManagementOutputBoundary outputBoundary) {
+        this.recipeDataAccessObject = recipeDataAccessObject;
         this.outputBoundary = outputBoundary;
     }
 
@@ -27,7 +29,8 @@ public class RecipeManagementInteractor implements RecipeManagementInputBoundary
      */
     public List<Recipe> execute(RecipeManagementInputData recipeManagementInputData) {
         Map<String, LocalDate> userIngredients = recipeManagementInputData.getUserIngredients();
-        List<Recipe> allRecipes = recipeRepository;
+        recipeDataAccessObject.populateAllRecipes();
+        List<Recipe> allRecipes = recipeDataAccessObject.getCurrentRecipes();
         String category = recipeManagementInputData.getFilterCategory();
 
         List<Recipe> filteredRecipes = filterRecipesByCategory(allRecipes, category);
@@ -85,5 +88,12 @@ public class RecipeManagementInteractor implements RecipeManagementInputBoundary
         recommendations.put("Partially Matched", partiallyMatchedRecipes);
         return recommendations;
     }
-}
 
+    @Override
+    public void switchToInitialView() {
+        outputBoundary.switchToInitialView();
+    }
+
+    @Override
+    public void switchToRecipeListView() { outputBoundary.switchToRecipeListView(); }
+}
