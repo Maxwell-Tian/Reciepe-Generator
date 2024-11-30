@@ -10,6 +10,7 @@ import java.util.List;
 public class InitialState {
     private List<Ingredient> ingredients = new ArrayList<>();
     private final txtConnector ingredientDataAccessObject = new txtConnector();
+    private String errorMessage;
 
     public List<Ingredient> getIngredients() {
         return ingredients;
@@ -21,6 +22,10 @@ public class InitialState {
             ingredients.add(ingredient);
         }
     }
+
+    public String getErrorMessage() {return errorMessage;}
+
+    public void setError(String errorMessage) {this.errorMessage = errorMessage;}
 
     public void deleteIngredient(Ingredient ingredient) {
         ingredients.remove(ingredient);

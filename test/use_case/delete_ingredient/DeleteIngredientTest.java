@@ -5,6 +5,7 @@ import entity.*;
 import org.junit.Test;
 
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 
 import static org.junit.Assert.assertEquals;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DeleteIngredientTest {
 
     @Test
-    public void successTest() {
+    public void successTest() throws FileNotFoundException {
         DeleteIngredientIngredientDataAccessInterface repository = new InMemoryIngredientDataAccessObject();
         InMemoryIngredientDataAccessObject ingredientRepository = new InMemoryIngredientDataAccessObject();
 
