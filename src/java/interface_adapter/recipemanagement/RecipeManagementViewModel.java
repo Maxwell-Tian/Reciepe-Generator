@@ -9,7 +9,7 @@ public class RecipeManagementViewModel extends ViewModel<RecipeManagementState> 
     private List<Recipe> recipes;
 
     public RecipeManagementViewModel() {
-        super("generate recipe");
+        super("recipe list");
         setState(new RecipeManagementState());
     }
 

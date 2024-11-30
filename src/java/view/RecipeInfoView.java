@@ -1,6 +1,7 @@
 package view;
 
 import entity.Recipe;
+import interface_adapter.recipemanagement.RecipeManagementController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,16 +14,13 @@ import java.awt.event.ActionListener;
 public class RecipeInfoView extends JPanel implements ActionListener {
 
     private final String viewName = "recipe info";
-    private final CardLayout cardLayout;
-    private final JPanel parentPanel;
 
     private final JLabel titleLabel = new JLabel();
     private final JTextArea detailsArea = new JTextArea();
     private final JButton backButton = new JButton("Back");
+    private RecipeManagementController controller;
 
-    public RecipeInfoView(CardLayout cardLayout, JPanel parentPanel) {
-        this.cardLayout = cardLayout;
-        this.parentPanel = parentPanel;
+    public RecipeInfoView() {
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -67,7 +65,7 @@ public class RecipeInfoView extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        cardLayout.show(parentPanel, "recipe list");
+        controller.switchToRecipeListView();
     }
 
     public String getViewName() {
