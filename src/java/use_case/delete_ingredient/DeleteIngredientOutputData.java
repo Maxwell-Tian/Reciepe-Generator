@@ -25,7 +25,7 @@ public class DeleteIngredientOutputData {
         return ingredient;
     }
 
-    boolean getUseCaseFailed() {
+    boolean isUseCaseFailed() {
         return useCaseFailed;
     }
 }

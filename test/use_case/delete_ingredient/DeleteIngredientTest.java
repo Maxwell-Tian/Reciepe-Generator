@@ -4,46 +4,47 @@ import data_access.InMemoryIngredientDataAccessObject;
 import entity.*;
 import org.junit.Test;
 
+
 import java.time.LocalDate;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class test_delete_ingredient {
+public class DeleteIngredientTest {
 
     @Test
     public void successTest() {
-        DeleteIngredientDataAccessInterface repository = new InMemoryIngredientDataAccessObject();
+        DeleteIngredientIngredientDataAccessInterface repository = new InMemoryIngredientDataAccessObject();
         InMemoryIngredientDataAccessObject ingredientRepository = new InMemoryIngredientDataAccessObject();
 
-        Ingredient factory = new CommonIngredientFactory();
-        Ingredient ingredient = factory.create("tomato", Local.parse("2024-12-11"));
+        IngredientFactory factory = new CommonIngredientFactory();
+        Ingredient ingredient = factory.create("tomato", LocalDate.parse("2024-12-11"));
         ingredientRepository.save(ingredient);
 
         DeleteIngredientInputData inputData = new DeleteIngredientInputData(
-                ingredientRepository.getCurrentIngredients, ingredient);
+                ingredientRepository.getCurrentIngredients(), ingredient);
 
         DeleteIngredientOutputBoundary successPresenter = new DeleteIngredientOutputBoundary() {
             @Override
             public void prepareSuccessView(DeleteIngredientOutputData outputData) {
-
+                assertEquals(ingredientRepository.getCurrentIngredients(), outputData.getIngredients());
                 assertEquals(ingredient, outputData.getIngredient());
             }
 
             @Override
-            public void prepareFailView() {
-                //);
+            public void prepareFailView(String errorMessage) {
+                fail("Use case failure is unexpected.");
             }
 
             @Override
-            public void switchToInitialView() {
-                // This is expected
+            public void switchToAddIngredientView() {
+                // This is expected.
             }
 
             @Override
             public void switchToRecipeView() {
-                // This is expected
+                // This is expected.
             }
         };
 

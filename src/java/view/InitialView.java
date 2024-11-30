@@ -29,12 +29,10 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
     private final JButton addIngredient;
     private final JButton generateRecipe;
 
-    public InitialView(InitialViewModel viewModel, FileIngredientDataAccessObject ingredientDataAccessObject) {
+    public InitialView(InitialViewModel viewModel) {
 
         this.initialViewModel = viewModel;
         this.initialViewModel.addPropertyChangeListener(this);
-        this.ingredientsDataAccessObject = ingredientDataAccessObject;
-        initialViewModel.getState().setIngredients(ingredientsDataAccessObject.getAllIngredients());
 
         title = new JLabel(initialViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);

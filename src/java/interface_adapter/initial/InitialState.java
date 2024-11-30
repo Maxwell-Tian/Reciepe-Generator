@@ -7,17 +7,15 @@ import java.util.List;
 
 public class InitialState {
     private List<Ingredient> ingredients;
+    private String errorMessage;
 
     public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void addIngredient(Ingredient ingredient) {
-        if (ingredients == null) {
-            ingredients = new ArrayList<>();
-        }
-        ingredients.add(ingredient);
-    }
+    public String getErrorMessage() {return errorMessage;}
+
+    public void setError(String errorMessage) {this.errorMessage = errorMessage;}
 
     public void deleteIngredient(Ingredient ingredient) {
         ingredients.remove(ingredient);
