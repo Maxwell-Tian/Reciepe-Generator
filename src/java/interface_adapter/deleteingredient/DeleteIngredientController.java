@@ -3,6 +3,8 @@ package interface_adapter.deleteingredient;
 import entity.Ingredient;
 import use_case.delete_ingredient.DeleteIngredientInputBoundary;
 import use_case.delete_ingredient.DeleteIngredientInputData;
+
+import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
@@ -21,7 +23,7 @@ public class DeleteIngredientController {
      * @param ingredients the ingredients in the user's fridge
      * @param ingredient the ingredient needs to be deleted
      */
-    public void execute(List<Ingredient> ingredients, Ingredient ingredient) {
+    public void execute(List<Ingredient> ingredients, Ingredient ingredient) throws FileNotFoundException {
         final DeleteIngredientInputData deleteIngredientInputData = new DeleteIngredientInputData(ingredients,
                 ingredient);
        deleteIngredientUseCaseInteractor.execute(deleteIngredientInputData);
