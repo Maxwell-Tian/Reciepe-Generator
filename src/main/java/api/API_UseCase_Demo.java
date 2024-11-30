@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class test {
+public class API_UseCase_Demo {
     public static void main(String[] args) {
         LocalDate date = LocalDate.now();
         CommonIngredient ingredient = new CommonIngredient("Chicken",date);
