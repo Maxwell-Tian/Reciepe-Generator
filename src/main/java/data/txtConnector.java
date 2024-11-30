@@ -4,6 +4,7 @@ package data;
 
 import entity.CommonIngredient;
 import entity.Ingredient;
+import view.ErrorInfoView;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -35,7 +36,8 @@ public class txtConnector implements Connector {
             fw.write(System.lineSeparator());
             fw.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorInfoView view  = new ErrorInfoView();
+            view.ShowErrorView(e.getMessage());;
         }
     }
 
@@ -55,7 +57,8 @@ public class txtConnector implements Connector {
             Files.write(Paths.get(fileName), updatedLines);
         }
         catch (IOException e) {
-            e.printStackTrace();
+            ErrorInfoView view  = new ErrorInfoView();
+            view.ShowErrorView(e.getMessage());;
         }
     }
 
@@ -71,7 +74,8 @@ public class txtConnector implements Connector {
             throw new IOException("Ingredient not found: " + this.ingredient.getName());
         }
         catch (IOException e) {
-            e.printStackTrace();
+            ErrorInfoView view  = new ErrorInfoView();
+            view.ShowErrorView(e.getMessage());;
         }
         return null;
     }

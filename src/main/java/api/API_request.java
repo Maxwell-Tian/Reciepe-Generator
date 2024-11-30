@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.CommonIngredient;
 import entity.Ingredient;
 import okhttp3.*;
+import view.ErrorInfoView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,11 @@ public class API_request {
     }
 
     public List<List<String>> Searching_Recipe(){
-        return Recipe_info_analyzer(Requesting());
+        String feedback = Requesting();
+        if (feedback != null&&!feedback.isEmpty()){
+            return Recipe_info_analyzer(feedback);
+        }
+        return new ArrayList<>();
     }
     //这个return出来的每个list中第一个项是菜名
 
@@ -67,7 +72,9 @@ public class API_request {
         try (Response response = client.newCall(request).execute()) {
             return response.body().string();
         } catch (Exception e) {
-             return e.getMessage();
+            ErrorInfoView view  = new ErrorInfoView();
+            view.ShowErrorView(e.getMessage());
+            return null;
         }
     }
 
@@ -95,7 +102,8 @@ public class API_request {
             }
             return result;
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorInfoView view  = new ErrorInfoView();
+            view.ShowErrorView(e.getMessage());;
             return null;
         }
     }
