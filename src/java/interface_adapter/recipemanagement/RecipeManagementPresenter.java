@@ -1,8 +1,6 @@
 package interface_adapter.recipemanagement;
 
 import entity.Recipe;
-import interface_adapter.ViewManagerModel;
-import interface_adapter.initial.InitialViewModel;
 import use_case.recipe_management.RecipeManagementOutputBoundary;
 
 import java.util.List;
@@ -10,17 +8,6 @@ import java.util.Map;
 
 public class RecipeManagementPresenter implements RecipeManagementOutputBoundary {
 
-    private final InitialViewModel initialViewModel;
-    private final RecipeManagementViewModel recipeManagementViewModel;
-    private final ViewManagerModel viewManagerModel;
-
-    public RecipeManagementPresenter(InitialViewModel initialViewModel,
-                                     RecipeManagementViewModel recipeManagementViewModel,
-                                     ViewManagerModel viewManagerModel) {
-        this.initialViewModel = initialViewModel;
-        this.recipeManagementViewModel = recipeManagementViewModel;
-        this.viewManagerModel = viewManagerModel;
-    }
     @Override
     public void presentRecipes(List<Recipe> recipes) {
         System.out.println("Generated Recipes:");
@@ -42,17 +29,5 @@ public class RecipeManagementPresenter implements RecipeManagementOutputBoundary
     @Override
     public void presentRecommendations(Map<String, List<String>> recommendations) {
 
-    }
-
-    @Override
-    public void switchToInitialView() {
-        viewManagerModel.setState(initialViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
-    }
-
-    @Override
-    public void switchToRecipeListView() {
-        viewManagerModel.setState(recipeManagementViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
     }
 }

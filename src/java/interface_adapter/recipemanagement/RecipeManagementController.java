@@ -26,16 +26,4 @@ public class RecipeManagementController {
     public List<Recipe> getCurrentRecipes() {
         return interactor.getCurrentRecipes();
     }
-
-    /**
-     * Executes the "switch to InitialView" Use Case.
-     */
-    public void switchToInitialView() {
-        interactor.switchToInitialView();
-    }
-
-    /**
-     * switch to recipelist
-     */
-    public void switchToRecipeListView() {interactor.switchToRecipeListView(); }
 }
