@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.FileNotFoundException;
 
 /**
  * The View for the add ingredient Use Case.
@@ -52,10 +53,14 @@ public class AddIngredientView extends JPanel implements ActionListener, Propert
                         if (evt.getSource().equals(add)) {
                             final AddorCancelIngredientState currentState = viewModel.getState();
 
-                            controller.execute(
-                                    currentState.getIngredientname(),
-                                    currentState.getExpirydate()
-                            );
+                            try {
+                                controller.execute(
+                                        currentState.getIngredientname(),
+                                        currentState.getExpirydate()
+                                );
+                            } catch (FileNotFoundException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     }
                 }

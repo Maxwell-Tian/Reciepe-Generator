@@ -4,6 +4,7 @@ import entity.Ingredient;
 import entity.IngredientFactory;
 
 import javax.swing.*;
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 
 /**
@@ -24,7 +25,7 @@ public class AddorCancelIngredientInteractor implements AddorCancelIngredientInp
     }
 
     @Override
-    public void execute(AddorCancelIngredientInputData addorCancelIngredientInputData){
+    public void execute(AddorCancelIngredientInputData addorCancelIngredientInputData) throws FileNotFoundException {
         if (ingredientDataAccessObject.existsByIngredientName(addorCancelIngredientInputData.getIngredientname())) {
             ingredientPresenter.prepareFailView("Ingredient already exists.");
         }

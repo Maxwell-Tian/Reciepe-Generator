@@ -5,27 +5,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.FileNotFoundException;
 
 import javax.swing.*;
 
+import data.txtConnector;
 import entity.Ingredient;
 import interface_adapter.deleteingredient.DeleteIngredientController;
 import interface_adapter.initial.InitialState;
 import interface_adapter.initial.InitialViewModel;
-import data_access.FileIngredientDataAccessObject;
 
 
 public class InitialView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "initial";
 
-    private InitialViewModel initialViewModel;
+    private final InitialViewModel initialViewModel;
     private DeleteIngredientController deleteIngredientController;
-    private FileIngredientDataAccessObject ingredientsDataAccessObject;
     private String deletedIngredient;
 
-    JPanel ingredientsPanel;
-    JPanel topPanel;
-    final JLabel title;
     private final JButton addIngredient;
     private final JButton generateRecipe;
 
@@ -34,10 +31,10 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
         this.initialViewModel = viewModel;
         this.initialViewModel.addPropertyChangeListener(this);
 
-        title = new JLabel(initialViewModel.TITLE_LABEL);
+        final JLabel title = new JLabel(initialViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        topPanel = new JPanel();
+        final JPanel topPanel = new JPanel();
         addIngredient = new JButton(initialViewModel.ADD_INGREDIENT_BUTTON_LABEL);
         topPanel.add(addIngredient);
         generateRecipe = new JButton(initialViewModel.GENERATE_RECIPE_BUTTON_LABEL);
@@ -58,11 +55,13 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
                 }
         );
 
-        ingredientsPanel = new JPanel();
-        ingredientsPanel.setLayout(new BoxLayout(ingredientsPanel, BoxLayout.Y_AXIS));
-
-        if (initialViewModel.getState().getIngredients() != null &&
-                !initialViewModel.getState().getIngredients().isEmpty()) {
+        JPanel ingredientsPanel = new JPanel();
+        try {
+            initialViewModel.getState().populateIngredients();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        if (initialViewModel.getState().getIngredients() != null) {
             for (Ingredient ingredient : initialViewModel.getState().getIngredients()) {
                 JPanel ingredientPanel = new JPanel();
                 JLabel ingredientName = new JLabel(ingredient.getName());
@@ -70,7 +69,11 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
                 deleteButton.addActionListener(
                         evt -> {
                             InitialState currentState = initialViewModel.getState();
-                            this.deleteIngredientController.execute(currentState.getIngredients(), ingredient);
+                            try {
+                                this.deleteIngredientController.execute(currentState.getIngredients(), ingredient);
+                            } catch (FileNotFoundException e) {
+                                throw new RuntimeException(e);
+                            }
                             deletedIngredient = ingredient.getName();
                         }
                 );
@@ -80,12 +83,12 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
             }
         }
         else {
-            JLabel noIngredient = new JLabel("No ingredients ");
-            ingredientsPanel.add(noIngredient);
-            noIngredient.setAlignmentX(Component.CENTER_ALIGNMENT);
+            ingredientsPanel.add(new JLabel("No ingredients"));
         }
 
         JScrollPane ingredientsScroll = new JScrollPane(ingredientsPanel);
+        ingredientsPanel.setLayout(new BoxLayout(ingredientsPanel, BoxLayout.Y_AXIS));
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(topPanel);
@@ -101,34 +104,42 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-        InitialState state = (InitialState) evt.getNewValue();
         if ("ingredients".equals(evt.getPropertyName())) {
             System.out.println(deletedIngredient + " has been deleted!");
         }
 
-        ingredientsPanel.removeAll();
-        if (state.getIngredients() != null &&
-                !state.getIngredients().isEmpty()) {
-            for (Ingredient ingredient : state.getIngredients()) {
+        JPanel ingredientsPanel = new JPanel();
+
+        if (initialViewModel.getState().getIngredients() != null) {
+            for (Ingredient ingredient : initialViewModel.getState().getIngredients()) {
                 JPanel ingredientPanel = new JPanel();
                 JLabel ingredientName = new JLabel(ingredient.getName());
                 JButton deleteButton = new JButton("delete");
                 deleteButton.addActionListener(
                         evt1 -> {
                             InitialState currentState = initialViewModel.getState();
-                            this.deleteIngredientController.execute(currentState.getIngredients(), ingredient);
+                            try {
+                                this.deleteIngredientController.execute(currentState.getIngredients(), ingredient);
+                            } catch (FileNotFoundException e) {
+                                throw new RuntimeException(e);
+                            }
                             deletedIngredient = ingredient.getName();
-                        }
-                );
+                            }
+                    );
                 ingredientPanel.add(ingredientName);
                 ingredientPanel.add(deleteButton);
                 ingredientsPanel.add(ingredientPanel);
             }
-        } else {JLabel noIngredient = new JLabel("No ingredients ");
-            ingredientsPanel.add(noIngredient);
-            noIngredient.setAlignmentX(Component.CENTER_ALIGNMENT);}
-        ingredientsPanel.repaint();
-        ingredientsPanel.revalidate();
+        } else {ingredientsPanel.add(new JLabel("No ingredients"));}
+
+        JScrollPane ingredientsScroll = new JScrollPane(ingredientsPanel);
+        ingredientsPanel.setLayout(new BoxLayout(ingredientsPanel, BoxLayout.Y_AXIS));
+
+        this.remove(2);
+        this.add(ingredientsScroll);
+
+        this.revalidate();
+        this.repaint();
     }
 
     public String getViewName(){ return viewName;}

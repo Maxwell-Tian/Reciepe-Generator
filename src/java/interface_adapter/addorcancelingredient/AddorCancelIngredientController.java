@@ -3,6 +3,8 @@ package interface_adapter.addorcancelingredient;
 import use_case.addorcancelingredient.AddorCancelIngredientInputBoundary;
 import use_case.addorcancelingredient.AddorCancelIngredientInputData;
 
+import java.io.FileNotFoundException;
+
 /**
  * Controller for the Add or cancel ingredient Use Case.
  */
@@ -19,7 +21,7 @@ public class AddorCancelIngredientController {
      * @param ingredientname the ingredient name
      * @param expirydate the expiry date
      */
-    public void execute(String ingredientname, String expirydate) {
+    public void execute(String ingredientname, String expirydate) throws FileNotFoundException {
         final AddorCancelIngredientInputData addorCancelIngredientInputDataInputData = new AddorCancelIngredientInputData(
                 ingredientname, expirydate);
 

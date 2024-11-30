@@ -1,9 +1,12 @@
 package app;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.util.List;
+import java.view.ExpirationWarningView;
 import javax.swing.*;
 
+import data.txtConnector;
 import data_access.InMemoryRecipeDataAccessObject;
 import data_access.InMemoryRecipeManagementRepository;
 import entity.*;
@@ -46,8 +49,11 @@ public class AppBuilder {
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
-    private final InMemoryIngredientDataAccessObject ingredientDataAccessObject =
-            new InMemoryIngredientDataAccessObject();
+//    private final InMemoryIngredientDataAccessObject ingredientDataAccessObject =
+//            new InMemoryIngredientDataAccessObject();
+    private final txtConnector ingredientDataAccessObject = new txtConnector();
+
+    private final InMemoryRecipeDataAccessObject recipeDataAccessObject = new InMemoryRecipeDataAccessObject();
 
     private final InMemoryRecipeDataAccessObject recipeDataAccessObject = new InMemoryRecipeDataAccessObject();
 
@@ -191,5 +197,11 @@ public class AppBuilder {
         viewManagerModel.firePropertyChanged();
 
         return application;
+    }
+
+    public AppBuilder addExpirationWarningView(use_case.expired_food.CheckExpiredIngredientInteractor interactor) {
+        ExpirationWarningView expirationWarningView = new ExpirationWarningView(cardLayout, cardPanel, interactor);
+        cardPanel.add(expirationWarningView, "ExpirationWarningView");
+        return this;
     }
 }

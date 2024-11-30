@@ -3,6 +3,7 @@ package use_case.delete_ingredient;
 
 import entity.Ingredient;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public class DeleteIngredientInteractor implements DeleteIngredientInputBoundary
     }
 
     @Override
-    public void execute(DeleteIngredientInputData deleteIngredientInputData) {
+    public void execute(DeleteIngredientInputData deleteIngredientInputData) throws FileNotFoundException {
         final Ingredient ingredient = deleteIngredientInputData.getIngredient();
         ingredientDataAccessObject.deleteIngredient(ingredient);
         final List<Ingredient> ingredients = ingredientDataAccessObject.getCurrentIngredients();
