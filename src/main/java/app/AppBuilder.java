@@ -26,6 +26,7 @@ import use_case.addorcancelingredient.AddorCancelIngredientInteractor;
 import use_case.addorcancelingredient.AddorCancelIngredientOutputBoundary;
 
 import data_access.InMemoryIngredientDataAccessObject;
+import use_case.expired_food.CheckExpiredIngredientInteractor;
 import view.*;
 
 
@@ -56,6 +57,7 @@ public class AppBuilder {
 
     /**
      * Adds the AddIngredientView to the application.
+     *
      * @return this builder
      */
     public AppBuilder addAddIngredientView() {
@@ -78,6 +80,7 @@ public class AppBuilder {
 
     /**
      * Adds the InitialView to the application.
+     *
      * @return this builder
      */
     public AppBuilder addInitialView() {
@@ -111,6 +114,7 @@ public class AppBuilder {
 
     /**
      * Adds the AddorCancelIngredient Use Case to the application.
+     *
      * @return this builder
      */
     public AppBuilder addSAoCIUseCase() {
@@ -126,6 +130,7 @@ public class AppBuilder {
 
     /**
      * Adds the Delete Ingredient Use Case to the application.
+     *
      * @return this builder
      */
     public AppBuilder addDeleteIngredientUseCase() {
@@ -142,6 +147,7 @@ public class AppBuilder {
 
     /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
+     *
      * @return the application
      */
     public JFrame build() {
@@ -154,5 +160,11 @@ public class AppBuilder {
         viewManagerModel.firePropertyChanged();
 
         return application;
+    }
+
+    public AppBuilder addExpirationWarningView(CheckExpiredIngredientInteractor interactor) {
+        ExpirationWarningView expirationWarningView = new ExpirationWarningView(cardLayout, cardPanel, interactor);
+        cardPanel.add(expirationWarningView, "ExpirationWarningView");
+        return this;
     }
 }

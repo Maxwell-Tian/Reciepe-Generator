@@ -29,7 +29,9 @@ public class CheckExpiredIngredientInteractor {
 
     public void deleteIngredients(List<Ingredient> ingredientsToDelete) {
         List<Ingredient> currentIngredients = dataAccess.getAllIngredients();
-        currentIngredients.removeAll(ingredientsToDelete);
+        for (Ingredient ingredient : ingredientsToDelete) {
+            currentIngredients.remove(ingredient);
+        }
         dataAccess.setIngredients(currentIngredients);
     }
 }

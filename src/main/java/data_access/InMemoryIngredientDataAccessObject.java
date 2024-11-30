@@ -4,6 +4,7 @@ import entity.Ingredient;
 import entity.Recipe;
 import use_case.addorcancelingredient.AddorCancelIngredientIngredientDataAccessInterface;
 import use_case.delete_ingredient.DeleteIngredientIngredientDataAccessInterface;
+import use_case.expired_food.CheckExpiredIngredientUserDataAccessInterface;
 import use_case.recipe_management.RecipeManagementUserDataAccessInterface;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.Map;
  * In-memory implementation of the DAO for storing ingredient data. This implementation does
  * NOT persist data between runs of the program.
  */
-public class InMemoryIngredientDataAccessObject implements AddorCancelIngredientIngredientDataAccessInterface, DeleteIngredientIngredientDataAccessInterface {
+public class InMemoryIngredientDataAccessObject implements AddorCancelIngredientIngredientDataAccessInterface, DeleteIngredientIngredientDataAccessInterface, CheckExpiredIngredientUserDataAccessInterface {
 
     private final Map<String, Ingredient> ingredients = new HashMap<>();
     private final List<Ingredient> ingredientsList = new ArrayList<>();
@@ -23,6 +24,12 @@ public class InMemoryIngredientDataAccessObject implements AddorCancelIngredient
     @Override
     public boolean existsByIngredientName(String ingredientname) {
         return ingredients.containsKey(ingredientname);
+    }
+
+    @Override
+    public void setIngredients(List<Ingredient> ingredients) {
+        ingredientsList.clear();
+        ingredientsList.addAll(ingredients);
     }
 
     @Override
