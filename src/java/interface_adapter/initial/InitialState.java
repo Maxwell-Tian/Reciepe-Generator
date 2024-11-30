@@ -32,4 +32,6 @@ public class InitialState {
     }
 
     public void setIngredients(List<Ingredient> ingredients) {this.ingredients = ingredients;}
+
+    public void addIngredient(Ingredient ingredient) {ingredients.add(ingredient);}
 }
