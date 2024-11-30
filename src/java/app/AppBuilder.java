@@ -54,6 +54,8 @@ public class AppBuilder {
 
     private final InMemoryRecipeDataAccessObject recipeDataAccessObject = new InMemoryRecipeDataAccessObject();
 
+    private final InMemoryRecipeDataAccessObject recipeDataAccessObject = new InMemoryRecipeDataAccessObject();
+
     final List<Recipe> recipeRepository = new InMemoryRecipeManagementRepository().getCurrentRecipes();
 
     private AddIngredientView addIngredientView;
