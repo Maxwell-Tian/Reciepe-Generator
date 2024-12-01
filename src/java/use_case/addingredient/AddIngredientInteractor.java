@@ -5,11 +5,22 @@ import entity.IngredientFactory;
 import entity.User;
 import java.time.LocalDate;
 
+/**
+ * Interactor for the Add Ingredient use case. Implements the input boundary
+ * and handles the business logic for adding ingredients to a user's collection.
+ */
 public class AddIngredientInteractor implements AddIngredientInputBoundary {
     public final AddIngredientUserDataAccessInterface userIngredientAccessObject;
     public final IngredientFactory ingredientFactory;
     public final AddIngredientOutputBoundary ingredientPresenter;
 
+    /**
+     * Constructs an AddIngredientInteractor.
+     *
+     * @param userDataAccessObject The data access object for user ingredients.
+     * @param ingredientPresenter The output boundary to handle success or failure views.
+     * @param ingredientFactory The factory for creating Ingredient objects.
+     */
     public AddIngredientInteractor(AddIngredientUserDataAccessInterface userDataAccessObject,
                                    AddIngredientOutputBoundary ingredientPresenter,
                                    IngredientFactory ingredientFactory) {
