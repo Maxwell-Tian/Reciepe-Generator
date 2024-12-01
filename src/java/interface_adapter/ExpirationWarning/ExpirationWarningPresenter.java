@@ -31,6 +31,8 @@ public class ExpirationWarningPresenter implements ExpiredIngredientOutputBounda
     public void deleteIngredient(Ingredient ingredient){
         final InitialState initialState = initialViewModel.getState();
         initialState.deleteIngredient(ingredient);
+        this.initialViewModel.setState(initialState);
+        initialViewModel.firePropertyChanged();
     }
 
     @Override

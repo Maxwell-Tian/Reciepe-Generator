@@ -7,11 +7,12 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class ExpiredIngredientInteractor implements ExpiredIngredientInputBoundary{
-//    private final ExpiredIngredientUserDataAccessInterface dataAccess;
+    private final ExpiredIngredientUserDataAccessInterface dataAccess;
     private final ExpiredIngredientOutputBoundary expiredIngredientOutputBoundary;
 
-    public ExpiredIngredientInteractor(ExpiredIngredientOutputBoundary expiredIngredientOutputBoundary) {
-//        this.dataAccess = dataAccess;
+    public ExpiredIngredientInteractor(ExpiredIngredientUserDataAccessInterface dataAccess,
+                                       ExpiredIngredientOutputBoundary expiredIngredientOutputBoundary) {
+        this.dataAccess = dataAccess;
         this.expiredIngredientOutputBoundary = expiredIngredientOutputBoundary;
     }
 
@@ -34,15 +35,14 @@ public class ExpiredIngredientInteractor implements ExpiredIngredientInputBounda
         return expiredIngredients;
     }
 
-    public void deleteIngredients(List<Ingredient> ingredientsToDelete) {
+    public void deleteIngredients(Ingredient ingredient) {
 //        List<Ingredient> currentIngredients = dataAccess.getCurrentIngredients();
 //        for (Ingredient ingredient : ingredientsToDelete) {
 //            currentIngredients.remove(ingredient);
 //        }
 //        dataAccess.setIngredients(currentIngredients);
-        for (Ingredient ingredient: ingredientsToDelete) {
-            expiredIngredientOutputBoundary.deleteIngredient(ingredient);
-        }
+
+        expiredIngredientOutputBoundary.deleteIngredient(ingredient);
+        dataAccess.deleteIngredient(ingredient);
     }
 }
-

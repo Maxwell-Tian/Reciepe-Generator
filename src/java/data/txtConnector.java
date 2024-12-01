@@ -5,6 +5,7 @@ import entity.CommonIngredient;
 import entity.Ingredient;
 import use_case.addorcancelingredient.AddorCancelIngredientIngredientDataAccessInterface;
 import use_case.delete_ingredient.DeleteIngredientIngredientDataAccessInterface;
+import use_case.expired_food.ExpiredIngredientUserDataAccessInterface;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class txtConnector implements AddorCancelIngredientIngredientDataAccessInterface, DeleteIngredientIngredientDataAccessInterface {
+public class txtConnector implements AddorCancelIngredientIngredientDataAccessInterface, DeleteIngredientIngredientDataAccessInterface, ExpiredIngredientUserDataAccessInterface {
     private final String fileName = "src/java/data/Data.txt";
 //    private Ingredient ingredient;
 

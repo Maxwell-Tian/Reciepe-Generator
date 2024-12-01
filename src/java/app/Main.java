@@ -22,7 +22,7 @@ public class Main {
                                             .addSAoCIUseCase()
                                             .addDeleteIngredientUseCase()
                                             .addgenerateRecipeUseCase()
-//                                            .addExpirartionWarningUseCase()
+                                            .addExpirationWarningUseCase()
                                             .build();
 
         application.pack();

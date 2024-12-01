@@ -6,6 +6,7 @@ import interface_adapter.addorcancelingredient.AddorCancelIngredientController;
 
 import interface_adapter.ExpirationWarning.ExpirationWarningController;
 import interface_adapter.addorcancelingredient.AddorCancelIngredientState;
+import org.w3c.dom.ls.LSOutput;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,7 +59,7 @@ public class ExpirationWarningView extends JPanel implements PropertyChangeListe
                         );
 
                         if (confirm == JOptionPane.YES_OPTION) {
-                            controller.deleteSelectedIngredients(List.of(ingredient)); // 使用控制器删除
+                            controller.deleteSelectedIngredients(ingredient); // 使用控制器删除
                             expiredPanel.remove(expiredCheckBox);
                             expiredPanel.revalidate();
                             expiredPanel.repaint();
@@ -73,16 +74,13 @@ public class ExpirationWarningView extends JPanel implements PropertyChangeListe
         add(new JScrollPane(expiredPanel), BorderLayout.CENTER);
 
         JButton backButton = new JButton("Back");
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        backButton.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         controller.switchToInitialView();
                     }
-                };
-            }
-        });
+                }
+        );
 
         add(backButton, BorderLayout.SOUTH);
     }
