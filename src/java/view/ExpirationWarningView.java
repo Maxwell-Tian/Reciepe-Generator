@@ -24,40 +24,26 @@ public class ExpirationWarningView extends JPanel implements PropertyChangeListe
     private final ExpirationWarningViewModel viewModel;
 
     public ExpirationWarningView(ExpirationWarningViewModel expirationWarningViewModel, ExpirationWarningController expirationWarningController) {
+
         this.controller = expirationWarningController;
         this.viewModel = expirationWarningViewModel;
         viewModel.addPropertyChangeListener(this);
 
-        initializeView();
-    }
-
-    private void initializeView() {
         setLayout(new BorderLayout());
         setSize(400, 300);
 
-        // Create panel to display expired ingredients
+        // Get expired ingredients
+        List<Ingredient> expiredList = controller.execute();
+
+        // Create a panel for displaying expired ingredients with checkboxes
         JPanel expiredPanel = new JPanel();
         expiredPanel.setLayout(new BoxLayout(expiredPanel, BoxLayout.Y_AXIS));
-
-        // Get expired ingredients from controller
-        List<Ingredient> expiredList = controller.execute();
-        System.out.println("Controller executed, checking expired ingredients...");
+        List<JCheckBox> checkBoxes = new ArrayList<>();
 
         if (expiredList.isEmpty()) {
-            System.out.println("No expired ingredients found. Adding label...");
-
-            // Highlighted Change: Wrap GUI update in SwingUtilities.invokeLater to ensure threading correctness
-            SwingUtilities.invokeLater(() -> {
-                JLabel noExpiredLabel = new JLabel("No ingredients are expired.");
-                expiredPanel.add(noExpiredLabel);
-
-                // Highlighted Change: Ensure the panel updates are properly rendered
-                expiredPanel.revalidate();
-                expiredPanel.repaint();
-                System.out.println("Label added to panel. revalidate() and repaint() called.");
-            });
+            JLabel noExpiredLabel = new JLabel("No ingredients are expired.");
+            expiredPanel.add(noExpiredLabel);
         } else {
-
             for (Ingredient ingredient : expiredList) {
                 JCheckBox expiredCheckBox = new JCheckBox(ingredient.getName() + " (Expiry Date: " + ingredient.getExpiryDate() + ")");
                 checkBoxes.add(expiredCheckBox);
@@ -83,15 +69,11 @@ public class ExpirationWarningView extends JPanel implements PropertyChangeListe
                     }
                 });
             }
-
-           
         }
 
         add(new JScrollPane(expiredPanel), BorderLayout.CENTER);
 
-        // Back button to return to the initial view
         JButton backButton = new JButton("Back");
-
         backButton.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
@@ -100,43 +82,7 @@ public class ExpirationWarningView extends JPanel implements PropertyChangeListe
                 }
         );
 
-
         add(backButton, BorderLayout.SOUTH);
-        this.setVisible(true); // For ExpirationWarningView - Ensures that the view itself is visible <-- Added
-        expiredPanel.setVisible(true); // For the panel displaying expired items - Ensures the sub-panel is visible <-- Added
-    }
-
-    private void addExpiredIngredients(List<Ingredient> expiredList, JPanel expiredPanel) {
-        for (Ingredient ingredient : expiredList) {
-            System.out.println("Adding expired ingredient to panel: " + ingredient.getName());
-            JCheckBox expiredCheckBox = new JCheckBox(ingredient.getName() + " (Expiry Date: " + ingredient.getExpiryDate() + ")");
-            expiredPanel.add(expiredCheckBox);
-
-            expiredCheckBox.addItemListener(e -> {
-                if (expiredCheckBox.isSelected()) {
-                    System.out.println("Checkbox selected for: " + ingredient.getName());
-
-                    int confirm = JOptionPane.showConfirmDialog(
-                            this,
-                            "Are you sure you want to delete " + ingredient.getName() + "?",
-                            "Confirm Deletion",
-                            JOptionPane.YES_NO_OPTION
-                    );
-
-                    if (confirm == JOptionPane.YES_OPTION) {
-                        System.out.println("Confirmed deletion of: " + ingredient.getName());
-                        controller.deleteSelectedIngredients(List.of(ingredient));
-                        expiredPanel.remove(expiredCheckBox);
-                        expiredPanel.revalidate();
-                        expiredPanel.repaint();
-                        System.out.println("Checkbox removed for: " + ingredient.getName());
-                    } else {
-                        System.out.println("Deletion cancelled for: " + ingredient.getName());
-                        expiredCheckBox.setSelected(false);  // Deselect if user cancels
-                    }
-                }
-            });
-        }
     }
 
     public void setExpirationWarningController(ExpirationWarningController controller) {
@@ -147,7 +93,6 @@ public class ExpirationWarningView extends JPanel implements PropertyChangeListe
     public void propertyChange(PropertyChangeEvent evt) {
         final AddorCancelIngredientState state = (AddorCancelIngredientState) evt.getNewValue();
         if (state.getErrorMessage() != null) {
-            System.out.println("Error Message Received: " + state.getErrorMessage());
             JOptionPane.showMessageDialog(this, state.getErrorMessage());
         }
     }
