@@ -3,7 +3,6 @@ package view;
 import entity.Recipe;
 import interface_adapter.recipemanagement.RecipeInfoViewModel;
 import interface_adapter.recipemanagement.RecipeManagementController;
-import interface_adapter.recipemanagement.RecipeManagementState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 /**
  * The View for displaying recipe details.
@@ -54,18 +54,16 @@ public class RecipeInfoView extends JPanel implements ActionListener, PropertyCh
     public void showRecipeDetails(Recipe recipe) {
         titleLabel.setText("Recipe: " + recipe.getName());
         detailsArea.setText(
-                "Description: " + recipe.getDescription() + "\n\n" +
-                        "Category: " + recipe.getCategory() + "\n\n" +
-                        "Ingredients:\n" + formatIngredients(recipe.getRecipeMap())
+                        "Ingredients:\n" + formatIngredients(recipe.getRecipeList())
         );
         this.revalidate();
         this.repaint();
     }
 
-    private String formatIngredients(java.util.Map<String, Integer> ingredients) {
+    private String formatIngredients(List<String> ingredients) {
         StringBuilder sb = new StringBuilder();
-        for (var entry : ingredients.entrySet()) {
-            sb.append("- ").append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+        for (String ingredient: ingredients) {
+            sb.append("- ").append(ingredient).append("\n");
         }
         return sb.toString();
     }
@@ -85,9 +83,6 @@ public class RecipeInfoView extends JPanel implements ActionListener, PropertyCh
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final RecipeManagementState state = (RecipeManagementState) evt.getNewValue();
-        if (state.getErrorMessage() != null) {
-            JOptionPane.showMessageDialog(this, state.getErrorMessage());
-        }
+        System.out.println("there is no property change");
     }
 }

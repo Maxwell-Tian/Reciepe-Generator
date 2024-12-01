@@ -12,24 +12,17 @@ import java.util.Map;
 public class CommonRecipe implements Recipe{
 
     private final String name;
-    private final List<String> description;
-    private final Map<String, Integer> recipeMap;
+    private final List<String> recipeList;
 
-    public CommonRecipe(String name, List<String> description, Map<String, Integer> recipeMap) {
+    public CommonRecipe(String name, List<String> recipeList) {
         this.name = name;
-        this.description = description;
-        this.recipeMap = recipeMap;
+        this.recipeList = recipeList;
     }
 
     @Override
     public String getName() {return name;}
 
-    @Override
-    public String getDescription() {return description.get(0);}
 
     @Override
-    public String getCategory() {return description.get(1);}
-
-    @Override
-    public Map<String, Integer> getRecipeMap() {return recipeMap;}
+    public List<String> getRecipeList() {return recipeList;}
 }

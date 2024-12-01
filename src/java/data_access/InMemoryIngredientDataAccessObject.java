@@ -1,10 +1,8 @@
 package data_access;
 
 import entity.Ingredient;
-import entity.Recipe;
 import use_case.addorcancelingredient.AddorCancelIngredientIngredientDataAccessInterface;
 import use_case.delete_ingredient.DeleteIngredientIngredientDataAccessInterface;
-import use_case.recipe_management.RecipeManagementUserDataAccessInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;

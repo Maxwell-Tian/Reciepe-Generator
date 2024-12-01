@@ -5,9 +5,12 @@ import interface_adapter.addorcancelingredient.AddorCancelIngredientState;
 import interface_adapter.initial.InitialState;
 import interface_adapter.initial.InitialViewModel;
 import interface_adapter.addorcancelingredient.AddorCancelIngredientViewModel;
+import interface_adapter.recipemanagement.RecipeManagementState;
 import interface_adapter.recipemanagement.RecipeManagementViewModel;
 import use_case.delete_ingredient.DeleteIngredientOutputBoundary;
 import use_case.delete_ingredient.DeleteIngredientOutputData;
+
+import java.io.FileNotFoundException;
 
 /**
  * The Presenter for the Delete Ingredient Use Case.
@@ -29,11 +32,16 @@ public class DeleteIngredientPresenter implements DeleteIngredientOutputBoundary
     }
 
     @Override
-    public void prepareSuccessView(DeleteIngredientOutputData response){
+    public void prepareSuccessView(DeleteIngredientOutputData response) throws FileNotFoundException {
         final InitialState initialState = viewModel.getState();
         initialState.deleteIngredient(response.getIngredient());
         this.viewModel.setState(initialState);
         this.viewModel.firePropertyChanged();
+
+        final RecipeManagementState recipeManagementState = recipeManagementViewModel.getState();
+        recipeManagementState.regenerateList();
+        this.recipeManagementViewModel.setState(recipeManagementState);
+        recipeManagementViewModel.firePropertyChanged();
 
         this.viewManagerModel.setState(viewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();

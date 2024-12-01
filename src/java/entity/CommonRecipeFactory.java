@@ -9,7 +9,7 @@ import java.util.Map;
 public class CommonRecipeFactory implements RecipeFactory {
 
     @Override
-    public Recipe create(String name, List<String> description, Map<String, Integer> recipe) {
-        return new CommonRecipe(name, description, recipe);
+    public Recipe create(String name, List<String> recipe) {
+        return new CommonRecipe(name, recipe);
     };
 }

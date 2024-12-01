@@ -1,5 +1,7 @@
 package use_case.addorcancelingredient;
 
+import java.io.FileNotFoundException;
+
 public interface AddorCancelIngredientOutputBoundary {
 
 //    /**
@@ -8,7 +10,7 @@ public interface AddorCancelIngredientOutputBoundary {
 //     */
 //    void prepareSuccessView(AddorCancelIngredientOutputData outputData);
 
-    void prepareSuccessView(AddorCancelIngredientOutputData response);
+    void prepareSuccessView(AddorCancelIngredientOutputData response) throws FileNotFoundException;
 
     /**
      * Prepares the failure view for the add ingredient Use Case.

@@ -13,21 +13,10 @@ public interface Recipe {
      */
     String getName();
 
-    /**
-     * Return the description.
-     * @return the description.
-     */
-    String getDescription();
-
-    /**
-     * Return the Category.
-     * @return the Category.
-     */
-    String getCategory();
 
     /**
      * Return the recipe map mapping ingredients to weights(integer).
      * @return the map.
      */
-    Map<String, Integer> getRecipeMap();
+    List<String> getRecipeList();
 }

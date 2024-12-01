@@ -1,5 +1,7 @@
 package use_case.delete_ingredient;
 
+import java.io.FileNotFoundException;
+
 /**
  * The output boundary for the Delete Ingredient Use Case.
  */
@@ -8,7 +10,7 @@ public interface DeleteIngredientOutputBoundary {
      * Prepares the success view for the Delete Ingredient Use Case.
      * @param outputData the output data
      */
-    void prepareSuccessView(DeleteIngredientOutputData outputData);
+    void prepareSuccessView(DeleteIngredientOutputData outputData) throws FileNotFoundException;
 
     /**
      * Prepares the failure view for the Delete Ingredient Use Case.

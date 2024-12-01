@@ -12,5 +12,5 @@ public interface RecipeFactory {
      * @param name the name of the Recipe.
      * @return the new Recipe.
      */
-    Recipe create(String name, List<String> description, Map<String, Integer> recipe);
+    Recipe create(String name, List<String> recipe);
 }
