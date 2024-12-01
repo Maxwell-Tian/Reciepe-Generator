@@ -1,4 +1,4 @@
-package java.view;
+package view;
 
 import entity.CommonIngredient;
 import entity.Ingredient;
