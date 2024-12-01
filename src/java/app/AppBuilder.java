@@ -1,16 +1,20 @@
 package app;
 
 import java.awt.*;
-import java.io.FileNotFoundException;
 import java.util.List;
-import java.view.ExpirationWarningView;
-import javax.swing.*;
 
 import data.txtConnector;
+import use_case.expired_food.ExpiredIngredientOutputBoundary;
+import view.ExpirationWarningView;
+import javax.swing.*;
+
 import data_access.InMemoryRecipeDataAccessObject;
 import data_access.InMemoryRecipeManagementRepository;
 import entity.*;
 
+import interface_adapter.ExpirationWarning.ExpirationWarningController;
+import interface_adapter.ExpirationWarning.ExpirationWarningPresenter;
+import interface_adapter.ExpirationWarning.ExpirationWarningViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.addorcancelingredient.AddorCancelIngredientController;
 import interface_adapter.addorcancelingredient.AddorCancelIngredientPresenter;
@@ -20,7 +24,6 @@ import interface_adapter.deleteingredient.DeleteIngredientPresenter;
 import interface_adapter.initial.InitialViewModel;
 
 
-import interface_adapter.recipemanagement.RecipeInfoViewModel;
 import interface_adapter.recipemanagement.RecipeManagementController;
 import interface_adapter.recipemanagement.RecipeManagementPresenter;
 import interface_adapter.recipemanagement.RecipeManagementViewModel;
@@ -32,11 +35,11 @@ import use_case.delete_ingredient.DeleteIngredientOutputBoundary;
 import use_case.addorcancelingredient.AddorCancelIngredientInputBoundary;
 import use_case.addorcancelingredient.AddorCancelIngredientOutputBoundary;
 
-import data_access.InMemoryIngredientDataAccessObject;
+import use_case.expired_food.ExpiredIngredientInputBoundary;
+import use_case.expired_food.ExpiredIngredientInteractor;
 import use_case.recipe_management.RecipeManagementInputBoundary;
 import use_case.recipe_management.RecipeManagementInteractor;
 import use_case.recipe_management.RecipeManagementOutputBoundary;
-import use_case.recipe_management.RecipeManagementUserDataAccessInterface;
 import view.*;
 
 
@@ -64,6 +67,8 @@ public class AppBuilder {
     private RecipeListView recipeListView;
     private RecipeManagementViewModel recipeListViewModel;
     private RecipeInfoView recipeInfoView;
+    private ExpirationWarningView expirationWarningView;
+    private ExpirationWarningViewModel expirationWarningViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -133,7 +138,22 @@ public class AppBuilder {
 //        return this;
 //    }
 
+    /**
+     * Adds the ExpirationWarningView to the application.
+     * @return this builder
+     */
+    public AppBuilder addExpirationWarningView() {
+        final ExpiredIngredientOutputBoundary expiredIngredientOutputBoundary = new ExpirationWarningPresenter(
+                expirationWarningViewModel, initialViewModel, viewManagerModel);
+        final ExpiredIngredientInteractor interactor = new ExpiredIngredientInteractor(expiredIngredientOutputBoundary);
 
+        final ExpirationWarningController controller = new ExpirationWarningController(interactor);
+
+        expirationWarningViewModel = new ExpirationWarningViewModel();
+        expirationWarningView = new ExpirationWarningView(expirationWarningViewModel, controller);
+        cardPanel.add(expirationWarningView, "expiration warning");
+        return this;
+    }
 
     /**
      * Adds the AddorCancelIngredient Use Case to the application.
@@ -181,6 +201,20 @@ public class AppBuilder {
         return this;
     }
 
+//    /**
+//     * Adds the expiration warning Use Case to the application.
+//     * @return this builder
+//     */
+//    public AppBuilder addExpirartionWarningUseCase() {
+//        final ExpiredIngredientOutputBoundary expiredIngredientOutputBoundary = new ExpirationWarningPresenter(
+//                expirationWarningViewModel, initialViewModel, viewManagerModel);
+//        final ExpiredIngredientInteractor interactor = new ExpiredIngredientInteractor(expiredIngredientOutputBoundary);
+//
+//        final ExpirationWarningController controller = new ExpirationWarningController(interactor);
+//        expirationWarningView.setExpirationWarningController(controller);
+//        return this;
+//    }
+
     /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
      * @return the application
@@ -191,15 +225,10 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(initialView.getViewName());
+        viewManagerModel.setState(expirationWarningView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;
     }
 
-    public AppBuilder addExpirationWarningView(use_case.expired_food.CheckExpiredIngredientInteractor interactor) {
-        ExpirationWarningView expirationWarningView = new ExpirationWarningView(cardLayout, cardPanel, interactor);
-        cardPanel.add(expirationWarningView, "ExpirationWarningView");
-        return this;
-    }
 }

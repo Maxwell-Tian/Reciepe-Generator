@@ -18,10 +18,11 @@ public class Main {
                                             .addInitialView()
                                             .addAddIngredientView()
                                             .addRecipeListView()
+                                            .addExpirationWarningView()
                                             .addSAoCIUseCase()
                                             .addDeleteIngredientUseCase()
                                             .generateRecipeUseCase()
-//                                            .addExpirationWarningView()
+//                                            .addExpirartionWarningUseCase()
                                             .build();
 
         application.pack();
