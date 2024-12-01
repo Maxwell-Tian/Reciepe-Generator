@@ -82,7 +82,7 @@ public class DeleteIngredientInterfaceAdapterTest {
 
 
     @Test
-    void testPrepareSuccessView() {
+    void testPrepareSuccessView() throws FileNotFoundException {
         IngredientFactory factory = new CommonIngredientFactory();
         Ingredient beef = factory.create("beef", LocalDate.parse("2027-11-11"));
 

@@ -127,7 +127,7 @@ class InitialViewTest {
                 null, ingredients);
         initialView.propertyChange(event);
 
-        JButton deleteButton = findDeleteButtonByIngredientName("cabbage");
+        JButton deleteButton = findDeleteButtonByIngredientInfo("cabbage 2028-10-11");
         assertNotNull(deleteButton, "Delete button for 'cabbage' should exist before deletion");
 
         deleteButton.doClick();
@@ -135,7 +135,7 @@ class InitialViewTest {
         assertFalse(initialViewModel.getState().getIngredients().contains(cabbage),
                 "cabbage should be deleted");
 
-        deleteButton = findDeleteButtonByIngredientName("cabbage");
+        deleteButton = findDeleteButtonByIngredientInfo("cabbage 2028-10-11");
         assertNull(deleteButton, "Delete button for 'cabbage' should no longer exist after deletion");
     }
 
@@ -177,31 +177,24 @@ class InitialViewTest {
         return null;
     }
 
-    private JButton findDeleteButtonByIngredientName(String name) {
-        // Loop through the components of the InitialView
+    private JButton findDeleteButtonByIngredientInfo(String info) {
         for (Component component : initialView.getComponents()) {
-            // Check if the component is a JScrollPane
             if (component instanceof JScrollPane scrollPane) {
-                // Retrieve the viewport's view, which should be the ingredients panel
                 Component view = scrollPane.getViewport().getView();
                 if (view instanceof JPanel ingredientsPanel) {
-                    // Iterate through the subcomponents of the ingredients panel
                     for (Component subComponent : ingredientsPanel.getComponents()) {
-                        // Check if the subcomponent is an ingredient panel
                         if (subComponent instanceof JPanel ingredientPanel) {
                             JLabel nameLabel = null;
                             JButton deleteButton = null;
 
-                            // Loop through the components of the ingredient panel
                             for (Component ingredientComponent : ingredientPanel.getComponents()) {
-                                if (ingredientComponent instanceof JLabel label && label.getText().equals(name)) {
+                                if (ingredientComponent instanceof JLabel label && label.getText().equals(info)) {
                                     nameLabel = label;
                                 } else if (ingredientComponent instanceof JButton button) {
                                     deleteButton = button;
                                 }
                             }
 
-                            // Return the delete button if the name label matches
                             if (nameLabel != null && deleteButton != null) {
                                 return deleteButton;
                             }
@@ -210,7 +203,6 @@ class InitialViewTest {
                 }
             }
         }
-        // Return null if no matching delete button is found
         return null;
     }
 }

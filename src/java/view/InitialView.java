@@ -63,7 +63,8 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
         if (initialViewModel.getState().getIngredients() != null) {
             for (Ingredient ingredient : initialViewModel.getState().getIngredients()) {
                 JPanel ingredientPanel = new JPanel();
-                JLabel ingredientName = new JLabel(ingredient.getName());
+                JLabel ingredientInfo = new JLabel(ingredient.getName() + " " +
+                        ingredient.getExpiryDate().toString());
                 JButton deleteButton = new JButton("delete");
                 deleteButton.addActionListener(
                         evt -> {
@@ -75,7 +76,7 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
                             }
                         }
                 );
-                ingredientPanel.add(ingredientName);
+                ingredientPanel.add(ingredientInfo);
                 ingredientPanel.add(deleteButton);
                 ingredientsPanel.add(ingredientPanel);
             }
@@ -104,7 +105,8 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
         if (initialViewModel.getState().getIngredients() != null) {
             for (Ingredient ingredient : initialViewModel.getState().getIngredients()) {
                 JPanel ingredientPanel = new JPanel();
-                JLabel ingredientName = new JLabel(ingredient.getName());
+                JLabel ingredientInfo = new JLabel(ingredient.getName() + " " +
+                        ingredient.getExpiryDate().toString());
                 JButton deleteButton = new JButton("delete");
                 deleteButton.addActionListener(
                         evt1 -> {
@@ -116,7 +118,7 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
                             }
                         }
                 );
-                ingredientPanel.add(ingredientName);
+                ingredientPanel.add(ingredientInfo);
                 ingredientPanel.add(deleteButton);
                 ingredientsPanel.add(ingredientPanel);
             }
