@@ -1,12 +1,15 @@
 package interface_adapter.addorcancelingredient;
 
+import data.txtConnector;
 import entity.CommonIngredientFactory;
 import data_access.InMemoryIngredientDataAccessObject;
 import entity.Ingredient;
 import entity.IngredientFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.initial.InitialViewModel;
+import interface_adapter.recipemanagement.RecipeManagementViewModel;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import use_case.addorcancelingredient.AddorCancelIngredientInputBoundary;
@@ -23,13 +26,14 @@ public class AddorCancelIngredientInterfaceAdapterTest {
     private AddorCancelIngredientViewModel aocIngredientViewModel;
     private AddorCancelIngredientState aocIngredientState;
     private InitialViewModel initialViewModel;
+    private RecipeManagementViewModel recipeManagementViewModel;
     private ViewManagerModel viewManagerModel;
 
     private AddorCancelIngredientPresenter aocIngredientPresenter;
     private AddorCancelIngredientInputBoundary aocIngredientInteractor;
     private AddorCancelIngredientController aocIngredientController;
 
-    private InMemoryIngredientDataAccessObject ingredientDataAccessObject;
+    private txtConnector ingredientDataAccessObject;
     private IngredientFactory ingredientFactory;
 
     @BeforeEach
@@ -39,12 +43,13 @@ public class AddorCancelIngredientInterfaceAdapterTest {
         aocIngredientViewModel.setState(aocIngredientState);
 
         initialViewModel = new InitialViewModel();
+        recipeManagementViewModel = new RecipeManagementViewModel();
         viewManagerModel = new ViewManagerModel();
-        ingredientDataAccessObject = new InMemoryIngredientDataAccessObject();
+        ingredientDataAccessObject = new txtConnector();
         ingredientFactory = new CommonIngredientFactory();
 
         aocIngredientPresenter = new AddorCancelIngredientPresenter(aocIngredientViewModel,
-                initialViewModel, viewManagerModel);
+                initialViewModel, recipeManagementViewModel, viewManagerModel);
 
         aocIngredientInteractor = new AddorCancelIngredientInteractor(ingredientDataAccessObject,
                 aocIngredientPresenter, ingredientFactory);
@@ -62,7 +67,7 @@ public class AddorCancelIngredientInterfaceAdapterTest {
     void testControllerExecuteAddIngredientSuccessfully() throws FileNotFoundException {
         aocIngredientController.execute("milk", "2029-04-11");
 
-        assertTrue(ingredientDataAccessObject.existsByIngredientName("milk"));
+        Assertions.assertTrue(ingredientDataAccessObject.existsByIngredientName("milk"));
     }
 
     @Test
@@ -73,14 +78,14 @@ public class AddorCancelIngredientInterfaceAdapterTest {
     }
 
     @Test
-    void testPrepareSuccessView() {
+    void testPrepareSuccessView() throws FileNotFoundException {
         Ingredient onion = ingredientFactory.create("onion", LocalDate.parse("2026-03-20"));
 
         AddorCancelIngredientOutputData response = new AddorCancelIngredientOutputData(onion, false);
         aocIngredientPresenter.prepareSuccessView(response);
 
-        assertTrue(initialViewModel.getState().getIngredients().contains(onion));
-        assertEquals(initialViewModel.getViewName(), viewManagerModel.getState());
+        Assertions.assertTrue(initialViewModel.getState().getIngredients().contains(onion));
+        Assertions.assertEquals(initialViewModel.getViewName(), viewManagerModel.getState());
     }
 
     @Test
