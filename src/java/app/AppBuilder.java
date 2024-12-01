@@ -231,4 +231,14 @@ public class AppBuilder {
         return application;
     }
 
+    public AppBuilder addExpirartionWarningUseCase() {
+        final ExpiredIngredientOutputBoundary expiredIngredientOutputBoundary = new ExpirationWarningPresenter(
+                expirationWarningViewModel, initialViewModel, viewManagerModel);
+        final ExpiredIngredientInteractor interactor = new ExpiredIngredientInteractor(expiredIngredientOutputBoundary);
+        final ExpirationWarningController controller = new ExpirationWarningController(interactor);
+        if (expirationWarningView != null) {
+            expirationWarningView.setExpirationWarningController(controller);
+        }
+        return this;
+    }
 }
