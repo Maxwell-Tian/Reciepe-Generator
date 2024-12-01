@@ -231,4 +231,17 @@ public class AppBuilder {
         return application;
     }
 
+    public AppBuilder addExpirartionWarningUseCase() {
+        final ExpiredIngredientOutputBoundary expiredIngredientOutputBoundary = new ExpirationWarningPresenter(
+                expirationWarningViewModel, initialViewModel, viewManagerModel);
+        final ExpiredIngredientInteractor interactor = new ExpiredIngredientInteractor(expiredIngredientOutputBoundary);
+        final ExpirationWarningController controller = new ExpirationWarningController(interactor);
+        if (expirationWarningView != null) {
+            System.out.println("Setting the controller for ExpirationWarningView...");
+            expirationWarningView.setExpirationWarningController(controller);
+        } else {
+            System.err.println("Warning: ExpirationWarningView is not initialized. Controller could not be set.");
+        }
+        return this;
+    }
 }
