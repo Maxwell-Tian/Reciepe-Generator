@@ -6,6 +6,7 @@ import interface_adapter.addorcancelingredient.AddorCancelIngredientController;
 
 import interface_adapter.ExpirationWarning.ExpirationWarningController;
 import interface_adapter.addorcancelingredient.AddorCancelIngredientState;
+import org.w3c.dom.ls.LSOutput;
 
 import javax.swing.*;
 import java.awt.*;
@@ -56,18 +57,50 @@ public class ExpirationWarningView extends JPanel implements PropertyChangeListe
                 System.out.println("Label added to panel. revalidate() and repaint() called.");
             });
         } else {
-            System.out.println("Expired ingredients found. Adding to panel...");
-            addExpiredIngredients(expiredList, expiredPanel);
+
+            for (Ingredient ingredient : expiredList) {
+                JCheckBox expiredCheckBox = new JCheckBox(ingredient.getName() + " (Expiry Date: " + ingredient.getExpiryDate() + ")");
+                checkBoxes.add(expiredCheckBox);
+                expiredPanel.add(expiredCheckBox);
+
+                expiredCheckBox.addItemListener(e -> {
+                    if (expiredCheckBox.isSelected()) {
+                        int confirm = JOptionPane.showConfirmDialog(
+                                this,
+                                "Are you sure you want to delete " + ingredient.getName() + "?",
+                                "Confirm Deletion",
+                                JOptionPane.YES_NO_OPTION
+                        );
+
+                        if (confirm == JOptionPane.YES_OPTION) {
+                            controller.deleteSelectedIngredients(ingredient); // 使用控制器删除
+                            expiredPanel.remove(expiredCheckBox);
+                            expiredPanel.revalidate();
+                            expiredPanel.repaint();
+                        } else {
+                            expiredCheckBox.setSelected(false);  // Deselect if user cancels
+                        }
+                    }
+                });
+            }
+
+           
         }
 
         add(new JScrollPane(expiredPanel), BorderLayout.CENTER);
 
         // Back button to return to the initial view
         JButton backButton = new JButton("Back");
-        backButton.addActionListener(e -> {
-            System.out.println("Back button pressed. Switching to initial view...");
-            controller.switchToInitialView();
-        });
+
+        backButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        controller.switchToInitialView();
+                    }
+                }
+        );
+
+
         add(backButton, BorderLayout.SOUTH);
         this.setVisible(true); // For ExpirationWarningView - Ensures that the view itself is visible <-- Added
         expiredPanel.setVisible(true); // For the panel displaying expired items - Ensures the sub-panel is visible <-- Added

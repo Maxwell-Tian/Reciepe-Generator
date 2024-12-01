@@ -43,7 +43,8 @@ public class RecipeManagementInteractor implements RecipeManagementInputBoundary
 
     @Override
     public List<Recipe> getCurrentRecipes() {
-        return List.of();
+        recipeDataAccessObject.populateAllRecipes();
+        return recipeDataAccessObject.getCurrentRecipes();
     }
 
     private List<Recipe> filterRecipesByCategory(List<Recipe> recipes, String category) {
@@ -96,4 +97,9 @@ public class RecipeManagementInteractor implements RecipeManagementInputBoundary
 
     @Override
     public void switchToRecipeListView() { outputBoundary.switchToRecipeListView(); }
+
+    @Override
+    public void switchToRecipeInfoView() {
+        outputBoundary.switchToRecipeInfoView();
+    }
 }

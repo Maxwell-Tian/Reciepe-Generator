@@ -8,7 +8,7 @@ import interface_adapter.addorcancelingredient.AddorCancelIngredientState;
  */
 public class ExpirationWarningViewModel extends ViewModel<ExpirationWarningState> {
     public ExpirationWarningViewModel() {
-        super("expiration warning");
+        super("expiry warning");
         setState(new ExpirationWarningState());
     }
 }

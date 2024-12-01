@@ -1,6 +1,7 @@
 package interface_adapter.ExpirationWarning;
 import entity.Ingredient;
 import use_case.expired_food.ExpiredIngredientInteractor;
+
 import java.util.List;
 
 public class ExpirationWarningController {
@@ -21,8 +22,8 @@ public class ExpirationWarningController {
         return interactor.execute();
     }
 
-    public void deleteSelectedIngredients(List<Ingredient> ingredientsToDelete) {
-        interactor.deleteIngredients(ingredientsToDelete);
+    public void deleteSelectedIngredients(Ingredient ingredient) {
+        interactor.deleteIngredients(ingredient);
     }
 
     public void switchToInitialView() {

@@ -1,7 +1,6 @@
 package app;
 
 import javax.swing.JFrame;
-import java.io.FileNotFoundException;
 
 /**
  * The Main class of our application.
@@ -17,12 +16,15 @@ public class Main {
         final JFrame application = appBuilder
                                             .addInitialView()
                                             .addAddIngredientView()
+                                            .addRecipeInfoView()
                                             .addRecipeListView()
                                             .addExpirationWarningView()
                                             .addSAoCIUseCase()
                                             .addDeleteIngredientUseCase()
-                                            .generateRecipeUseCase()
-                                            .addExpirartionWarningUseCase()
+
+                                            .addgenerateRecipeUseCase()
+                                            .addExpirationWarningUseCase()
+
                                             .build();
 
         application.pack();

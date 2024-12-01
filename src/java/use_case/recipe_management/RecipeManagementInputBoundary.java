@@ -20,4 +20,6 @@ public interface RecipeManagementInputBoundary {
     void switchToInitialView();
 
     void switchToRecipeListView();
+
+    void switchToRecipeInfoView();
 }

@@ -14,7 +14,7 @@ import java.util.Map;
  * NOT persist data between runs of the program.
  */
 public class InMemoryRecipeDataAccessObject implements RecipeManagementUserDataAccessInterface {
-    private final List<Recipe> allRecipes = new ArrayList<>();
+    private static final List<Recipe> allRecipes = new ArrayList<>();
 
     @Override
     public List<Recipe> getCurrentRecipes(){
