@@ -1,16 +1,21 @@
 package use_case.expired_food;
 
-import entity.Ingredient;
-
-import java.util.List;
-
+/**
+ * Interface defining the output boundary for the expired ingredient use case.
+ * Responsible for preparing success or failure views based on the operation outcome.
+ */
 public interface ExpiredIngredientOutputBoundary {
-//    void execute();
+    /**
+     * Executes the presentation logic using the provided input data.
+     *
+     * @param inputData The input data to process.
+     */
+    void execute(ExpiredIngredientInputData inputData);
 
-    //    void prepareFailView(String error);
-    void deleteIngredient(Ingredient ingredient);
-
-    void switchToInitialView();
-
-    List<Ingredient> getCurrentIngredients();
+    /**
+     * Prepares a failure view with the specified error message.
+     *
+     * @param error The error message to display.
+     */
+    void prepareFailView(String error);
 }
