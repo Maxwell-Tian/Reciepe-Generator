@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import entity.Ingredient;
@@ -16,37 +17,33 @@ import use_case.delete_ingredient.DeleteIngredientIngredientDataAccessInterface;
 
 public class FileIngredientDataAccessObject implements AddorCancelIngredientIngredientDataAccessInterface,
         DeleteIngredientIngredientDataAccessInterface {
-    private static final String HEADER = "Ingredients";
+    private static final String HEADER = "ingredient name,expiry date";
 
     private final File csvFile;
     private final Map<String, Integer> headers = new LinkedHashMap<>();
     private final Map<String, Ingredient> ingredients = new HashMap<>();
-    private List<Ingredient> currentIngredients;
+    private List<Ingredient> currentIngredients = new ArrayList<>();
 
     public FileIngredientDataAccessObject(String csvPath, IngredientFactory ingredientFactory) throws IOException {
-
         csvFile = new File(csvPath);
         headers.put("ingredient name", 0);
         headers.put("expiry date", 1);
+        ensureFileExists();
 
-        if (csvFile.length() == 0) {
-            save();
-        }
-        else {
-
+        if (csvFile.length() > 0) {
             try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
                 final String header = reader.readLine();
 
                 if (!header.equals(HEADER)) {
-                    throw new RuntimeException(String.format("header should be%n: %s%but was:%n%s", HEADER, header));
+                    throw new RuntimeException(String.format("header should be:%n%s%nbut was:%n%s", HEADER, header));
                 }
 
                 String row;
                 while ((row = reader.readLine()) != null) {
                     final String[] col = row.split(",");
-                    final String ingredientName = String.valueOf(col[headers.get("ingredient name")]);
-                    long expiryDateEpochDay = Long.parseLong(col[headers.get("expiry date")]);
-                    LocalDate expiryDate = LocalDate.ofEpochDay(expiryDateEpochDay);
+                    final String ingredientName = col[headers.get("ingredient name")];
+                    String expiryDateString = col[headers.get("expiry date")];
+                    LocalDate expiryDate = LocalDate.parse(expiryDateString, DateTimeFormatter.ISO_LOCAL_DATE);
                     final Ingredient ingredient = ingredientFactory.create(ingredientName, expiryDate);
                     ingredients.put(ingredientName, ingredient);
                     currentIngredients.add(ingredient);
@@ -56,26 +53,45 @@ public class FileIngredientDataAccessObject implements AddorCancelIngredientIngr
     }
 
     private void save() {
-        final BufferedWriter writer;
-        try {
-            writer = new BufferedWriter(new FileWriter(csvFile));
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile))) {
             writer.write(String.join(",", headers.keySet()));
             writer.newLine();
 
             for (Ingredient ingredient : ingredients.values()) {
-                final String line = String.format("%s,%s",
-                        ingredient.getName(), ingredient.getExpiryDate().toString());
+                String line = String.format("%s,%s", ingredient.getName(), ingredient.getExpiryDate().toString());
                 writer.write(line);
                 writer.newLine();
             }
-
-            writer.close();
-
-        }
-        catch (IOException ex) {
-            throw new RuntimeException(ex);
+        } catch (IOException ex) {
+            throw new RuntimeException("Failed to save ingredients", ex);
         }
     }
+
+    private void ensureFileExists() {
+        try {
+            if (!csvFile.exists()) {
+                File parentDir = csvFile.getParentFile();
+                if (parentDir != null && !parentDir.exists()) {
+                    parentDir.mkdirs();
+                }
+                if (csvFile.createNewFile()) {
+                    System.out.println("File created at: " + csvFile.getAbsolutePath());
+                    initializeFileContent(csvFile);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to create the file at " + csvFile.getAbsolutePath(), e);
+        }
+    }
+
+    private void initializeFileContent(File file) {
+        try (FileWriter writer = new FileWriter(file)) {
+            writer.write("IngredientName,ExpiryDate\n");
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    }
+
 
     @Override
     public boolean existsByIngredientName(String ingredientName) {
@@ -85,9 +101,11 @@ public class FileIngredientDataAccessObject implements AddorCancelIngredientIngr
     @Override
     public void save(Ingredient ingredient) {
         ingredients.put(ingredient.getName(), ingredient);
+        currentIngredients.add(ingredient);
+        save();
     }
 
-    @Override
+//    @Override
     public List<Ingredient> getAllIngredients() {
         return currentIngredients;
     }
@@ -100,5 +118,7 @@ public class FileIngredientDataAccessObject implements AddorCancelIngredientIngr
     @Override
     public void deleteIngredient(Ingredient ingredient) {
         ingredients.remove(ingredient.getName());
+        currentIngredients.remove(ingredient);
+        save();
     }
 }

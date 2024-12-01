@@ -2,6 +2,7 @@ package use_case.addorcancelingredient;
 
 import entity.Ingredient;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ public interface AddorCancelIngredientIngredientDataAccessInterface {
      * @param ingredientname the ingredient name to look for
      * @return true if an ingredient with the given ingredient name exists; false otherwise
      */
-    boolean existsByIngredientName(String ingredientname);
+    boolean existsByIngredientName(String ingredientname) throws FileNotFoundException;
 
     /**
      * Saves the ingredient.
@@ -21,5 +22,6 @@ public interface AddorCancelIngredientIngredientDataAccessInterface {
      */
     void save(Ingredient ingredient);
 
-    List<Ingredient> getAllIngredients();
+//    List<Ingredient> getAllIngredients();
+//
 }

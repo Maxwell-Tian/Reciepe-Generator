@@ -1,6 +1,7 @@
 package interface_adapter.deleteingredient;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.addorcancelingredient.AddorCancelIngredientState;
 import interface_adapter.initial.InitialState;
 import interface_adapter.initial.InitialViewModel;
 import interface_adapter.addorcancelingredient.AddorCancelIngredientViewModel;
@@ -23,8 +24,8 @@ public class DeleteIngredientPresenter implements DeleteIngredientOutputBoundary
                                      ViewManagerModel viewManagerModel) {
         this.viewModel = viewModel;
         this.addorCancelIngredientViewModel = addorCancelIngredientViewModel;
-        this.viewManagerModel = viewManagerModel;
         this.recipeManagementViewModel = recipeManagementViewModel;
+        this.viewManagerModel = viewManagerModel;
     }
 
     @Override
@@ -40,7 +41,9 @@ public class DeleteIngredientPresenter implements DeleteIngredientOutputBoundary
 
     @Override
     public void prepareFailView(String errorMessage){
-        // No such a case
+        final InitialState initialState = viewModel.getState();
+        initialState.setError(errorMessage);
+        addorCancelIngredientViewModel.firePropertyChanged();
     }
 
     @Override

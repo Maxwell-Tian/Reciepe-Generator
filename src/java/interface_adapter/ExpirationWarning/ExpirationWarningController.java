@@ -1,12 +1,12 @@
 package interface_adapter.ExpirationWarning;
 import entity.Ingredient;
-import use_case.expired_food.CheckExpiredIngredientInteractor;
+import use_case.expired_food.ExpiredIngredientInteractor;
 import java.util.List;
 
 public class ExpirationWarningController {
-    private final CheckExpiredIngredientInteractor interactor;
+    private final ExpiredIngredientInteractor interactor;
 
-    public ExpirationWarningController(CheckExpiredIngredientInteractor interactor) {
+    public ExpirationWarningController(ExpiredIngredientInteractor interactor) {
         if (interactor == null) {
             throw new IllegalArgumentException("Interactor cannot be null");
         }
@@ -17,8 +17,16 @@ public class ExpirationWarningController {
         return interactor.execute();
     }
 
+    public List<Ingredient> execute() {
+        return interactor.execute();
+    }
+
     public void deleteSelectedIngredients(List<Ingredient> ingredientsToDelete) {
         interactor.deleteIngredients(ingredientsToDelete);
+    }
+
+    public void switchToInitialView() {
+        interactor.switchToInitialView();
     }
 }
 
