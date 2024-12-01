@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 
 import javax.swing.*;
 
-import data.txtConnector;
 import entity.Ingredient;
 import interface_adapter.deleteingredient.DeleteIngredientController;
 import interface_adapter.initial.InitialState;

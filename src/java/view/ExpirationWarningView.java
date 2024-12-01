@@ -1,36 +1,38 @@
-package java.view;
+package view;
 
-import entity.CommonIngredient;
 import entity.Ingredient;
-import java.interface_adapter.ExpirationWarning.ExpirationWarningController;
-import use_case.expired_food.CheckExpiredIngredientInteractor;
-import java.use_case.expired_food.CheckExpiredIngredientUserDataAccessInterface;
+import interface_adapter.ExpirationWarning.ExpirationWarningViewModel;
+import interface_adapter.addorcancelingredient.AddorCancelIngredientController;
+
+import interface_adapter.ExpirationWarning.ExpirationWarningController;
+import interface_adapter.addorcancelingredient.AddorCancelIngredientState;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class ExpirationWarningView extends JPanel {
-    private final CheckExpiredIngredientInteractor interactor;
-    private final CardLayout cardLayout;
-    private final JPanel parentPanel;
-    private final ExpirationWarningController controller;
+public class ExpirationWarningView extends JPanel implements PropertyChangeListener {
 
-    public ExpirationWarningView(CardLayout cardLayout, JPanel parentPanel, CheckExpiredIngredientInteractor interactor) {
-        this.interactor = interactor;
-        this.cardLayout = cardLayout;
-        this.parentPanel = parentPanel;
-        this.controller = new ExpirationWarningController(interactor);
+    private final String viewName = "expiry warning";
+    private ExpirationWarningController controller;
+    private final ExpirationWarningViewModel viewModel;
+
+    public ExpirationWarningView(ExpirationWarningViewModel expirationWarningViewModel, ExpirationWarningController expirationWarningController) {
+
+        this.controller = expirationWarningController;
+        this.viewModel = expirationWarningViewModel;
+        viewModel.addPropertyChangeListener(this);
 
         setLayout(new BorderLayout());
         setSize(400, 300);
 
         // Get expired ingredients
-        List<Ingredient> expiredList = interactor.execute();
+        List<Ingredient> expiredList = controller.execute();
 
         // Create a panel for displaying expired ingredients with checkboxes
         JPanel expiredPanel = new JPanel();
@@ -74,10 +76,30 @@ public class ExpirationWarningView extends JPanel {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(parentPanel, "initial view");  // Navigate back to InitialView using CardLayout
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        controller.switchToInitialView();
+                    }
+                };
             }
         });
 
         add(backButton, BorderLayout.SOUTH);
+    }
+
+    public void setExpirationWarningController(ExpirationWarningController controller) {
+        this.controller = controller;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        final AddorCancelIngredientState state = (AddorCancelIngredientState) evt.getNewValue();
+        if (state.getErrorMessage() != null) {
+            JOptionPane.showMessageDialog(this, state.getErrorMessage());
+        }
+    }
+
+    public String getViewName() {
+        return viewName;
     }
 }
