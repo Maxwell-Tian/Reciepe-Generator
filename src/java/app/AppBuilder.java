@@ -12,9 +12,9 @@ import data_access.InMemoryRecipeDataAccessObject;
 import data_access.InMemoryRecipeManagementRepository;
 import entity.*;
 
-import interface_adapter.ExpirationWarning.ExpirationWarningController;
-import interface_adapter.ExpirationWarning.ExpirationWarningPresenter;
-import interface_adapter.ExpirationWarning.ExpirationWarningViewModel;
+import interface_adapter.expirationwarning.ExpirationWarningController;
+import interface_adapter.expirationwarning.ExpirationWarningPresenter;
+import interface_adapter.expirationwarning.ExpirationWarningViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.addorcancelingredient.AddorCancelIngredientController;
 import interface_adapter.addorcancelingredient.AddorCancelIngredientPresenter;
@@ -35,7 +35,6 @@ import use_case.delete_ingredient.DeleteIngredientOutputBoundary;
 import use_case.addorcancelingredient.AddorCancelIngredientInputBoundary;
 import use_case.addorcancelingredient.AddorCancelIngredientOutputBoundary;
 
-import use_case.expired_food.ExpiredIngredientInputBoundary;
 import use_case.expired_food.ExpiredIngredientInteractor;
 import use_case.recipe_management.RecipeManagementInputBoundary;
 import use_case.recipe_management.RecipeManagementInteractor;

@@ -1,7 +1,6 @@
-package interface_adapter.ExpirationWarning;
+package interface_adapter.expirationwarning;
 
 import interface_adapter.ViewModel;
-import interface_adapter.addorcancelingredient.AddorCancelIngredientState;
 
 /**
  * ViewModel for add or cancel expiration warning View.

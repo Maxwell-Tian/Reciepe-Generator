@@ -1,4 +1,4 @@
-package interface_adapter.ExpirationWarning;
+package interface_adapter.expirationwarning;
 
 import entity.Ingredient;
 import interface_adapter.ViewManagerModel;

@@ -1,20 +1,16 @@
 package view;
 
 import entity.Ingredient;
-import interface_adapter.ExpirationWarning.ExpirationWarningViewModel;
-import interface_adapter.addorcancelingredient.AddorCancelIngredientController;
+import interface_adapter.expirationwarning.ExpirationWarningViewModel;
 
-import interface_adapter.ExpirationWarning.ExpirationWarningController;
+import interface_adapter.expirationwarning.ExpirationWarningController;
 import interface_adapter.addorcancelingredient.AddorCancelIngredientState;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
-import java.util.ArrayList;
 
 public class ExpirationWarningView extends JPanel implements PropertyChangeListener {
 

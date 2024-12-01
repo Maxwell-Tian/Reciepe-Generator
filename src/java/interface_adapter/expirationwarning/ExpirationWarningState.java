@@ -1,4 +1,4 @@
-package interface_adapter.ExpirationWarning;
+package interface_adapter.expirationwarning;
 
 public class ExpirationWarningState {
     private String errorMessage;
