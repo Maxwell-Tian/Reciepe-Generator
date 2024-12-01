@@ -1,14 +1,26 @@
 package interface_adapter.recipemanagement;
 
-public class RecipeManagementState {
-    private String errorMessage;
+import api.API_request;
+import data.txtConnector;
+import entity.Ingredient;
+import entity.Recipe;
 
-    @Override
-    public String toString() {
-        return "RecipeManagementState{}";
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class RecipeManagementState {
+    private List<Recipe> currentlyGeneratedList = new ArrayList<>();
+    private final txtConnector ingredientDataAccessObject = new txtConnector();
+
+    public void regenerateList() throws FileNotFoundException {
+        List<Ingredient> currentIngredient = ingredientDataAccessObject.getCurrentIngredients();
+        API_request request = new API_request(currentIngredient, "", "Asian", "");
+        List<List<String>> rawRecipes = request.Searching_Recipe();
+        currentlyGeneratedList = request.translater(rawRecipes);
     }
 
-    public String getErrorMessage() {
-        return errorMessage;
+    public List<Recipe> getCurrentlyGeneratedList() {
+        return currentlyGeneratedList;
     }
 }

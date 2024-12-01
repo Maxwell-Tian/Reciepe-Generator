@@ -15,17 +15,17 @@ public class RecipeManagementController {
         this.interactor = interactor;
     }
 
-    public void execute(Map<String, LocalDate> userIngredients, String filterCategory) {
-        if (userIngredients == null || userIngredients.isEmpty()) {
-            throw new IllegalArgumentException("User ingredients cannot be null or empty");
-        }
-        RecipeManagementInputData inputData = new RecipeManagementInputData(filterCategory, userIngredients);
-        interactor.execute(inputData);
-    }
+//    public void execute(Map<String, LocalDate> userIngredients, String filterCategory) {
+//        if (userIngredients == null || userIngredients.isEmpty()) {
+//            throw new IllegalArgumentException("User ingredients cannot be null or empty");
+//        }
+//        RecipeManagementInputData inputData = new RecipeManagementInputData(filterCategory, userIngredients);
+//        interactor.execute(inputData);
+//    }
 
-    public List<Recipe> getCurrentRecipes() {
-        return interactor.getCurrentRecipes();
-    }
+//    public List<Recipe> getCurrentRecipes() {
+//        return interactor.getCurrentRecipes();
+//    }
 
     /**
      * Executes the "switch to InitialView" Use Case.

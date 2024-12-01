@@ -9,13 +9,13 @@ import java.util.List;
  */
 public interface RecipeManagementInputBoundary {
 
-    /**
-     * Execute the Recipe Management Use Case.
-     * @param recipeManagementInputData the input data for this use case
-     */
-    List<Recipe> execute(RecipeManagementInputData recipeManagementInputData);
+//    /**
+//     * Execute the Recipe Management Use Case.
+//     * @param recipeManagementInputData the input data for this use case
+//     */
+//    List<Recipe> execute(RecipeManagementInputData recipeManagementInputData);
 
-    List<Recipe> getCurrentRecipes();
+//    List<Recipe> getCurrentRecipes();
 
     void switchToInitialView();
 

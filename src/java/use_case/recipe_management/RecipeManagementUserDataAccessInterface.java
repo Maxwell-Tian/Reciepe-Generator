@@ -1,6 +1,5 @@
 package use_case.recipe_management;
 
-import entity.Ingredient;
 import entity.Recipe;
 
 import java.time.LocalDate;

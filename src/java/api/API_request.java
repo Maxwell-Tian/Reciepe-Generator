@@ -2,8 +2,9 @@ package api;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import entity.CommonIngredient;
+import entity.CommonRecipe;
 import entity.Ingredient;
+import entity.Recipe;
 import okhttp3.*;
 
 import java.util.ArrayList;
@@ -113,5 +114,18 @@ public class API_request {
                 "Eastern Europe", "French", "Indian", "Italian", "Japanese", "Kosher", "Mediterranean", "Mexican",
                 "Middle Eastern", "Nordic", "South American", "South East Asian");
         return !(!list.contains(cuisine)|cuisine.isEmpty());
+    }
+
+    public List<Recipe> translater(List<List<String>> rawRecipes) {
+        List<Recipe> result = new ArrayList<>();
+        for (List<String> rawRecipe: rawRecipes) {
+            if (rawRecipe.isEmpty()) {
+                continue;
+            }
+            String recipeName = rawRecipe.get(0);
+            List<String> ingredients = rawRecipe.subList(1, rawRecipe.size());
+            result.add(new CommonRecipe(recipeName, ingredients));
+        }
+        return result;
     }
 }

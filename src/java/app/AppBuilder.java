@@ -1,6 +1,7 @@
 package app;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import data.txtConnector;
@@ -56,7 +57,7 @@ public class AppBuilder {
 //            new InMemoryIngredientDataAccessObject();
     private final txtConnector ingredientDataAccessObject = new txtConnector();
 
-    private final InMemoryRecipeDataAccessObject recipeDataAccessObject = new InMemoryRecipeDataAccessObject();
+//    private final InMemoryRecipeDataAccessObject recipeDataAccessObject = new InMemoryRecipeDataAccessObject();
 
     final List<Recipe> recipeRepository = new InMemoryRecipeManagementRepository().getCurrentRecipes();
 
@@ -86,16 +87,6 @@ public class AppBuilder {
         return this;
     }
 
-//    /**
-//     * Adds the DeleteIngredientReminderView to the application.
-//     * @return this builder
-//     */
-//    public AppBuilder addDeleteIngredientReminderView() {
-//        deleteIngredientReminderView = new DeleteIngredientReminderViewModel();
-//        deleteIngredientReminderView = new DeleteIngredientReminderView(DeleteIngredientReminderViewModel);
-//        cardPanel.add(deleteIngredientReminderView, deleteIngredientReminderView, deleteIngredientReminderView.getViewName());
-//        return this;
-//    }
 
     /**
      * Adds the InitialView to the application.
@@ -123,32 +114,17 @@ public class AppBuilder {
      * Adds the RecipeListView to the application.
      * @return this builder
      */
-    public AppBuilder addRecipeListView() {
+    public AppBuilder addRecipeListView() throws FileNotFoundException {
         recipeListViewModel = new RecipeManagementViewModel();
-        RecipeManagementOutputBoundary recipeManagementOutputBoundary = new RecipeManagementPresenter(initialViewModel, recipeListViewModel, recipeInfoViewModel, viewManagerModel);
-        RecipeManagementInputBoundary interactor = new RecipeManagementInteractor(recipeDataAccessObject, recipeManagementOutputBoundary);
-        List<Recipe> controller = new RecipeManagementController(interactor).getCurrentRecipes();
-        recipeListView = new RecipeListView(controller, recipeInfoView, recipeListViewModel);
-//        recipeInfoView = new RecipeInfoView(cardLayout, cardPanel);
-//        final RecipeManagementOutputBoundary recipeManagementOutputBoundary = new RecipeManagementPresenter();
-//        final RecipeManagementInputBoundary interactor = new RecipeManagementInteractor(recipeRepository, recipeManagementOutputBoundary);
-//        final List<Recipe> controller = new RecipeManagementController(interactor).getCurrentRecipes();
+//        RecipeManagementOutputBoundary recipeManagementOutputBoundary = new RecipeManagementPresenter(initialViewModel, recipeListViewModel, recipeInfoViewModel, viewManagerModel);
+//        RecipeManagementInputBoundary interactor = new RecipeManagementInteractor(recipeDataAccessObject, recipeManagementOutputBoundary);
 //
-//        recipeListView = new RecipeListView(controller, recipeInfoView, cardLayout, cardPanel);
-
+//        List<Recipe> controller = new RecipeManagementController(interactor).getCurrentRecipes();
+        recipeListView = new RecipeListView(recipeInfoView, recipeListViewModel);
         cardPanel.add(recipeListView, recipeListView.getViewName());
         return this;
     }
 
-//    /**
-//     * Adds the RecipeInfoView to the application.
-//     * @return this builder
-//     */
-//    public AppBuilder addRecipeInfoView() {
-//        recipeInfoView = new RecipeInfoView(cardLayout, cardPanel);
-//        cardPanel.add(recipeInfoView, recipeInfoView.getViewName());
-//        return this;
-//    }
 
     /**
      * Adds the ExpirationWarningView to the application.
@@ -173,7 +149,7 @@ public class AppBuilder {
      */
     public AppBuilder addSAoCIUseCase() {
         final AddorCancelIngredientOutputBoundary aociOutputBoundary = new AddorCancelIngredientPresenter(
-                addIngredientViewModel, initialViewModel, viewManagerModel);
+                addIngredientViewModel, initialViewModel, recipeListViewModel, viewManagerModel);
         final AddorCancelIngredientInputBoundary aociInteractor = new AddorCancelIngredientInteractor(
                 ingredientDataAccessObject, aociOutputBoundary, ingredientFactory);
 
@@ -206,7 +182,7 @@ public class AppBuilder {
         final RecipeManagementOutputBoundary recipeManagementOutputBoundary = new RecipeManagementPresenter(
                 initialViewModel, recipeListViewModel, recipeInfoViewModel, viewManagerModel);
         final RecipeManagementInputBoundary Interactor = new RecipeManagementInteractor(
-                recipeDataAccessObject, recipeManagementOutputBoundary);
+                 recipeManagementOutputBoundary);
 
         final RecipeManagementController controller = new RecipeManagementController(Interactor);
         recipeListView.setRecipeManagementController(controller);
