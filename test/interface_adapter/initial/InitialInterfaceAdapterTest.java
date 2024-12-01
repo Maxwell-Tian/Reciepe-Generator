@@ -1,20 +1,17 @@
 package interface_adapter.initial;
 
-import data.txtConnector;
-import data_access.InMemoryIngredientDataAccessObject;
 import entity.CommonIngredientFactory;
 import entity.Ingredient;
 import entity.IngredientFactory;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 /**
  * Test class for InitialState and InitialViewModel.
@@ -23,24 +20,26 @@ class InitialInterfaceAdapterTest {
 
     private InitialState initialState;
     private InitialViewModel initialViewModel;
-    private txtConnector mockDataAccessObject;
 
     @BeforeEach
     void setUp() {
-        mockDataAccessObject = mock(txtConnector.class);
         initialState = new InitialState() {};
         initialViewModel = new InitialViewModel();
         initialViewModel.setState(initialState);
     }
 
+    @AfterEach
+    void tearDown() {
+        initialState.setIngredients(null);
+    }
+
     @Test
     void testAddIngredient() {
         IngredientFactory factory = new CommonIngredientFactory();
-        Ingredient ingredient = factory.create("egg", LocalDate.parse("2024-12-13"));
+        Ingredient egg = factory.create("egg", LocalDate.parse("2024-12-13"));
+        initialState.addIngredient(egg);
 
-        initialState.addIngredient(ingredient);
-
-        assertTrue(initialState.getIngredients().contains(ingredient));
+        assertTrue(initialState.getIngredients().contains(egg));
     }
 
     @Test
@@ -59,6 +58,17 @@ class InitialInterfaceAdapterTest {
         initialState.setError("Test error");
 
         assertEquals("Test error", initialState.getErrorMessage());
+    }
+
+    @Test
+    void testSetIngredients() {
+        IngredientFactory factory = new CommonIngredientFactory();
+        List<Ingredient> ingredients = new ArrayList<>();
+        Ingredient pork = factory.create("pork", LocalDate.parse("2024-12-11"));
+        ingredients.add(pork);
+        initialState.setIngredients(ingredients);
+
+        assertEquals(ingredients, initialState.getIngredients());
     }
 
     @Test

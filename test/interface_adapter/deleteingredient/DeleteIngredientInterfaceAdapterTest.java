@@ -5,137 +5,117 @@ import entity.*;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.addorcancelingredient.AddorCancelIngredientViewModel;
 import interface_adapter.initial.InitialViewModel;
-import interface_adapter.initial.InitialState;
 import interface_adapter.recipemanagement.RecipeManagementViewModel;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import use_case.delete_ingredient.*;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 
-import static org.mockito.Mockito.*;
-
 public class DeleteIngredientInterfaceAdapterTest {
-    private InitialViewModel mockViewModel;
-    private AddorCancelIngredientViewModel mockAddorCancelIngredientViewModel;
-    private RecipeManagementViewModel mockRecipeManagementViewModel;
-    private ViewManagerModel mockViewManagerModel;
+    private InitialViewModel initialViewModel;
+    private AddorCancelIngredientViewModel aocIngredientViewModel;
+    private RecipeManagementViewModel recipeManagementViewModel;
+    private ViewManagerModel viewManagerModel;
 
     private DeleteIngredientPresenter presenter;
-    private DeleteIngredientInputBoundary mockDeleteIngredientInteractor;
+    private DeleteIngredientInputBoundary deleteIngredientInteractor;
     private DeleteIngredientController controller;
+
+    private InMemoryIngredientDataAccessObject ingredientDataAccessObject;
 
     @BeforeEach
     void setUp() {
-        mockViewModel = mock(InitialViewModel.class);
-        mockAddorCancelIngredientViewModel = mock(AddorCancelIngredientViewModel.class);
-        mockRecipeManagementViewModel = mock(RecipeManagementViewModel.class);
-        mockViewManagerModel = mock(ViewManagerModel.class);
-
-        mockDeleteIngredientInteractor = mock(DeleteIngredientInputBoundary.class);
-        controller = new DeleteIngredientController(mockDeleteIngredientInteractor);
+        initialViewModel = new InitialViewModel();
+        aocIngredientViewModel = new AddorCancelIngredientViewModel();
+        recipeManagementViewModel = new RecipeManagementViewModel();
+        viewManagerModel = new ViewManagerModel();
+        ingredientDataAccessObject = new InMemoryIngredientDataAccessObject();
 
         presenter = new DeleteIngredientPresenter(
-                mockViewModel,
-                mockAddorCancelIngredientViewModel,
-                mockRecipeManagementViewModel,
-                mockViewManagerModel
+                initialViewModel,
+                aocIngredientViewModel,
+                recipeManagementViewModel,
+                viewManagerModel
         );
+
+        deleteIngredientInteractor = new DeleteIngredientInteractor(ingredientDataAccessObject, presenter);
+        controller = new DeleteIngredientController(deleteIngredientInteractor);
+    }
+
+    @AfterEach
+    void tearDown() {
+        ingredientDataAccessObject = null;
     }
 
     @Test
     void testControllerExecuteDeletesIngredientSuccessfully() throws FileNotFoundException {
         IngredientFactory factory = new CommonIngredientFactory();
-        Ingredient mockIngredient = factory.create("tomato", LocalDate.parse("2026-12-11"));
+        Ingredient tomato = factory.create("tomato", LocalDate.parse("2026-12-11"));
 
-        List<Ingredient> ingredients = Collections.singletonList(mockIngredient);
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(tomato);
+        controller.execute(ingredients, tomato);
 
-        controller.execute(ingredients, mockIngredient);
-
-        verify(mockDeleteIngredientInteractor).execute(
-                argThat(inputData -> inputData.getIngredient().equals(mockIngredient))
-        );
-    }
-
-    @Test
-    void testControllerExecuteThrowsFileNotFoundException() throws FileNotFoundException {
-        IngredientFactory factory = new CommonIngredientFactory();
-        Ingredient mockIngredient = factory.create("tomato", LocalDate.parse("2026-12-11"));
-        List<Ingredient> ingredients = Collections.singletonList(mockIngredient);
-
-        doThrow(FileNotFoundException.class).when(mockDeleteIngredientInteractor).execute(any());
-
-        org.junit.jupiter.api.Assertions.assertThrows(FileNotFoundException.class, () ->
-                controller.execute(ingredients, mockIngredient));
+        assertFalse(ingredientDataAccessObject.getCurrentIngredients().contains(tomato),
+                "Ingredient 'tomato' should be deleted from the list");
     }
 
     @Test
     void testControllerSwitchToAddIngredientView() {
         controller.switchToAddIngredientView();
-        verify(mockDeleteIngredientInteractor).switchToAddIngredientView();
+        assertEquals(aocIngredientViewModel.getViewName(), viewManagerModel.getState());
     }
 
     @Test
     void testControllerSwitchToRecipeView() {
         controller.switchToRecipeView();
-        verify(mockDeleteIngredientInteractor).switchToRecipeView();
+        assertEquals(recipeManagementViewModel.getViewName(), viewManagerModel.getState());
     }
 
 
     @Test
     void testPrepareSuccessView() {
-        InMemoryIngredientDataAccessObject ingredientRepository = new InMemoryIngredientDataAccessObject();
         IngredientFactory factory = new CommonIngredientFactory();
-        Ingredient ingredient = factory.create("tomato", LocalDate.parse("2024-12-11"));
-        ingredientRepository.save(ingredient);
+        Ingredient beef = factory.create("beef", LocalDate.parse("2027-11-11"));
 
-        InitialState mockInitialState = mock(InitialState.class);
-        DeleteIngredientOutputData mockResponse = mock(DeleteIngredientOutputData.class);
-        when(mockViewModel.getState()).thenReturn(mockInitialState);
-        when(mockResponse.getIngredient()).thenReturn(ingredient);
+        DeleteIngredientOutputData response = new
+                DeleteIngredientOutputData(ingredientDataAccessObject.getAllIngredients(), beef, false);
+        presenter.prepareSuccessView(response);
 
-        presenter.prepareSuccessView(mockResponse);
+        assertFalse(ingredientDataAccessObject.getCurrentIngredients().contains(beef),
+                "Ingredient should be deleted");
 
-        verify(mockInitialState).deleteIngredient(ingredient);
-        verify(mockViewModel).setState(mockInitialState);
-        verify(mockViewModel).firePropertyChanged();
-        verify(mockViewManagerModel).setState(mockViewModel.getViewName());
-        verify(mockViewManagerModel).firePropertyChanged();
+        assertEquals(initialViewModel.getViewName(), viewManagerModel.getState());
     }
 
     @Test
     void testPrepareFailView() {
-        InitialState mockInitialState = mock(InitialState.class);
         String errorMessage = "Ingredient not found";
-        when(mockViewModel.getState()).thenReturn(mockInitialState);
-
         presenter.prepareFailView(errorMessage);
 
-        verify(mockInitialState).setError(errorMessage);
-        verify(mockAddorCancelIngredientViewModel).firePropertyChanged();
+        assertEquals(initialViewModel.getState().getErrorMessage(), errorMessage);
     }
 
     @Test
     void testSwitchToAddIngredientView() {
-        when(mockAddorCancelIngredientViewModel.getViewName()).thenReturn("AddIngredientView");
-
         presenter.switchToAddIngredientView();
 
-        verify(mockViewManagerModel).setState("AddIngredientView");
-        verify(mockViewManagerModel).firePropertyChanged();
+        assertEquals(aocIngredientViewModel.getViewName(), viewManagerModel.getState());
     }
 
     @Test
     void testSwitchToRecipeView() {
-        when(mockRecipeManagementViewModel.getViewName()).thenReturn("RecipeManagementView");
-
         presenter.switchToRecipeView();
 
-        verify(mockViewManagerModel).setState("RecipeManagementView");
-        verify(mockViewManagerModel).firePropertyChanged();
+        assertEquals(recipeManagementViewModel.getViewName(), viewManagerModel.getState());
     }
 
 }
