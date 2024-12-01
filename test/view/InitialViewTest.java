@@ -1,6 +1,5 @@
 package view;
 
-import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import data_access.InMemoryIngredientDataAccessObject;
@@ -16,14 +15,12 @@ import interface_adapter.recipemanagement.RecipeManagementViewModel;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
 import use_case.delete_ingredient.DeleteIngredientInputBoundary;
 import use_case.delete_ingredient.DeleteIngredientInteractor;
 
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
-import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

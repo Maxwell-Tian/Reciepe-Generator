@@ -101,7 +101,7 @@ public class DeleteIngredientInterfaceAdapterTest {
         String errorMessage = "Ingredient not found";
         presenter.prepareFailView(errorMessage);
 
-        assertEquals(initialViewModel.getState().getErrorMessage(), errorMessage);
+        assertEquals(errorMessage, initialViewModel.getState().getErrorMessage());
     }
 
     @Test

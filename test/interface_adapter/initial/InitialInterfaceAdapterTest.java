@@ -23,7 +23,7 @@ class InitialInterfaceAdapterTest {
 
     @BeforeEach
     void setUp() {
-        initialState = new InitialState() {};
+        initialState = new InitialState();
         initialViewModel = new InitialViewModel();
         initialViewModel.setState(initialState);
     }
