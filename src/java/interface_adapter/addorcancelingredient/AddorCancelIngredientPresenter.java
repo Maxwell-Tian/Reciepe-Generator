@@ -26,6 +26,7 @@ public class AddorCancelIngredientPresenter implements AddorCancelIngredientOutp
         final InitialState initialState = initialViewModel.getState();
         initialState.addIngredient(response.getIngredient());
         this.initialViewModel.setState(initialState);
+        initialViewModel.firePropertyChanged();
 
         viewManagerModel.setState(initialViewModel.getViewName());
         viewManagerModel.firePropertyChanged();

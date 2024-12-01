@@ -62,6 +62,7 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
         }
         if (initialViewModel.getState().getIngredients() != null) {
             for (Ingredient ingredient : initialViewModel.getState().getIngredients()) {
+                System.out.println(ingredient.getName());
                 JPanel ingredientPanel = new JPanel();
                 JLabel ingredientName = new JLabel(ingredient.getName());
                 JButton deleteButton = new JButton("delete");
