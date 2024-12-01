@@ -97,4 +97,9 @@ public class RecipeManagementInteractor implements RecipeManagementInputBoundary
 
     @Override
     public void switchToRecipeListView() { outputBoundary.switchToRecipeListView(); }
+
+    @Override
+    public void switchToRecipeInfoView() {
+        outputBoundary.switchToRecipeInfoView();
+    }
 }

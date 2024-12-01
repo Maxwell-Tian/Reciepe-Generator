@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.List;
 
 import data.txtConnector;
+import interface_adapter.recipemanagement.RecipeInfoViewModel;
 import use_case.expired_food.ExpiredIngredientOutputBoundary;
 import view.ExpirationWarningView;
 import javax.swing.*;
@@ -35,7 +36,6 @@ import use_case.delete_ingredient.DeleteIngredientOutputBoundary;
 import use_case.addorcancelingredient.AddorCancelIngredientInputBoundary;
 import use_case.addorcancelingredient.AddorCancelIngredientOutputBoundary;
 
-import use_case.expired_food.ExpiredIngredientInputBoundary;
 import use_case.expired_food.ExpiredIngredientInteractor;
 import use_case.recipe_management.RecipeManagementInputBoundary;
 import use_case.recipe_management.RecipeManagementInteractor;
@@ -66,6 +66,7 @@ public class AppBuilder {
     private InitialViewModel initialViewModel;
     private RecipeListView recipeListView;
     private RecipeManagementViewModel recipeListViewModel;
+    private RecipeInfoViewModel recipeInfoViewModel;
     private RecipeInfoView recipeInfoView;
     private ExpirationWarningView expirationWarningView;
     private ExpirationWarningViewModel expirationWarningViewModel;
@@ -108,12 +109,23 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the RecipeInfoView to the application.
+     * @return this builder
+     */
+    public AppBuilder addRecipeInfoView() {
+        recipeInfoViewModel = new RecipeInfoViewModel();
+        recipeInfoView = new RecipeInfoView(recipeInfoViewModel);
+        cardPanel.add(recipeInfoView, recipeInfoView.getViewName());
+        return this;
+    }
+
+    /**
      * Adds the RecipeListView to the application.
      * @return this builder
      */
     public AppBuilder addRecipeListView() {
         recipeListViewModel = new RecipeManagementViewModel();
-        RecipeManagementOutputBoundary recipeManagementOutputBoundary = new RecipeManagementPresenter(initialViewModel, recipeListViewModel, viewManagerModel);
+        RecipeManagementOutputBoundary recipeManagementOutputBoundary = new RecipeManagementPresenter(initialViewModel, recipeListViewModel, recipeInfoViewModel, viewManagerModel);
         RecipeManagementInputBoundary interactor = new RecipeManagementInteractor(recipeDataAccessObject, recipeManagementOutputBoundary);
         List<Recipe> controller = new RecipeManagementController(interactor).getCurrentRecipes();
         recipeListView = new RecipeListView(controller, recipeInfoView, recipeListViewModel);
@@ -190,16 +202,18 @@ public class AppBuilder {
      * Adds the generate recipe Use Case to the application.
      * @return this builder
      */
-    public AppBuilder generateRecipeUseCase() {
+    public AppBuilder addgenerateRecipeUseCase() {
         final RecipeManagementOutputBoundary recipeManagementOutputBoundary = new RecipeManagementPresenter(
-                initialViewModel, recipeListViewModel, viewManagerModel);
+                initialViewModel, recipeListViewModel, recipeInfoViewModel, viewManagerModel);
         final RecipeManagementInputBoundary Interactor = new RecipeManagementInteractor(
                 recipeDataAccessObject, recipeManagementOutputBoundary);
 
         final RecipeManagementController controller = new RecipeManagementController(Interactor);
         recipeListView.setRecipeManagementController(controller);
+        recipeInfoView.setRecipeManagementController(controller);
         return this;
     }
+
 
 //    /**
 //     * Adds the expiration warning Use Case to the application.

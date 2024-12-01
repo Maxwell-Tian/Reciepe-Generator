@@ -12,13 +12,16 @@ public class RecipeManagementPresenter implements RecipeManagementOutputBoundary
 
     private final InitialViewModel initialViewModel;
     private final RecipeManagementViewModel recipeManagementViewModel;
+    private final RecipeInfoViewModel recipeInfoViewModel;
     private final ViewManagerModel viewManagerModel;
 
     public RecipeManagementPresenter(InitialViewModel initialViewModel,
                                      RecipeManagementViewModel recipeManagementViewModel,
+                                     RecipeInfoViewModel recipeInfoViewModel,
                                      ViewManagerModel viewManagerModel) {
         this.initialViewModel = initialViewModel;
         this.recipeManagementViewModel = recipeManagementViewModel;
+        this.recipeInfoViewModel = recipeInfoViewModel;
         this.viewManagerModel = viewManagerModel;
     }
     @Override
@@ -53,6 +56,12 @@ public class RecipeManagementPresenter implements RecipeManagementOutputBoundary
     @Override
     public void switchToRecipeListView() {
         viewManagerModel.setState(recipeManagementViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToRecipeInfoView() {
+        viewManagerModel.setState(recipeInfoViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }

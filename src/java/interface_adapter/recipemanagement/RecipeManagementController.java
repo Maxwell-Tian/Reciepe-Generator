@@ -38,4 +38,8 @@ public class RecipeManagementController {
      * switch to recipelist
      */
     public void switchToRecipeListView() {interactor.switchToRecipeListView(); }
+
+    public void switchToRecipeInfoView() {
+        interactor.switchToRecipeInfoView();
+    }
 }

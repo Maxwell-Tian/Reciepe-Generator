@@ -1,26 +1,33 @@
 package view;
 
 import entity.Recipe;
+import interface_adapter.recipemanagement.RecipeInfoViewModel;
 import interface_adapter.recipemanagement.RecipeManagementController;
+import interface_adapter.recipemanagement.RecipeManagementState;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * The View for displaying recipe details.
  */
-public class RecipeInfoView extends JPanel implements ActionListener {
+public class RecipeInfoView extends JPanel implements ActionListener, PropertyChangeListener {
 
     private final String viewName = "recipe info";
+    private final RecipeInfoViewModel recipeInfoViewModel;
 
     private final JLabel titleLabel = new JLabel();
     private final JTextArea detailsArea = new JTextArea();
     private final JButton backButton = new JButton("Back");
     private RecipeManagementController controller;
 
-    public RecipeInfoView() {
+    public RecipeInfoView(RecipeInfoViewModel recipeInfoViewModel) {
+        this.recipeInfoViewModel = recipeInfoViewModel;
+        this.recipeInfoViewModel.addPropertyChangeListener(this);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -70,5 +77,17 @@ public class RecipeInfoView extends JPanel implements ActionListener {
 
     public String getViewName() {
         return viewName;
+    }
+
+    public void setRecipeManagementController(RecipeManagementController controller) {
+        this.controller = controller;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        final RecipeManagementState state = (RecipeManagementState) evt.getNewValue();
+        if (state.getErrorMessage() != null) {
+            JOptionPane.showMessageDialog(this, state.getErrorMessage());
+        }
     }
 }

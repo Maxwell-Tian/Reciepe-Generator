@@ -42,4 +42,9 @@ public interface RecipeManagementOutputBoundary {
      * switch to recipe list view
      */
     void switchToRecipeListView();
+
+    /**
+     * switch to recipe info view
+     */
+    void switchToRecipeInfoView();
 }

@@ -1,6 +1,7 @@
 package interface_adapter.recipemanagement;
 
 import entity.Recipe;
+import interface_adapter.ViewModel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -9,11 +10,13 @@ import java.beans.PropertyChangeSupport;
  * ViewModel for the RecipeInfoView.
  * Manages the state of the RecipeInfoView and notifies it of updates.
  */
-public class RecipeInfoViewModel {
+public class RecipeInfoViewModel extends ViewModel<RecipeInfoState> {
     private final PropertyChangeSupport support;
     private final RecipeInfoState state;
 
     public RecipeInfoViewModel() {
+        super("recipe info");
+        setState(new RecipeInfoState());
         this.support = new PropertyChangeSupport(this);
         this.state = new RecipeInfoState(); // 初始化状态
     }
@@ -52,13 +55,13 @@ public class RecipeInfoViewModel {
         support.removePropertyChangeListener(listener);
     }
 
-    /**
-     * Gets the view name for navigation purposes.
-     * @return the view name
-     */
-    public String getViewName() {
-        return "RecipeInfoView";
-    }
+//    /**
+//     * Gets the view name for navigation purposes.
+//     * @return the view name
+//     */
+//    public String getViewName() {
+//        return this.viewName;
+//    }
 
     public void showRecipeDetails(Recipe recipe) {
     }

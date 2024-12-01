@@ -1,11 +1,6 @@
 package view;
 
-import entity.CommonRecipe;
 import entity.Recipe;
-import interface_adapter.addorcancelingredient.AddorCancelIngredientController;
-import interface_adapter.addorcancelingredient.AddorCancelIngredientState;
-import interface_adapter.addorcancelingredient.AddorCancelIngredientViewModel;
-import interface_adapter.recipemanagement.RecipeInfoViewModel;
 import interface_adapter.recipemanagement.RecipeManagementController;
 import interface_adapter.recipemanagement.RecipeManagementState;
 import interface_adapter.recipemanagement.RecipeManagementViewModel;
@@ -16,9 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The View for displaying a list of recipes.
@@ -48,15 +41,18 @@ public class RecipeListView extends JPanel implements ActionListener, PropertyCh
             recipeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
             recipeButton.setMaximumSize(new Dimension(200, 30));
             recipeButton.addActionListener(e -> {
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(recipeButton)) {
-//                            final RecipeManagementState currentState = recipeManagementViewModel.getState();
-                            recipeInfoView.showRecipeDetails(recipe);
-//                            controller.switchInfoView(currentState.getInfo());
-                        }
-                    }
-                };
+                recipeInfoView.showRecipeDetails(recipe);
+                controller.switchToRecipeInfoView();
+//                new ActionListener() {
+//                    public void actionPerformed(ActionEvent evt) {
+//                        if (evt.getSource().equals(recipeButton)) {
+////                            final RecipeManagementState currentState = recipeManagementViewModel.getState();
+//                            recipeInfoView.showRecipeDetails(recipe);
+//                            System.out.println("actionheard");
+////                            controller.switchInfoView(currentState.getInfo());
+//                        }
+//                    }
+//                };
 //                recipeInfoView.showRecipeDetails(recipe);
 //                cardLayout.show(parentPanel, recipeInfoView.getViewName());
             });
@@ -80,16 +76,16 @@ public class RecipeListView extends JPanel implements ActionListener, PropertyCh
         return viewName;
     }
 
-    private static List<Recipe> initializeRecipes() {
-        List<Recipe> recipeList = new ArrayList<>();
-        recipeList.add(new CommonRecipe("Chocolate Cake", List.of("Delicious chocolate dessert", "Dessert"),
-                Map.of("Flour", 200, "Sugar", 100, "Cocoa", 50)));
-        recipeList.add(new CommonRecipe("Caesar Salad", List.of("Classic Caesar salad", "Appetizer"),
-                Map.of("Lettuce", 100, "Croutons", 50, "Parmesan", 30)));
-        recipeList.add(new CommonRecipe("Pancakes", List.of("Fluffy breakfast pancakes", "Breakfast"),
-                Map.of("Flour", 150, "Milk", 200, "Eggs", 2)));
-        return recipeList;
-    }
+//    private static List<Recipe> initializeRecipes() {
+//        List<Recipe> recipeList = new ArrayList<>();
+//        recipeList.add(new CommonRecipe("Chocolate Cake", List.of("Delicious chocolate dessert", "Dessert"),
+//                Map.of("Flour", 200, "Sugar", 100, "Cocoa", 50)));
+//        recipeList.add(new CommonRecipe("Caesar Salad", List.of("Classic Caesar salad", "Appetizer"),
+//                Map.of("Lettuce", 100, "Croutons", 50, "Parmesan", 30)));
+//        recipeList.add(new CommonRecipe("Pancakes", List.of("Fluffy breakfast pancakes", "Breakfast"),
+//                Map.of("Flour", 150, "Milk", 200, "Eggs", 2)));
+//        return recipeList;
+//    }
 
 //    public static void main(String[] args) {
 //        SwingUtilities.invokeLater(() -> {
