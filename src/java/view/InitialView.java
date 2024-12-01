@@ -20,7 +20,6 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
 
     private final InitialViewModel initialViewModel;
     private DeleteIngredientController deleteIngredientController;
-    private String deletedIngredient;
 
     private final JButton addIngredient;
     private final JButton generateRecipe;
@@ -60,6 +59,7 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+
         if (initialViewModel.getState().getIngredients() != null) {
             for (Ingredient ingredient : initialViewModel.getState().getIngredients()) {
                 System.out.println(ingredient.getName());
@@ -74,16 +74,12 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
                             } catch (FileNotFoundException e) {
                                 throw new RuntimeException(e);
                             }
-                            deletedIngredient = ingredient.getName();
                         }
                 );
                 ingredientPanel.add(ingredientName);
                 ingredientPanel.add(deleteButton);
                 ingredientsPanel.add(ingredientPanel);
             }
-        }
-        else {
-            ingredientsPanel.add(new JLabel("No ingredients"));
         }
 
         JScrollPane ingredientsScroll = new JScrollPane(ingredientsPanel);
@@ -104,10 +100,6 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-        if ("ingredients".equals(evt.getPropertyName())) {
-            System.out.println(deletedIngredient + " has been deleted!");
-        }
-
         JPanel ingredientsPanel = new JPanel();
 
         if (initialViewModel.getState().getIngredients() != null) {
@@ -123,14 +115,13 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
                             } catch (FileNotFoundException e) {
                                 throw new RuntimeException(e);
                             }
-                            deletedIngredient = ingredient.getName();
-                            }
-                    );
+                        }
+                );
                 ingredientPanel.add(ingredientName);
                 ingredientPanel.add(deleteButton);
                 ingredientsPanel.add(ingredientPanel);
             }
-        } else {ingredientsPanel.add(new JLabel("No ingredients"));}
+        }
 
         JScrollPane ingredientsScroll = new JScrollPane(ingredientsPanel);
         ingredientsPanel.setLayout(new BoxLayout(ingredientsPanel, BoxLayout.Y_AXIS));
