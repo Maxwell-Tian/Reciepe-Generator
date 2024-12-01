@@ -2,9 +2,9 @@ package view;
 
 import entity.CommonIngredient;
 import entity.Ingredient;
-import java.interface_adapter.ExpirationWarning.ExpirationWarningController;
+import interface_adapter.ExpirationWarning.ExpirationWarningController;
 import use_case.expired_food.CheckExpiredIngredientInteractor;
-import java.use_case.expired_food.CheckExpiredIngredientUserDataAccessInterface;
+import use_case.expired_food.CheckExpiredIngredientUserDataAccessInterface;
 
 import javax.swing.*;
 import java.awt.*;
