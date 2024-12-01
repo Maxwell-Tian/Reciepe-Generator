@@ -21,8 +21,10 @@ public class Main {
                                             .addExpirationWarningView()
                                             .addSAoCIUseCase()
                                             .addDeleteIngredientUseCase()
+
                                             .addgenerateRecipeUseCase()
                                             .addExpirationWarningUseCase()
+
                                             .build();
 
         application.pack();
