@@ -20,7 +20,6 @@ public class test {
         ingredients.add(ingredient1);
         ingredients.add(ingredient2);
         API_request request = new API_request(ingredients, "", "Asian", "");
-        //TODO: we have to make the list of list be Recipe types
         System.out.println(request.Searching_Recipe().toString());
     }
 

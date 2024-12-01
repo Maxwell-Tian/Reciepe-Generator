@@ -76,18 +76,41 @@ public class RecipeListView extends JPanel implements ActionListener, PropertyCh
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-//        List<Recipe> recipes = recipeManagementViewModel.getState().getCurrentlyGeneratedList();
-//        for (Recipe recipe : recipes) {
-//            JButton recipeButton = new JButton(recipe.getName());
-//            recipeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-//            recipeButton.setMaximumSize(new Dimension(200, 30));
-//            recipeButton.addActionListener(e -> {
-//                recipeInfoView.showRecipeDetails(recipe);
-//                controller.switchToRecipeInfoView();
-//            });
-//            this.add(recipeButton);\
-//            this.add(Box.createRigidArea(new Dimension(0, 10)));
-//        }
-//        //TODO: property change
+
+        this.removeAll();
+
+        JLabel titleLabel = new JLabel("Recipe List");
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        this.add(titleLabel);
+        this.add(Box.createRigidArea(new Dimension(0, 20)));
+
+        RecipeManagementState state = recipeManagementViewModel.getState();
+        try {
+            state.regenerateList();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        List<Recipe> recipes = recipeManagementViewModel.getState().getCurrentlyGeneratedList();
+        for (Recipe recipe : recipes) {
+            JButton recipeButton = new JButton(recipe.getName());
+            recipeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            recipeButton.setMaximumSize(new Dimension(200, 30));
+            recipeButton.addActionListener(e -> {
+                recipeInfoView.showRecipeDetails(recipe);
+                controller.switchToRecipeInfoView();
+            });
+            this.add(recipeButton);
+            this.add(Box.createRigidArea(new Dimension(0, 10)));
+        }
+        JButton backButton = new JButton("Back");
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.addActionListener(this);
+        backButton.setMaximumSize(new Dimension(200, 30));
+        this.add(backButton);
+
+        this.revalidate();
+        this.repaint();
     }
 }

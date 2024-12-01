@@ -33,6 +33,7 @@ public class AddorCancelIngredientPresenter implements AddorCancelIngredientOutp
         initialState.addIngredient(response.getIngredient());
         this.initialViewModel.setState(initialState);
         initialViewModel.firePropertyChanged();
+
         final RecipeManagementState recipeManagementState = recipeManagementViewModel.getState();
         recipeManagementState.regenerateList();
         this.recipeManagementViewModel.setState(recipeManagementState);

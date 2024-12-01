@@ -7,7 +7,6 @@ import java.util.Map;
  * The representation of a recipe in our program.
  */
 public interface Recipe {
-    // TODO: refactor the recipe type
     /**
      * Return the name of the recipe.
      * @return the name of the recipe.
