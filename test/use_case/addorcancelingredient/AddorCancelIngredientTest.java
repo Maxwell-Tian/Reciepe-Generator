@@ -23,6 +23,7 @@ public class AddorCancelIngredientTest {
             public void prepareSuccessView(AddorCancelIngredientOutputData outputdata) {
                 // 2 things to check: the output data is correct, and the user has been created in the DAO.
                 assertEquals("tomato", outputdata.getIngredientname());
+//                assertEquals(true, outputdata)
 //                assertTrue(ingredientRepository.existsByIngredientName("tomato"));
             }
 

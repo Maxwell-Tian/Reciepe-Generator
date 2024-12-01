@@ -27,5 +27,4 @@ public class AddorCancelIngredientOutputData {
         return ingredientname;
     }
 
-    public boolean isUseCaseFailed() { return useCaseFailed; }
 }
