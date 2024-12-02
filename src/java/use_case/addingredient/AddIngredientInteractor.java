@@ -1,9 +1,6 @@
 package use_case.addingredient;
 
-import entity.Ingredient;
 import entity.IngredientFactory;
-import entity.User;
-import java.time.LocalDate;
 
 /**
  * Interactor for the Add Ingredient use case. Implements the input boundary

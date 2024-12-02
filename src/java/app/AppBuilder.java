@@ -48,7 +48,7 @@ public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
 
-    private final UserFactory userFactory = new CommonUserFactory();
+//    private final UserFactory userFactory = new CommonUserFactory();
     private final IngredientFactory ingredientFactory = new CommonIngredientFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
