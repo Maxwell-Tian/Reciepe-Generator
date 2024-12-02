@@ -28,19 +28,9 @@ public class RecipeManagementInputData {
         this.recipes = recipes;
     }
 
-    public String getFilterCategory() {
-        return filterCategory;
-    }
-
-    public void setFilterCategory(String filterCategory) {
-        this.filterCategory = filterCategory;
-    }
 
     public Map<String, LocalDate> getUserIngredients() {
         return userIngredients;
     }
 
-    public void setUserIngredients(Map<String, LocalDate> userIngredients) {
-        this.userIngredients = userIngredients;
-    }
 }
