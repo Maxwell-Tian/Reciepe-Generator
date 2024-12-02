@@ -20,5 +20,5 @@ public interface Ingredient {
     LocalDate getExpiryDate();
 
     void setName(String name);
-    void setExpiryDate(LocalDate expiryDate);
+
 }
