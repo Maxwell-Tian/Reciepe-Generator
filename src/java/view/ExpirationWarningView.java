@@ -17,12 +17,25 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * ExpirationWarningView is a JPanel that displays a list of expired ingredients,
+ * allowing users to delete ingredients or navigate back to the initial view.
+ * It listens for property changes from the associated ViewModel to update the UI
+ * dynamically based on changes in application state.
+ */
 public class ExpirationWarningView extends JPanel implements PropertyChangeListener {
 
     private final String viewName = "expiry warning";
     private ExpirationWarningController controller;
     private final ExpirationWarningViewModel viewModel;
 
+    /**
+     * Constructs an ExpirationWarningView with the specified ViewModel and Controller.
+     * Sets up the UI components and binds event listeners for interaction.
+     *
+     * @param expirationWarningViewModel The ViewModel providing expired ingredient data.
+     * @param expirationWarningController The Controller handling user actions.
+     */
     public ExpirationWarningView(ExpirationWarningViewModel expirationWarningViewModel, ExpirationWarningController expirationWarningController) {
 
         this.controller = expirationWarningController;
@@ -85,10 +98,21 @@ public class ExpirationWarningView extends JPanel implements PropertyChangeListe
         add(backButton, BorderLayout.SOUTH);
     }
 
+    /**
+     * Sets a new controller for the ExpirationWarningView.
+     *
+     * @param controller The new ExpirationWarningController to set.
+     */
     public void setExpirationWarningController(ExpirationWarningController controller) {
         this.controller = controller;
     }
 
+    /**
+     * Handles property changes in the associated ViewModel.
+     * Displays error messages to the user if an error state is detected.
+     *
+     * @param evt The property change event containing the updated state.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final AddorCancelIngredientState state = (AddorCancelIngredientState) evt.getNewValue();
