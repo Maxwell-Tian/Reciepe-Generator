@@ -19,10 +19,11 @@ public class Main {
                                             .addAddIngredientView()
                                             .addRecipeInfoView()
                                             .addRecipeListView()
+                                            .addNutritionView()
                                             .addExpirationWarningView()
                                             .addSAoCIUseCase()
                                             .addDeleteIngredientUseCase()
-
+                                            .addSearchNutritionUseCase()
                                             .addgenerateRecipeUseCase()
                                             .addExpirationWarningUseCase()
 

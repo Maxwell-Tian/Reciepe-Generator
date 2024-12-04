@@ -14,6 +14,7 @@
 - As a user, I may consume my ingredients in my fridge, so I want to `delete` ingredient in my fridge.
 - As a user, I want to `generate recipe` according to my ingredient in my fridge.
 - Everytime the user open up the app, the app will warn the user about the ingredient that almost expire
+- As a terrible cook I wish I can have a software that can search up recipes using the `ingredient` I have in fridge, and search up the nutrition of the ingredients we have
 
 ## Use cases:
 
@@ -57,5 +58,10 @@
 - click on button `throw away` -> return to window `InitialView` and ingredient deleted
 - click on button `ignore` -> return to window `InitialView` and not deleting the ingredient and will not warn again about this ingredient.
 
-
 ![ExpirationWarningView](images/IMG_0321.jpg)
+
+### use case for searching recipes and nutrition base on the ingredients we have:
+
+- click on button `Search for Nutrition`, it will show the nutrition info of ingredient per 100g
+- window `NutritionView` pop up
+- click on button `back` -> return to window `initialView`

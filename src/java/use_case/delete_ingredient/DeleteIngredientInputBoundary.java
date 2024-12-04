@@ -22,4 +22,6 @@ public interface DeleteIngredientInputBoundary {
      * Executes the switch to Recipe view use case.
      */
     void switchToRecipeView();
+
+    void switchToSearchNutritionView();
 }

@@ -1,7 +1,5 @@
 package api;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.CommonIngredient;
 import entity.Ingredient;
 
@@ -19,7 +17,7 @@ public class test {
         ingredients.add(ingredient);
         ingredients.add(ingredient1);
         ingredients.add(ingredient2);
-        API_request request = new API_request(ingredients, "", "Asian", "");
+        RecipeRequest request = new RecipeRequest(ingredients);
         System.out.println(request.Searching_Recipe().toString());
     }
 

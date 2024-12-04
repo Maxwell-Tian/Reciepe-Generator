@@ -6,54 +6,58 @@ import entity.CommonRecipe;
 import entity.Ingredient;
 import entity.Recipe;
 import okhttp3.*;
+import view.ErrorInfoView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class API_request {
+public class RecipeRequest {
     private static final String APP_ID = "&app_id=6b5710fe";
     private static final String APP_KEY = "&app_key=8d04006d4c25a92a53ba4bc90e36bc03";
     private String QUERY;
-    private String HEALTH;
-    private String CUISINE;
-    private String MEALTYPE;
+//    private String HEALTH;
+//    private String CUISINE;
+//    private String MEALTYPE;
     private String URL;
 
-    public API_request(List<Ingredient> ingredients, String health, String cuisine, String mealType) {
+    public RecipeRequest(List<Ingredient> ingredients) {
         if (ingredients.isEmpty()){
             this.QUERY = "";
         }
         else{
             this.QUERY = QUERY_Generator(ingredients);
         }
-
-        if (health.isEmpty()){
-            this.HEALTH = "";
-        }
-        else{
-            this.HEALTH = "&health=" + health;
-        }
-
-        if (CUISINE_Checker(cuisine)){
-            this.CUISINE = "&cuisine=" + cuisine;
-        }
-        else{
-            this.CUISINE = "";
-        }
-
-        if (mealType.isEmpty()){
-            this.MEALTYPE = "";
-        }
-        else{
-            this.MEALTYPE = "&mealType=" + mealType;
-        }
+//        if (health.isEmpty()){
+//            this.HEALTH = "";
+//        }
+//        else{
+//            this.HEALTH = "&health=" + health;
+//        }
+//        if (CUISINE_Checker(cuisine)){
+//            this.CUISINE = "&cuisine=" + cuisine;
+//        }
+//        else{
+//            this.CUISINE = "";
+//        }
+//        if (mealType.isEmpty()){
+//            this.MEALTYPE = "";
+//        }
+//        else{
+//            this.MEALTYPE = "&mealType=" + mealType;
+//        }
         this.URL = "https://api.edamam.com/api/recipes/v2?type=public" + APP_ID + APP_KEY +
-                QUERY+"&diet=balanced"+ HEALTH + CUISINE+ MEALTYPE;
+                QUERY+"&diet=balanced";
 
     }
 
+    // first element in each sublist is the name of the recipe, others are info of ingredient used
     public List<List<String>> Searching_Recipe(){
-        return Recipe_info_analyzer(Requesting());
+        String feedback = Requesting();
+        if (feedback != null&&!feedback.isEmpty()){
+            return Response_analyzer(feedback);
+        }
+        return new ArrayList<>();
     }
     //这个return出来的每个list中第一个项是菜名
 
@@ -68,11 +72,13 @@ public class API_request {
         try (Response response = client.newCall(request).execute()) {
             return response.body().string();
         } catch (Exception e) {
-             return e.getMessage();
+            ErrorInfoView view  = new ErrorInfoView();
+            view.ShowErrorView(e.getMessage());
+            return null;
         }
     }
 
-    private List<List<String>> Recipe_info_analyzer(String intake){
+    private List<List<String>> Response_analyzer(String intake){
         List<List<String>> result = new ArrayList<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -80,25 +86,31 @@ public class API_request {
             JsonNode hits = rootNode.get("hits");
             if (hits != null && hits.isArray()) {
                 for (JsonNode hit : hits) {
-                    JsonNode recipe = hit.get("recipe");
-                    String recipeName = recipe.get("label").asText();
-                    List<String> temp = new ArrayList<>();
-                    temp.add(recipeName);
-                    JsonNode ingredients = recipe.get("ingredientLines");
-                    for (JsonNode ingredient : ingredients) {
-                        temp.add(ingredient.asText());
-                    }
-                    result.add(temp);
+                    result.add(hit_analyzer(hit));
                 }
             }
             else{
-                return null;
+                throw new IOException("Nothing received from Response Message");
             }
             return result;
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorInfoView view  = new ErrorInfoView();
+            view.ShowErrorView(e.getMessage());;
             return null;
         }
+    }
+
+    private List<String> hit_analyzer(JsonNode hit){
+        List<String> result = new ArrayList<>();
+        JsonNode recipe = hit.get("recipe");
+        String recipeName = recipe.get("label").asText();
+        JsonNode ingredients = recipe.get("ingredientLines");
+        result.add(recipeName);
+
+        for (JsonNode ingredient : ingredients) {
+            result.add(ingredient.asText());
+        }
+        return result;
     }
 
     private String QUERY_Generator(List<Ingredient> ingredients) {
@@ -116,7 +128,7 @@ public class API_request {
         return !(!list.contains(cuisine)|cuisine.isEmpty());
     }
 
-    public List<Recipe> translater(List<List<String>> rawRecipes) {
+    public List<Recipe> translator(List<List<String>> rawRecipes) {
         List<Recipe> result = new ArrayList<>();
         for (List<String> rawRecipe: rawRecipes) {
             if (rawRecipe.isEmpty()) {
@@ -128,4 +140,5 @@ public class API_request {
         }
         return result;
     }
+
 }

@@ -27,4 +27,6 @@ public interface DeleteIngredientOutputBoundary {
      * Switches to the Generate Recipe View.
      */
     void switchToRecipeView();
+
+    void switchToNutritionView();
 }

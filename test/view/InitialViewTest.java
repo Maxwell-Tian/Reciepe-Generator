@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import data_access.InMemoryIngredientDataAccessObject;
 import entity.CommonIngredientFactory;
 import entity.Ingredient;
+import interface_adapter.NutritionViewModel.NutritionViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.addorcancelingredient.AddorCancelIngredientViewModel;
 import interface_adapter.deleteingredient.DeleteIngredientController;
@@ -30,6 +31,7 @@ class InitialViewTest {
     private AddorCancelIngredientViewModel aocIngredientViewModel;
     private RecipeManagementViewModel recipeManagementViewModel;
     private ViewManagerModel viewManagerModel;
+    private NutritionViewModel nutritionViewModel;
 
     private DeleteIngredientPresenter presenter;
     private DeleteIngredientInputBoundary deleteIngredientInteractor;
@@ -64,7 +66,8 @@ class InitialViewTest {
                 initialViewModel,
                 aocIngredientViewModel,
                 recipeManagementViewModel,
-                viewManagerModel
+                viewManagerModel,nutritionViewModel
+
         );
 
         deleteIngredientInteractor = new DeleteIngredientInteractor(ingredientDataAccessObject, presenter);

@@ -38,4 +38,11 @@ public class DeleteIngredientInteractor implements DeleteIngredientInputBoundary
     public void switchToRecipeView() {
         deleteIngredientPresenter.switchToRecipeView();
     }
+
+    @Override
+    public void switchToSearchNutritionView() {
+
+    }
+
+
 }
