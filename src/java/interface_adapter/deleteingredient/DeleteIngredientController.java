@@ -40,4 +40,5 @@ public class DeleteIngredientController {
      * Executes the "switch to RecipeGenerator" Use Case.
      */
     public void switchToRecipeView() {deleteIngredientUseCaseInteractor.switchToRecipeView();}
+
 }

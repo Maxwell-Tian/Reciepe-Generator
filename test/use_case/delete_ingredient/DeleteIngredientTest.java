@@ -45,6 +45,11 @@ public class DeleteIngredientTest {
             public void switchToRecipeView() {
                 // This is expected.
             }
+
+            @Override
+            public void switchToNutritionView() {
+                // This is expected.
+            }
         };
         DeleteIngredientInputBoundary interactor = new DeleteIngredientInteractor(ingredientRepository, successPresenter);
         interactor.execute(inputData);
@@ -72,6 +77,11 @@ public class DeleteIngredientTest {
 
             @Override
             public void switchToRecipeView() {
+                // Not expected in this test
+            }
+
+            @Override
+            public void switchToNutritionView() {
                 // Not expected in this test
             }
 
@@ -114,6 +124,11 @@ public class DeleteIngredientTest {
             @Override
             public void switchToRecipeView() {
                 recipeViewSwitched = true;
+            }
+
+            @Override
+            public void switchToNutritionView() {
+                // Not expected in this test
             }
 
             public boolean isRecipeViewSwitched() {

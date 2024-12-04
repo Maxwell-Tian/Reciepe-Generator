@@ -5,9 +5,15 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 import data.txtConnector;
+import interface_adapter.NutritionViewModel.NutritionController;
+import interface_adapter.NutritionViewModel.NutritionPresenter;
+import interface_adapter.NutritionViewModel.NutritionViewModel;
 import interface_adapter.recipemanagement.RecipeInfoViewModel;
 import use_case.expired_food.ExpiredIngredientInteractor;
 import use_case.expired_food.ExpiredIngredientOutputBoundary;
+import use_case.searchNutrition.NutritionInteractor;
+import use_case.searchNutrition.NutritionOutputBoundary;
+import use_case.searchNutrition.SearchNutritionInputBoundary;
 import view.ExpirationWarningView;
 import javax.swing.*;
 
@@ -71,6 +77,8 @@ public class AppBuilder {
     private RecipeInfoView recipeInfoView;
     private ExpirationWarningView expirationWarningView;
     private ExpirationWarningViewModel expirationWarningViewModel;
+    private NutritionViewModel nutritionViewModel;
+    private NutritionView nutritionView;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -101,6 +109,17 @@ public class AppBuilder {
 
     /**
      * Adds the RecipeInfoView to the application.
+     * @return this builder
+     */
+    public AppBuilder addNutritionView() {
+        nutritionViewModel = new NutritionViewModel();
+        nutritionView = new NutritionView(nutritionViewModel);
+        cardPanel.add(nutritionView, nutritionView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the NutritionView to the application.
      * @return this builder
      */
     public AppBuilder addRecipeInfoView() {
@@ -164,13 +183,29 @@ public class AppBuilder {
      */
     public AppBuilder addDeleteIngredientUseCase() {
         final DeleteIngredientOutputBoundary deleteIngredientOutputBoundary =
-                new DeleteIngredientPresenter(initialViewModel, addIngredientViewModel, recipeListViewModel, viewManagerModel);
+                new DeleteIngredientPresenter(initialViewModel, addIngredientViewModel, recipeListViewModel, viewManagerModel, nutritionViewModel);
         final DeleteIngredientInputBoundary deleteIngredientInteractor =
                 new DeleteIngredientInteractor(ingredientDataAccessObject, deleteIngredientOutputBoundary);
 
         final DeleteIngredientController deleteIngredientController =
                 new DeleteIngredientController(deleteIngredientInteractor);
         initialView.setDeleteIngredientController(deleteIngredientController);
+
+        final NutritionOutputBoundary nutritionOutputBoundary =
+                new NutritionPresenter(initialViewModel,nutritionViewModel,viewManagerModel);
+        final SearchNutritionInputBoundary nutritionInputBoundary = new NutritionInteractor(nutritionOutputBoundary);
+        final NutritionController controller = new NutritionController(nutritionInputBoundary);
+        initialView.setNutritionController(controller);
+        return this;
+    }
+
+    public AppBuilder addSearchNutritionUseCase() {
+        final NutritionOutputBoundary nutritionOutputBoundary =
+                new NutritionPresenter(initialViewModel,nutritionViewModel,viewManagerModel);
+        final SearchNutritionInputBoundary nutritionInputBoundary = new NutritionInteractor(nutritionOutputBoundary);
+        final NutritionController controller = new NutritionController(nutritionInputBoundary);
+        nutritionView.setController(controller);
+        cardPanel.add(nutritionView, nutritionView.getViewName());
         return this;
     }
 

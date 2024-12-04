@@ -1,6 +1,6 @@
 package interface_adapter.recipemanagement;
 
-import api.API_request;
+import api.RecipeRequest;
 import data.txtConnector;
 import entity.Ingredient;
 import entity.Recipe;
@@ -15,9 +15,9 @@ public class RecipeManagementState {
 
     public void regenerateList() throws FileNotFoundException {
         List<Ingredient> currentIngredient = ingredientDataAccessObject.getCurrentIngredients();
-        API_request request = new API_request(currentIngredient, "", "Asian", "");
+        RecipeRequest request = new RecipeRequest(currentIngredient);
         List<List<String>> rawRecipes = request.Searching_Recipe();
-        currentlyGeneratedList = request.translater(rawRecipes);
+        currentlyGeneratedList = request.translator(rawRecipes);
     }
 
     public List<Recipe> getCurrentlyGeneratedList() {

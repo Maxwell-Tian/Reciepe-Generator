@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import javax.swing.*;
 
 import entity.Ingredient;
+import interface_adapter.NutritionViewModel.NutritionController;
 import interface_adapter.deleteingredient.DeleteIngredientController;
 import interface_adapter.initial.InitialState;
 import interface_adapter.initial.InitialViewModel;
@@ -20,6 +21,8 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
 
     private final InitialViewModel initialViewModel;
     private DeleteIngredientController deleteIngredientController;
+    private NutritionController nutritionController;
+
 
     private final JButton addIngredient;
     private final JButton generateRecipe;
@@ -53,6 +56,7 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
                 }
         );
 
+
         JPanel ingredientsPanel = new JPanel();
         try {
             initialViewModel.getState().populateIngredients();
@@ -75,8 +79,22 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
                             }
                         }
                 );
+
+                JButton nutritionSearchButton = new JButton("Search for nutrition");
+                nutritionSearchButton.addActionListener(
+                        evt -> {
+                            try {
+                                this.nutritionController.execute(ingredient);
+                            } catch (Exception e) {
+                                ErrorInfoView errorInfoView = new ErrorInfoView();
+                                errorInfoView.ShowErrorView("Ingredient not found");
+                            }
+                        }
+                );
+
                 ingredientPanel.add(ingredientName);
                 ingredientPanel.add(deleteButton);
+                ingredientPanel.add(nutritionSearchButton);
                 ingredientsPanel.add(ingredientPanel);
             }
         }
@@ -116,8 +134,24 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
                             }
                         }
                 );
+
+                JButton nutritionSearchButton = new JButton("Search for nutrition");
+                nutritionSearchButton.addActionListener(
+                        evt1 -> {
+                            InitialState currentState = initialViewModel.getState();
+                            try {
+                                this.nutritionController.execute(ingredient);
+                            } catch (Exception e) {
+                                ErrorInfoView errorInfoView = new ErrorInfoView();
+                                errorInfoView.ShowErrorView("Ingredient not found");
+                            }
+                        }
+
+                );
+
                 ingredientPanel.add(ingredientName);
                 ingredientPanel.add(deleteButton);
+                ingredientPanel.add(nutritionSearchButton);
                 ingredientsPanel.add(ingredientPanel);
             }
         }
@@ -136,5 +170,9 @@ public class InitialView extends JPanel implements ActionListener, PropertyChang
 
     public void setDeleteIngredientController(DeleteIngredientController controller) {
         this.deleteIngredientController = controller;
+    }
+
+    public void setNutritionController(NutritionController controller) {
+        this.nutritionController = controller;
     }
 }

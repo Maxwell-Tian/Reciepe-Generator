@@ -1,5 +1,6 @@
 package interface_adapter.deleteingredient;
 
+import interface_adapter.NutritionViewModel.NutritionViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.addorcancelingredient.AddorCancelIngredientState;
 import interface_adapter.initial.InitialState;
@@ -9,7 +10,6 @@ import interface_adapter.recipemanagement.RecipeManagementState;
 import interface_adapter.recipemanagement.RecipeManagementViewModel;
 import use_case.delete_ingredient.DeleteIngredientOutputBoundary;
 import use_case.delete_ingredient.DeleteIngredientOutputData;
-
 import java.io.FileNotFoundException;
 
 /**
@@ -20,15 +20,17 @@ public class DeleteIngredientPresenter implements DeleteIngredientOutputBoundary
     private final AddorCancelIngredientViewModel addorCancelIngredientViewModel;
     private final RecipeManagementViewModel recipeManagementViewModel;
     private final ViewManagerModel viewManagerModel;
+    private final NutritionViewModel nutritionViewModel;
 
     public DeleteIngredientPresenter(InitialViewModel viewModel,
                                      AddorCancelIngredientViewModel addorCancelIngredientViewModel,
                                      RecipeManagementViewModel recipeManagementViewModel,
-                                     ViewManagerModel viewManagerModel) {
+                                     ViewManagerModel viewManagerModel, NutritionViewModel nutritionViewModel) {
         this.viewModel = viewModel;
         this.addorCancelIngredientViewModel = addorCancelIngredientViewModel;
         this.recipeManagementViewModel = recipeManagementViewModel;
         this.viewManagerModel = viewManagerModel;
+        this.nutritionViewModel = nutritionViewModel;
     }
 
     @Override
@@ -63,6 +65,12 @@ public class DeleteIngredientPresenter implements DeleteIngredientOutputBoundary
     @Override
     public void switchToRecipeView() {
         viewManagerModel.setState(recipeManagementViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToNutritionView() {
+        viewManagerModel.setState(nutritionViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }

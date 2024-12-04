@@ -2,6 +2,7 @@ package interface_adapter.deleteingredient;
 
 import data_access.InMemoryIngredientDataAccessObject;
 import entity.*;
+import interface_adapter.NutritionViewModel.NutritionViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.addorcancelingredient.AddorCancelIngredientViewModel;
 import interface_adapter.initial.InitialViewModel;
@@ -24,6 +25,7 @@ public class DeleteIngredientInterfaceAdapterTest {
     private AddorCancelIngredientViewModel aocIngredientViewModel;
     private RecipeManagementViewModel recipeManagementViewModel;
     private ViewManagerModel viewManagerModel;
+    private NutritionViewModel nutritionViewModel;
 
     private DeleteIngredientPresenter presenter;
     private DeleteIngredientInputBoundary deleteIngredientInteractor;
@@ -43,7 +45,8 @@ public class DeleteIngredientInterfaceAdapterTest {
                 initialViewModel,
                 aocIngredientViewModel,
                 recipeManagementViewModel,
-                viewManagerModel
+                viewManagerModel,
+                nutritionViewModel
         );
 
         deleteIngredientInteractor = new DeleteIngredientInteractor(ingredientDataAccessObject, presenter);
