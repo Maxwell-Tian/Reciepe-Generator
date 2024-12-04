@@ -57,12 +57,6 @@ public class ExpiredIngredientInteractor implements ExpiredIngredientInputBounda
     }
 
     public void deleteIngredients(Ingredient ingredient) {
-//        List<Ingredient> currentIngredients = dataAccess.getCurrentIngredients();
-//        for (Ingredient ingredient : ingredientsToDelete) {
-//            currentIngredients.remove(ingredient);
-//        }
-//        dataAccess.setIngredients(currentIngredients);
-
         expiredIngredientOutputBoundary.deleteIngredient(ingredient);
         dataAccess.deleteIngredient(ingredient);
     }
